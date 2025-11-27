@@ -7,6 +7,7 @@
 |
 */
 
+/// Datenbank Route
 import router from '@adonisjs/core/services/router'
 import db from '@adonisjs/lucid/services/db'
 
@@ -16,3 +17,4 @@ router.get('/test-db', async () => {
     const products = await db.from('products').select('*').limit(5)
     return products
   })
+
