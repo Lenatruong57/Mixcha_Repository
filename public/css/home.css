@@ -1,71 +1,198 @@
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* ================================
+   Grund-Styles
+   ================================ */
+
+:root {
+  --mixcha-green: #165234;
+  --mixcha-green-dark: #0f3a25;
+  --mixcha-pink: #f48fb1;
+  --mixcha-bg-light: #f7f1e8;
+  --text-dark: #183024;
+  --text-light: #ffffff;
 }
 
-/* Navbar */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background-color: var(--mixcha-bg-light);
+  color: var(--text-dark);
+}
+
+/* ================================
+   Navbar
+   ================================ */
+
 .navbar {
-  background-color: #165234; /* dein Grün */
-  color: #ffffff;
-  padding: 16px 48px;
+  background-color: var(--mixcha-green);
+  color: var(--text-light);
+  padding: 14px 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
 .nav-links a {
-  color: #ffffff;
-  margin-left: 24px;
+  color: var(--text-light);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
 }
 
-/* Hero */
-.hero {
-  background: #f5efe3; /* Beige */
-  padding: 80px 48px;
+/* wenn du später Icons für Login/Warenkorb hast */
+.nav-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 20px;
+}
+
+.nav-actions a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 18px;
+}
+
+/* ================================
+   Hero-Bereich
+   ================================ */
+
+.hero {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 64px 96px;
+  overflow: hidden;
+}
+
+/* Das Bild liegt hinter allem – hier kannst du deinen Bildpfad eintragen */
+.hero-image {
+  position: absolute;
+  inset: 0;
+  background-image: url("/img/hero-matcha.jpg"); /* <-- Pfad zu deinem Bild */
+  background-size: cover;
+  background-position: center;
+}
+
+/* leichte Aufhellung, damit es wie im Figma aussieht */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.2)
+  );
+}
+
+/* Text zentriert auf dem Bild */
+.hero-text {
+  position: relative;
+  max-width: 680px;
+  text-align: center;
+  z-index: 1;
 }
 
 .hero-text h1 {
-  font-size: 48px;
-  color: #165234;
-  margin-bottom: 16px;
+  margin: 0 0 16px;
+  font-size: 52px;
+  line-height: 1.1;
+  color: var(--mixcha-green);
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
 }
 
 .hero-text p {
-  color: #333;
-  margin-bottom: 24px;
-}
-
-.btn-main {
-  background-color: #f59bc6; /* Rosa */
-  color: #fff;
-  padding: 12px 32px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-/* Footer */
-.footer {
-  background-color: #165234;
+  margin: 0 0 32px;
+  font-size: 17px;
   color: #ffffff;
-  padding: 16px 48px;
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Button "Jetzt starten" */
+.btn-main {
+  display: inline-block;
+  padding: 14px 40px;
+  border-radius: 999px;
+  background-color: var(--mixcha-pink);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.btn-main:hover {
+  transform: translateY(-1px);
+  background-color: #f26f9d;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+}
+
+/* ================================
+   Footer
+   ================================ */
+
+.footer {
+  background-color: var(--mixcha-green);
+  color: var(--text-light);
+  padding: 14px 64px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 24px;
+  font-size: 13px;
 }
 
 .footer a {
-  color: #ffffff;
+  color: var(--text-light);
   text-decoration: none;
-  font-size: 12px;
+}
+
+/* ================================
+   Responsives Verhalten
+   ================================ */
+
+@media (max-width: 900px) {
+  .navbar {
+    padding: 12px 24px;
+  }
+
+  .hero {
+    padding: 72px 24px 80px;
+  }
+
+  .hero-text h1 {
+    font-size: 38px;
+  }
+
+  .hero-text p {
+    font-size: 15px;
+  }
 }
