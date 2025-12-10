@@ -11,34 +11,10 @@
   --text-light: #ffffff;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  background-color: var(--mixcha-bg-light);
-  color: var(--text-dark);
-}
-
-/* ================================
-   Navbar
-   ================================ */
-
 .navbar {
-  background-color: var(--mixcha-green);
-  color: var(--text-light);
-  padding: 14px 64px;
+  background-color: #095d40; 
+  color: #ffffff;
+  padding: 16px 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,8 +40,14 @@ body {
   font-weight: 500;
 }
 
+<<<<<<< HEAD
 /* wenn du später Icons für Login/Warenkorb hast */
 .nav-actions {
+=======
+.hero {
+  background: #fef9f1; 
+  padding: 80px 48px;
+>>>>>>> 5e6a81fcb2b353f27d044bb3a62dedd7b4cb1df2
   display: flex;
   align-items: center;
   gap: 20px;
@@ -121,6 +103,7 @@ body {
 }
 
 .hero-text h1 {
+<<<<<<< HEAD
   margin: 0 0 16px;
   font-size: 52px;
   line-height: 1.1;
@@ -131,6 +114,29 @@ body {
 .hero-text p {
   margin: 0 0 32px;
   font-size: 17px;
+=======
+  font-size: 48px;
+  color: #095d40;
+  margin-bottom: 16px;
+}
+
+.hero-text p {
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.btn-main {
+  background-color: #e6a8c5; 
+  color: #fff;
+  padding: 12px 32px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer {
+  background-color: #095d40;
+>>>>>>> 5e6a81fcb2b353f27d044bb3a62dedd7b4cb1df2
   color: #ffffff;
   text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
