@@ -3,9 +3,8 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Navbar */
 .navbar {
-  background-color: #165234; /* dein Grün */
+  background-color: #165234; 
   color: #ffffff;
   padding: 16px 48px;
   display: flex;
@@ -25,9 +24,8 @@ body {
   font-size: 14px;
 }
 
-/* Hero */
 .hero {
-  background: #f5efe3; /* Beige */
+  background: #f5efe3; 
   padding: 80px 48px;
   display: flex;
   align-items: center;
@@ -46,7 +44,7 @@ body {
 }
 
 .btn-main {
-  background-color: #f59bc6; /* Rosa */
+  background-color: #f59bc6; 
   color: #fff;
   padding: 12px 32px;
   border-radius: 999px;
@@ -54,7 +52,6 @@ body {
   font-weight: 600;
 }
 
-/* Footer */
 .footer {
   background-color: #165234;
   color: #ffffff;
