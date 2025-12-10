@@ -3,21 +3,25 @@
   <head>
     <meta charset="UTF-8">
     <title>Mixcha</title>
+
+    <link rel="stylesheet" href="/css/home.css">
   </head>
   <body>
     <header class="navbar">
       <div class="logo">mixcha</div>
+
       <nav class="nav-links">
         <a href="/">Home</a>
-        <a href="/prdoukte">Unsere Produkte</a>
+        <a href="/produkte">Unsere Produkte</a>
         <a href="/blog">Blog</a>
         <a href="/login">Login</a>
-        <a href="/warenkorb">Warenkorb<a/>
+        <a href="/warenkorb">Warenkorb</a>
       </nav>
     </header>
 
     <main>
-      @!section('content')
+      @section('content')
+      @endsection
     </main>
 
     <footer class="footer">
