@@ -1,7 +1,6 @@
 import router from '@adonisjs/core/services/router'
-
 import HomeController from '#controllers/home_controller'
-import ProdukteController from '#controllers/produktes_controller'
+import ProdukteController from '#controllers/produkte_controller'
 import WarenkorbsController from '#controllers/warenkorbs_controller'
 import CheckoutsController from '#controllers/checkouts_controller'
 import LoginController from '#controllers/login_controller'
