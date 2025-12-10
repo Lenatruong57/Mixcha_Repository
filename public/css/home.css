@@ -40,14 +40,9 @@
   font-weight: 500;
 }
 
-<<<<<<< HEAD
-/* wenn du später Icons für Login/Warenkorb hast */
-.nav-actions {
-=======
 .hero {
   background: #fef9f1; 
   padding: 80px 48px;
->>>>>>> 5e6a81fcb2b353f27d044bb3a62dedd7b4cb1df2
   display: flex;
   align-items: center;
   gap: 20px;
@@ -103,18 +98,6 @@
 }
 
 .hero-text h1 {
-<<<<<<< HEAD
-  margin: 0 0 16px;
-  font-size: 52px;
-  line-height: 1.1;
-  color: var(--mixcha-green);
-  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
-}
-
-.hero-text p {
-  margin: 0 0 32px;
-  font-size: 17px;
-=======
   font-size: 48px;
   color: #095d40;
   margin-bottom: 16px;
@@ -136,7 +119,6 @@
 
 .footer {
   background-color: #095d40;
->>>>>>> 5e6a81fcb2b353f27d044bb3a62dedd7b4cb1df2
   color: #ffffff;
   text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
