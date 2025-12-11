@@ -32,4 +32,3 @@ router.post('/warenkorb/update-quantity', [WarenkorbsController, 'updateQuantity
 router.post('/warenkorb/remove-item', [WarenkorbsController, 'removeItem'])
 router.post('/user', [UserController, 'login'])
 
-router.on('/').render('views/pages/home')
