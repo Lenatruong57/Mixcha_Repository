@@ -1,101 +1,110 @@
-/* ------ Allgemein ------ */
-
+/* === Allgemein === */
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  color: #183024;
 }
 
-/* ------ Navbar ------ */
-
+/* === Header === */
 .navbar {
   background-color: #165234;
   color: white;
-  padding: 15px 40px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  padding: 15px 60px;
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 26px;
+  font-weight: 800;
 }
 
 .nav-links a {
   color: white;
-  margin-left: 25px;
+  margin: 0 15px;
   text-decoration: none;
-  font-size: 15px;
+  font-weight: 500;
 }
 
 .nav-links a:hover {
   text-decoration: underline;
 }
 
-/* ------ Hero Bereich ------ */
-
+/* === Hero-Bereich === */
 .hero {
+  position: relative;
   width: 100%;
-  height: 500px;
-  background-image: url('/images/matcha.jpg'); 
-  background-size: cover;
-  background-position: center;
+  height: 90vh;
+  background: url("/images/matcha.jpg") no-repeat center center/cover;
   display: flex;
-  align-items: center;
   justify-content: center;
-  text-align: center;
+  align-items: center;
 }
 
-/* Hintergrundbild */
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2);
+}
 
-.hero-image {
-  background-image: url('/images/matcha.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 360px; 
+.hero-text {
+  position: relative;
+  text-align: center;
+  color: #fff;
+  z-index: 2;
 }
 
 .hero-text h1 {
-  font-size: 48px;
+  font-size: 3rem;
   color: #165234;
-  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px 20px;
+  border-radius: 8px;
 }
 
 .hero-text p {
-  font-size: 18px;
-  color: #333333;
-  margin-bottom: 25px;
+  color: #444;
+  background-color: rgba(255, 255, 255, 0.6);
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  border-radius: 5px;
 }
 
-/* ------ Button ------ */
-
+/* === Button === */
 .btn-main {
-  background-color: #f4b1b7;
+  display: inline-block;
+  margin-top: 25px;
+  padding: 10px 25px;
+  background-color: #f4b1bf;
   color: white;
-  padding: 12px 28px;
-  border-radius: 30px;
   text-decoration: none;
-  font-size: 16px;
   font-weight: bold;
+  border-radius: 6px;
 }
 
 .btn-main:hover {
-  opacity: 0.85;
+  background-color: #e48da3;
 }
 
-/* ------ Footer ------ */
-
+/* === Footer === */
 .footer {
   background-color: #165234;
   color: white;
-  text-align: center;
-  padding: 12px 0;
-  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 15px;
 }
 
 .footer a {
   color: white;
-  margin: 0 15px;
   text-decoration: none;
+  font-weight: 500;
 }
 
+.footer a:hover {
+  text-decoration: underline;
+}
