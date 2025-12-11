@@ -52,7 +52,7 @@ body {
   background-image: url('/images/matcha.jpg');
   background-size: cover;
   background-position: center;
-  height: 360px; /* oder was du willst */
+  height: 360px; 
 }
 
 .hero-text h1 {
