@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog</title>
+
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/blog.css">
+</head>
+
+<body>
+  <!-- HEADER (gleich wie auf home) -->
+  <header class="navbar">
+    <div class="logo">mixcha</div>
+
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/produkte">Unsere Produkte</a>
+      <a href="/blog">Blog</a>
+      <a href="/login">Login</a>
+      <a href="/warenkorb">Warenkorb</a>
+    </nav>
+
+    <div class="icons">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="blog-page">
+    <h1 class="blog-title">Blog</h1>
+
+    <!-- 3 Karten -->
+    <section class="blog-cards">
+      @each(post in posts)
+        <a class="blog-card" href="/blog/{{ post.id }}">
+          <img class="blog-card-img" src="/images/matcha.jpg" alt="Matcha Bild">
+          <h2 class="blog-card-headline">{{ post.title }}</h2>
+          <p class="blog-card-text">{{ post.teaser }}</p>
+        </a>
+      @endeach
+    </section>
+
+    <!-- Upload / CTA Bereich -->
+    <section class="share-box">
+      <div class="share-img">
+        <img src="/images/matcha.jpg" alt="Matcha Foto">
+      </div>
+
+      <div class="share-cta">
+        <h2>Teile deinen<br>Matcha-Moment</h2>
+
+        <input id="upload" type="file" accept="image/*" hidden>
+        <label class="upload-btn" for="upload">Foto hochladen</label>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER wie in Figma -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/agb">AGB</a>
+      <a href="/impressum">Impressum</a>
+      <a href="/datenschutz">Datenschutz</a>
+      <a href="/user">Über uns</a>
+    </div>
+  </footer>
+
+</body>
+</html>

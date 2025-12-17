@@ -108,3 +108,12 @@ body {
 .footer a:hover {
   text-decoration: underline;
 }
+
+.nav-links {
+  position: relative;
+  z-index: 10;
+}
+
+.icons {
+  pointer-events: none;
+}

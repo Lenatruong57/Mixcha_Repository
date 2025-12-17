@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ post.title }}</title>
+
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/blog.css">
+</head>
+
+<body>
+  <main class="blog-page">
+    <a class="back-link" href="/blog">← Zurück zum Blog</a>
+
+    <article class="blog-detail">
+      <h1 class="blog-detail-title">{{ post.title }}</h1>
+      <p class="blog-detail-text">{{ post.content }}</p>
+    </article>
+  </main>
+</body>
+</html>
