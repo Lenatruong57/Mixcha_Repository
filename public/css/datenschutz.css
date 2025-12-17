@@ -1,0 +1,20 @@
+.datenschutz-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 0 20px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.datenschutz-container h1 {
+  margin-bottom: 30px;
+}
+
+.datenschutz-container h2 {
+  margin-top: 30px;
+  font-size: 1.2rem;
+}
+
+.datenschutz-container p {
+  margin-top: 10px;
+}
