@@ -19,11 +19,12 @@ body {
   align-items: center;
 }
 
-.logo {
-  color: white;
-  font-size: 22px;
-  margin: 0;
+.logo img {
+  height: 38px;  
+  width: auto;      
+  display: block;    
 }
+
 
 .nav {
   display: flex;

@@ -15,10 +15,12 @@ body {
   padding: 15px 60px;
 }
 
-.logo {
-  font-size: 26px;
-  font-weight: 800;
+.logo img {
+  height: 38px;    
+  width: auto;    
+  display: block;    
 }
+
 
 .nav-links a {
   color: white;
