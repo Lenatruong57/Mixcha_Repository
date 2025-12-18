@@ -1,13 +1,12 @@
-/* === Allgemein === */
 body {
   margin: 0;
   font-family: poppins, raleway;
   color: #183024;
 }
 
-/* === Header === */
+
 .navbar {
-  background-color: #165234;
+  background-color: #1f5a3c;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -33,7 +32,6 @@ body {
   text-decoration: underline;
 }
 
-/* === Hero-Bereich === */
 .hero {
   position: relative;
   width: 100%;
@@ -60,7 +58,7 @@ body {
 
 .hero-text h1 {
   font-size: 3rem;
-  color: #165234;
+  color: #1f5a3c;
   background-color: rgba(255, 255, 255, 0.7);
   padding: 10px 20px;
   border-radius: 8px;
@@ -75,7 +73,7 @@ body {
   border-radius: 5px;
 }
 
-/* === Button === */
+
 .btn-main {
   display: inline-block;
   margin-top: 25px;
@@ -91,9 +89,9 @@ body {
   background-color: #e48da3;
 }
 
-/* === Footer === */
+
 .footer {
-  background-color: #165234;
+  background-color: #1f5a3c;
   color: white;
   display: flex;
   justify-content: center;
