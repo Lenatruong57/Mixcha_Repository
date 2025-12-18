@@ -4,7 +4,6 @@ body {
   background-color: #f6f1e8;
 }
 
-/* HEADER */
 .header {
   background-color: #1f5a3c;
 }
@@ -37,7 +36,6 @@ body {
   font-size: 14px;
 }
 
-/* MAIN */
 .datenschutz-container {
   max-width: 900px;
   margin: 40px auto;
@@ -53,7 +51,6 @@ body {
   margin-top: 25px;
 }
 
-/* FOOTER */
 .footer {
   background-color: #1f5a3c;
   padding: 15px;
@@ -66,7 +63,6 @@ body {
   text-decoration: none;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .header-inner {
     flex-direction: column;
