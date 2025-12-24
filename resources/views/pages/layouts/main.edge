@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title ?? 'Mixcha' }}</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+    @if(pageCss)
+      <link rel="stylesheet" href="/css/{{ pageCss }}">
+    @end
+  </head>
+
+  <body>
+    @include('pages/headerfooter/header')
+
+    <main>
+      @section('content')
+    </main>
+
+    @include('pages/headerfooter/footer')
+  </body>
+</html>

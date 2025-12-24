@@ -1,49 +1,39 @@
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AGB</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AGB – Mixcha</title>
 
-  <link rel="stylesheet" href="/css/home.css">
-  <link rel="stylesheet" href="/css/agb.css">
-</head>
-<body>
+    <!-- Globales Styling (Header/Footer) -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- Seiten-spezifisches Styling -->
+    <link rel="stylesheet" href="/css/agb.css">
+  </head>
 
-  <header class="header">
-    <div class="header-inner">
-      <a class="logo" href="/">
-        <img src="/images/logo.png" alt="Mixcha Logo">
-      </a>
+  <body>
+    @include('pages/headerfooter/header')
 
-      <nav class="nav">
-        <a href="/produkte">Produkte</a>
-        <a href="/blog">Blog</a>
-        <a href="/login">Login</a>
-        <a href="/warenkorb">Warenkorb</a>
-      </nav>
-    </div>
-  </header>
+    <main class="agb-container">
+      <h1>Allgemeine Geschäftsbedingungen</h1>
+      <p><strong>Stand:</strong> 17.12.2025</p>
 
-  <main class="agb-container">
-    <h1>Allgemeine Geschäftsbedingungen</h1>
-    <p><strong>Stand:</strong> 17.12.2025</p>
+      <h2>1. Geltungsbereich</h2>
+      <p>
+        Diese AGB gelten für alle Bestellungen über unseren Online-Shop Mixcha.
+      </p>
 
-    <h2>1. Geltungsbereich</h2>
-    <p>Diese AGB gelten für alle Bestellungen über unseren Online-Shop.</p>
+      <h2>2. Vertragspartner</h2>
+      <p>
+        Der Kaufvertrag kommt zustande mit Mixcha.
+      </p>
 
-    <h2>2. Vertragspartner</h2>
-    <p>Der Kaufvertrag kommt zustande mit …</p>
+      <h2>3. Preise</h2>
+      <p>
+        Alle Preise sind Endpreise.
+      </p>
+    </main>
 
-    <h2>3. Preise</h2>
-    <p>Alle Preise sind Endpreise.</p>
-  </main>
-
-  <footer class="footer">
-    <a href="/agb">AGB</a>
-    <a href="/impressum">Impressum</a>
-    <a href="/datenschutz">Datenschutz</a>
-  </footer>
-
-</body>
+    @include('pages/headerfooter/footer')
+  </body>
 </html>

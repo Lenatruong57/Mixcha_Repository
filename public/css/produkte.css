@@ -1,0 +1,96 @@
+/* =========================
+   PRODUKTE – SEITE
+   ========================= */
+
+   .products {
+    background-color: #fbf6ec;
+    padding: 80px 0;
+  }
+  
+  /* Überschrift & Text */
+  .products__title {
+    text-align: center;
+    font-size: 48px;
+    color: #245c3a;
+    margin: 0;
+  }
+  
+  .products__subtitle {
+    text-align: center;
+    margin: 16px 0 64px;
+    font-size: 16px;
+    color: #6f8f7a;
+  }
+  
+  /* =========================
+     GRID – 3 PRODUKTE IN EINER REIHE
+     ========================= */
+  
+  .products__grid {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 64px;
+  }
+  
+  /* =========================
+     PRODUKTKARTE
+     ========================= */
+  
+  .product-card {
+    background-color: #ffffff;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  
+  /* Bild */
+  .product-card__img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 24px;
+  }
+  
+  /* Name */
+  .product-card__name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #245c3a;
+    margin: 0 0 6px;
+  }
+  
+  /* Preis */
+  .product-card__price {
+    font-size: 14px;
+    color: #245c3a;
+    margin: 0 0 20px;
+  }
+  
+  /* Button */
+  .product-card__btn {
+    display: inline-block;
+    padding: 10px 36px;
+    border-radius: 999px;
+    background-color: #e7b4c7;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  /* =========================
+     RESPONSIVE (optional, aber sauber)
+     ========================= */
+  
+  @media (max-width: 900px) {
+    .products__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .products__grid {
+      grid-template-columns: 1fr;
+    }
+  }

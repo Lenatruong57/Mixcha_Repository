@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unsere Produkte – Mixcha</title>
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/produkte.css" />
+  </head>
+
+  <body>
+    @include('pages/headerfooter/header')
+
+    <main class="products">
+      <h1 class="products__title">Unsere Produkte</h1>
+      <p class="products__subtitle">Entdecke deinen perfekten Matcha und mixe ihn nach deinem Geschmack.</p>
+    
+      <section class="products__grid">
+        <article class="product-card">
+          <img class="product-card__img" src="/images/MixchaPremium.png" alt="Mixcha Premium">
+          <h2 class="product-card__name">Mix your Premium Matcha</h2>
+          <p class="product-card__price">ab 19,90 €</p>
+          <a class="product-card__btn" href="/produkte/1">Mix now</a>
+        </article>
+    
+        <article class="product-card">
+          <img class="product-card__img" src="/images/MixchaPremium.png" alt="Mixcha Premium">
+          <h2 class="product-card__name">Mix your Ceremonial Matcha</h2>
+          <p class="product-card__price">ab 25,90 €</p>
+          <a class="product-card__btn" href="/produkte/2">Mix now</a>
+        </article>
+    
+        <article class="product-card">
+          <img class="product-card__img" src="/images/MixchaPremium.png" alt="Mixcha Premium">
+          <h2 class="product-card__name">Matcha Traditional Set</h2>
+          <p class="product-card__price">ab 39,90 €</p>
+          <a class="product-card__btn" href="/produkte/3">Buy now</a>
+        </article>
+      </section>
+    </main>
+    
+    @include('pages/headerfooter/footer')
+  </body>
+</html>
