@@ -78,6 +78,10 @@
     text-decoration: none;
     font-size: 14px;
   }
+
+  .product-card__img--zoom {
+    transform: scale(1.12);
+  }
   
   /* =========================
      RESPONSIVE (optional, aber sauber)

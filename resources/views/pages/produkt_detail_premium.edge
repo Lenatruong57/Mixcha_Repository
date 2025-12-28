@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title ?? 'Mixcha' }}</title>
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/{{ pageCss }}" />
+  </head>
+
+  <body class="page">
+    @include('pages/headerfooter/header')
+
+    <main class="product-detail">
+      <div class="product-detail__inner">
+        <div class="product-detail__media">
+          <img class="product-detail__img" src="/images/MixchaPremium.png" alt="Mixcha Premium Matcha" />
+        </div>
+
+        <section class="product-detail__content">
+          <h1 class="product-detail__title">Premium Matcha</h1>
+          <p class="product-detail__text">
+            Wähle deine bevorzugten Extras und erstelle deine eigene Matcha-Mischung.
+          </p>
+
+          <form class="product-detail__form" method="post" action="#">
+            <div class="form-group">
+              <label class="form-label" for="extras">Extras</label>
+              <select class="form-select" id="extras" name="extras">
+                <option value="vanille">Vanille</option>
+                <option value="kokos">Kokos</option>
+                <option value="zimt">Zimt</option>
+                <option value="kollagen">Veganes Kollagenpulver</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="size">Verpackungsgröße</label>
+              <select class="form-select" id="size" name="size">
+                <option value="30">30gr</option>
+                <option value="70">70gr</option>
+                <option value="100">100gr</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="photo">Fotoupload</label>
+              <input class="form-file" id="photo" name="photo" type="file" accept="image/*" />
+            </div>
+
+            <p class="product-detail__price">ab {{ price }}</p>
+
+            <button class="product-detail__btn" type="button">Mix your Matcha</button>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    @include('pages/headerfooter/footer')
+  </body>
+</html>
