@@ -1,80 +1,70 @@
+
+/* =========================================================
+   AGB – nur Seiteninhalt
+   Header & Footer kommen über @include
+   ========================================================= */
+
+/* sorgt dafür, dass Footer unten bleibt */
+html, body {
+  height: 100%;
+}
+
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f6f1e8;
-}
-
-/* HEADER */
-.header {
-  background-color: #1f5a3c;
-}
-
-.header-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 15px 20px;
-
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-.logo img {
-  height: 38px;  
-  width: auto;      
-  display: block;    
+/* main wächst zwischen Header & Footer */
+main {
+  flex: 1;
 }
 
+/* AGB Content */
 
-.nav {
-  display: flex;
-  gap: 15px;
-}
-
-.nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-/* MAIN */
 .agb-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 25px;
-  background-color: white;
+  width: min(900px, 100%);
+  margin: 64px auto;
+  padding: 32px 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
 }
 
+/* Überschriften */
 .agb-container h1 {
-  color: #1f5a3c;
+  margin: 0 0 16px;
+  font-size: 32px;
+  line-height: 1.2;
+  color: var(--green-900);
 }
 
 .agb-container h2 {
-  margin-top: 25px;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: var(--green-900);
 }
 
-/* FOOTER */
-.footer {
-  background-color: #1f5a3c;
-  padding: 15px;
-  text-align: center;
+/* Text */
+.agb-container p {
+  margin-bottom: 12px;
+  line-height: 1.6;
 }
 
-.footer a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
+.agb-container strong {
+  font-weight: 600;
 }
 
-/* RESPONSIVE */
+/* Responsives Design */
+
 @media (max-width: 768px) {
-  .header-inner {
-    flex-direction: column;
-    gap: 10px;
+  .agb-container {
+    margin: 32px auto;
+    padding: 24px 16px;
+    border-radius: 12px;
   }
 
-  .nav {
-    flex-wrap: wrap;
-    justify-content: center;
+  .agb-container h1 {
+    font-size: 26px;
   }
 }

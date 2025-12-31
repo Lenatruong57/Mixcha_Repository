@@ -5,35 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Datenschutzerklärung</title>
 
-  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/datenschutz.css">
 
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Datenschutzerklärung</title>
 
-  <link rel="stylesheet" href="/css/home.css">
-  <link rel="stylesheet" href="/css/datenschutz.css">
-</head>
 <body>
-
-  <header class="header">
-    <div class="header-inner">
-      <a class="logo" href="/">
-        <img src="/images/logo.png" alt="Mixcha Logo">
-      </a>
-
-      <nav class="nav">
-        <a href="/produkte">Produkte</a>
-        <a href="/blog">Blog</a>
-        <a href="/login">Login</a>
-        <a href="/warenkorb">Warenkorb</a>
-      </nav>
-    </div>
-  </header>
+  @include('pages/headerfooter/header')
 
   <main class="datenschutz-container">
     <h1>Datenschutzerklärung</h1>
@@ -75,11 +54,6 @@
     </p>
   </main>
 
-  <footer class="footer">
-    <a href="/agb">AGB</a>
-    <a href="/impressum">Impressum</a>
-    <a href="/datenschutz">Datenschutz</a>
-  </footer>
-
+  @include('pages/headerfooter/footer')
 </body>
 </html>
