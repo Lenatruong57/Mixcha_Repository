@@ -1,21 +1,44 @@
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login – Mixcha</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login – Mixcha</title>
 
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/login.css">
-</head>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/login.css">
+  </head>
 
-<body>
-  @include('pages/headerfooter/header')
+  <body>
+    @include('pages/headerfooter/header')
 
-  <main class="login-container">
-    <!-- LOGIN-INHALT -->
-  </main>
+    <main class="auth">
+      <div class="auth__card">
+        <h1 class="auth__title">Login</h1>
+        <p class="auth__subtitle">Melde dich an, um deinen Warenkorb und deine Mischung zu speichern.</p>
 
-  @include('pages/headerfooter/footer')
-</body>
+        <form class="auth__form" method="POST" action="/login">
+          <div class="field">
+            <label for="email">E-Mail</label>
+            <input id="email" name="email" type="email" placeholder="name@mail.de" required>
+          </div>
+
+          <div class="field">
+            <label for="password">Passwort</label>
+            <input id="password" name="password" type="password" placeholder="••••••••" required>
+          </div>
+
+          <button class="btn-primary" type="submit">Einloggen</button>
+        </form>
+
+        <div class="auth__divider"></div>
+
+        <p class="auth__alt">
+          <p>Du bist Händler? <a href="/haendler-login">Hier zum Händler-Login</a></p>
+        </p>
+      </div>
+    </main>
+
+    @include('pages/headerfooter/footer')
+  </body>
 </html>

@@ -23,11 +23,16 @@ router.get('/agb', [AgbsController, 'index'])
 router.get('/impressum', [ImpressumsController, 'index'])
 router.get('/datenschutz', [DatenschutzsController, 'index'])
 router.get('/user', [UserController, 'index'])
+router.get('/haendler-login', [LoginController, 'haendlerIndex'])
 
-router.post('/login', [LoginController, 'login'])
+router.post('/login', [LoginController, 'loginCustomer'])
 router.post('/logout', [LoginController, 'logout'])
+router.post('/haendler-login', [LoginController, 'loginHaendler'])
+router.post('/haendler-logout', [LoginController, 'logout'])
 router.post('/checkout/process', [CheckoutsController, 'process'])
 router.post('/warenkorb/add', [WarenkorbsController, 'add'])
 router.post('/warenkorb/update-quantity', [WarenkorbsController, 'updateQuantity'])
 router.post('/warenkorb/remove-item', [WarenkorbsController, 'removeItem'])
-router.post('/user', [UserController, 'login'])
+router.post('/user/login', [UserController, 'login'])
+
+
