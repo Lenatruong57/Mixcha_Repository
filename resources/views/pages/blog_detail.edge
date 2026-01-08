@@ -16,8 +16,12 @@
     <a class="back-link" href="/blog">← Zurück zum Blog</a>
 
     <article class="blog-detail">
-      <h1 class="blog-detail-title">{{ post.title }}</h1>
-      <p class="blog-detail-text">{{ post.content }}</p>
+  <h1 class="blog-detail-title">{{ post.title }}</h1>
+
+  @each(section in post.sections)
+    <h2 class="blog-section-title">{{ section.heading }}</h2>
+    <p class="blog-detail-text">{{ section.text }}</p>
+  @end
     </article>
   </main>
 

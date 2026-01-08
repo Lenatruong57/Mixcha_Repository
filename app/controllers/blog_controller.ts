@@ -1,26 +1,72 @@
 import type { HttpContext } from '@adonisjs/core/http'
-// import db from '@adonisjs/lucid/services/db'
 
 export default class BlogController {
-  public async index({ view }: HttpContext) {
- 
-    const posts = [
-      { id: 1, title: 'Matcha Basics', teaser: 'Was ist Matcha eigentlich?' },
-      { id: 2, title: 'Rezepte', teaser: 'Latte, Iced Matcha & mehr' },
-    ]
 
+  private posts = [
+    {
+      id: 1,
+      title: 'Matcha Basics',
+      teaser: 'Was ist Matcha eigentlich?',
+      sections: [
+        {
+          heading: 'Was ist Matcha eigentlich?',
+          text:
+            'Matcha ist ein fein gemahlenes Grünteepulver aus Japan und gilt als eine der edelsten Formen des Teegenusses.\nIm Gegensatz zu klassischem Grüntee wird beim Matcha das gesamte Teeblatt konsumiert – und damit auch all seine wertvollen Inhaltsstoffe.'
+        },
+        {
+          heading: 'Premium vs. Ceremonial Grade – wo liegt der Unterschied?',
+          text:
+            'Nicht jeder Matcha ist gleich.\nCeremonial Grade Matcha stammt aus den jüngsten, zartesten Blättern der ersten Ernte.\nPremium Matcha eignet sich besonders gut für Matcha Latte, Smoothies oder Rezepte.'
+        },
+        {
+          heading: 'Die Wirkung von Matcha: ruhig wach statt nervös',
+          text:
+            'Matcha enthält Koffein – jedoch wirkt es anders als Kaffee.\nDas Ergebnis:\nlanganhaltende, klare Energie\ngesteigerte Konzentration\nkein Zittern, kein „Crash“'
+        },
+        {
+          heading: 'Antioxidantien & Nährstoffe',
+          text:
+            'Matcha ist reich an Catechinen, insbesondere EGCG.\nZusätzlich enthält Matcha:\nChlorophyll\nVitamine (A, C, E)\nMineralstoffe wie Eisen & Magnesium'
+        },
+        {
+          heading: 'Matcha mit natürlichen Extras',
+          text:
+            'Unsere Matcha-Sorten verbinden höchste Qualität mit modernen Bedürfnissen:\nVanille, Kokos oder Zimt direkt im Pulver\nVeganes Kollagenpulver (optional)\nVerschiedene Größen (30g, 70g, 100g)'
+        },
+        {
+          heading: 'Nachhaltigkeit & Herkunft',
+          text:
+            'Hochwertiger Matcha steht für Sorgfalt, Handarbeit und Respekt.\nDenn guter Matcha schmeckt nicht nur besser – er fühlt sich auch besser an.'
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: 'Rezepte',
+      teaser: 'Latte, Iced Matcha & mehr',
+      sections: [
+        {
+          heading: 'Rezepte',
+          text: 'Hier kommen bald leckere Matcha-Rezepte wie Matcha Latte, Iced Matcha und Smoothies.',
+        },
+      ],
+    },
+  ]
+
+  public async index({ view }: HttpContext) {
     return view.render('pages/blog', {
-      posts,
+      posts: this.posts,
     })
   }
 
   public async show({ params, view }: HttpContext) {
     const id = Number(params.id)
 
-    const post = {
-      id,
-      title: `Blog-Artikel #${id}`,
-      content: 'Hier steht dein Matcha-Content …',
+    const post = this.posts.find((p) => p.id === id)
+
+    if (!post) {
+     
+      return view.render('pages/blog', { posts: this.posts })
     }
 
     return view.render('pages/blog_detail', {
