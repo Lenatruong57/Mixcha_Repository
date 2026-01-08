@@ -1,64 +1,80 @@
-@include('pages/headerfooter/header')
-@vite(['resources/css/checkout.css'])
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout – Mixcha</title>
 
-<main class="checkout">
-  <div class="checkout-grid">
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/checkout.css" />
+  </head>
 
-    <!-- LINKS: Form -->
-    <section class="left">
-      <h2>Kontaktdaten</h2>
+  <body>
+    @include('pages/headerfooter/header')
 
-      <form action="/checkout" method="post">
-        {{ csrfField() }}
+    <main class="checkout">
+      <div class="checkout-grid">
 
-        <input class="input" type="text" name="first_name" placeholder="Vorname" required>
-        <input class="input" type="text" name="last_name" placeholder="Name" required>
+        <!-- LINKS: Formular -->
+        <section class="left">
+          <h2>Kontaktdaten</h2>
 
-        <h2 class="space">Adresse</h2>
-        <input class="input" type="text" name="street" placeholder="Straße + Hausnr." required>
-        <input class="input" type="text" name="zip" placeholder="PLZ" required>
-        <input class="input" type="text" name="city" placeholder="Stadt" required>
-        <input class="input" type="text" name="country" placeholder="Land" required>
+          <form action="/checkout/process" method="post">
+            {{ csrfField() }}
 
-        <button class="btn" type="submit">Jetzt kostenpflichtig bestellen</button>
-      </form>
-    </section>
+            <input class="input" type="text" name="first_name" placeholder="Vorname" required>
+            <input class="input" type="text" name="last_name" placeholder="Name" required>
 
-    <!-- RECHTS: Übersicht -->
-    <aside class="right">
-      <div class="info-box">
-        Mit Klick auf "Jetzt kostenpflichtig bestellen" erkläre ich mich mit den Datenschutzbestimmung, der Widerrufsbelehrung und den AGB's einverstanden.
-      </div>
+            <h2 class="space">Adresse</h2>
+            <input class="input" type="text" name="street" placeholder="Straße + Hausnr." required>
+            <input class="input" type="text" name="zip" placeholder="PLZ" required>
+            <input class="input" type="text" name="city" placeholder="Stadt" required>
+            <input class="input" type="text" name="country" placeholder="Land" required>
 
-      <div class="summary">
-        <h3>Bestellübersicht</h3>
+            <button class="btn" type="submit">
+              Jetzt kostenpflichtig bestellen
+            </button>
+          </form>
+        </section>
 
-        @if(items.length === 0)
-          <p>Dein Warenkorb ist leer.</p>
-        @else
-          @each(item in items)
-            <div class="row">
-              <div>
-                <div class="title">{{ item.name }}</div>
-                <div class="small">Anzahl: {{ item.quantity }}</div>
-              </div>
-              <div class="price">
-                {{ (item.price * item.quantity).toFixed(2) }} €
-              </div>
-            </div>
-          @end
-
-          <div class="totals">
-            <div class="line total">
-              <span>Gesamt</span>
-              <span>{{ total.toFixed(2) }} €</span>
-            </div>
+        <!-- RECHTS: Bestellübersicht -->
+        <aside class="right">
+          <div class="info-box">
+            Mit Klick auf „Jetzt kostenpflichtig bestellen“ erkläre ich mich mit den
+            Datenschutzbestimmungen, der Widerrufsbelehrung und den AGB einverstanden.
           </div>
-        @endif
+
+          <div class="summary">
+            <h3>Bestellübersicht</h3>
+
+            @if(items.length === 0)
+              <p>Dein Warenkorb ist leer.</p>
+            @else
+              @each(item in items)
+                <div class="row">
+                  <div>
+                    <div class="title">{{ item.name }}</div>
+                    <div class="small">Anzahl: {{ item.quantity }}</div>
+                  </div>
+                  <div class="price">
+                    {{ (item.price * item.quantity).toFixed(2) }} €
+                  </div>
+                </div>
+              @end
+
+              <div class="totals">
+                <div class="line total">
+                  <span>Gesamt</span>
+                  <span>{{ total.toFixed(2) }} €</span>
+                </div>
+              </div>
+            @endif
+          </div>
+        </aside>
+
       </div>
-    </aside>
+    </main>
 
-  </div>
-</main>
-
-@include('pages/headerfooter/footer')
+    @include('pages/headerfooter/footer')
+  </body>
+</html>
