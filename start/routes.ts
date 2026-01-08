@@ -10,6 +10,8 @@ import ImpressumsController from '#controllers/impressums_controller'
 import DatenschutzsController from '#controllers/datenschutzs_controller'
 import UserController from '#controllers/user_controller'
 import RegistrierungsController from '#controllers/registrierungs_controller'
+import HaendlerloginsController from '#controllers/haendlerlogins_controller'
+import AdminController from '#controllers/admin_controller'
 
 router.get('/', [HomeController, 'index'])
 router.get('/produkte', [ProdukteController, 'index'])
@@ -25,13 +27,14 @@ router.get('/agb', [AgbsController, 'index'])
 router.get('/impressum', [ImpressumsController, 'index'])
 router.get('/datenschutz', [DatenschutzsController, 'index'])
 router.get('/user', [UserController, 'index'])
-router.get('/haendler-login', [LoginController, 'haendlerIndex'])
+router.get('/haendler-login', [HaendlerloginsController, 'index'])
+router.get('/admin', [AdminController, 'index'])
 
 router.post('/login', [LoginController, 'loginCustomer'])
 router.post('/registrieren', [RegistrierungsController, 'register'])
 router.post('/logout', [LoginController, 'logout'])
-router.post('/haendler-login', [LoginController, 'loginHaendler'])
-router.post('/haendler-logout', [LoginController, 'logout'])
+router.post('/haendler-login', [HaendlerloginsController, 'login'])
+router.post('/haendler-logout', [HaendlerloginsController, 'logout'])
 router.post('/checkout/process', [CheckoutsController, 'process'])
 router.post('/warenkorb/add', [WarenkorbsController, 'add'])
 router.post('/warenkorb/update-quantity', [WarenkorbsController, 'updateQuantity'])

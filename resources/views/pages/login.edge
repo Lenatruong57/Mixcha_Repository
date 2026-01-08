@@ -18,28 +18,30 @@
         <p class="auth__subtitle">Melde dich an, um deinen Warenkorb und deine Mischung zu speichern.</p>
 
         <form class="auth__form" method="POST" action="/login">
+          {{ csrfField() }}
+
           <div class="field">
             <label for="email">E-Mail</label>
-            <input id="email" name="email" type="email" placeholder="name@mail.de" required>
+            <input id="email" name="email" type="email" placeholder="name@mail.de" required />
           </div>
 
           <div class="field">
             <label for="password">Passwort</label>
-            <input id="password" name="password" type="password" placeholder="••••••••" required>
+            <input id="password" name="password" type="password" placeholder="••••••••" required />
           </div>
 
           <button class="btn-primary" type="submit">Einloggen</button>
 
           <div class="auth__switch">
-            Noch kein Konto? <a href="/registrieren">Jetzt registrieren</a>
+            Noch kein Konto?
+            <a href="/registrieren">Jetzt registrieren</a>
           </div>
-          
         </form>
 
         <div class="auth__divider"></div>
 
         <p class="auth__alt">
-          <p>Du bist Händler? <a href="/haendler-login">Hier zum Händler-Login</a></p>
+          Du bist Händler? <a href="/haendler-login">Hier zum Händler-Login</a>
         </p>
       </div>
     </main>

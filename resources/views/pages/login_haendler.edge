@@ -17,10 +17,12 @@
         <h1 class="auth__title">Händler Login</h1>
         <p class="auth__subtitle">Zugang für Händler/Team.</p>
 
-        <form class="auth__form" method="POST" action="/haendler/login">
+        <form class="auth__form" method="POST" action="/haendler-login">
+          {{ csrfField() }}
+
           <div class="field">
-            <label for="email">E-Mail</label>
-            <input id="email" name="email" type="email" required>
+            <label for="username">Benutzername</label>
+            <input id="username" name="username" type="text" required>
           </div>
 
           <div class="field">
