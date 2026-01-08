@@ -1,0 +1,210 @@
+/* ============================
+   PRODUKTDETAIL – PREMIUM (1:1)
+   ============================ */
+
+/* Seite */
+.page {
+  background: #f6f1e8;
+}
+
+/* Main Layout */
+.product-detail {
+  padding: 80px 0 90px;
+}
+
+/* Zentrierter Wrapper */
+.product-detail__inner {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;      /* vertikal mittig */
+  justify-content: center;  /* horizontal mittig */
+  gap: 90px;
+}
+
+/* Linke Spalte (Bild) */
+.product-detail__media {
+  flex: 0 0 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-detail__img {
+  width: 420px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Rechte Spalte (Text + Form) */
+.product-detail__content {
+  flex: 1;
+  max-width: 560px;
+}
+
+.product-detail__title {
+  margin: 0 0 8px;
+  font-size: 48px;
+  font-weight: 800;
+  color: #245c3a;
+  line-height: 1.05;
+}
+
+.product-detail__text {
+  margin: 0 0 22px;
+  font-size: 14px;
+  color: #6f8f7a;
+  line-height: 1.6;
+  max-width: 520px;
+}
+
+/* Form */
+.product-detail__form {
+  width: 100%;
+}
+
+.form-group {
+  margin: 0 0 14px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #245c3a;
+  margin: 0 0 8px;
+}
+
+/* Inputs/Selects */
+.form-select,
+.form-file {
+  width: 100%;
+  height: 44px;
+  padding: 10px 12px;
+
+  border-radius: 8px;
+  border: 1px solid #e7b9c5;
+  background: #f8f3ed;
+
+  color: #245c3a;
+  outline: none;
+}
+
+/* Select Pfeil bleibt browser-default, aber optisch passend */
+.form-select:focus,
+.form-file:focus {
+  border-color: #d89bab;
+  box-shadow: 0 0 0 3px rgba(216, 155, 171, 0.25);
+}
+
+/* File Input: etwas nicer (browserabhängig) */
+.form-file {
+  padding: 8px 12px;
+}
+
+.form-file::file-selector-button {
+  border: 0;
+  background: #ead1d8;
+  color: #245c3a;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.form-file::file-selector-button:hover {
+  filter: brightness(0.98);
+}
+
+/* Preis */
+.product-detail__price {
+  margin: 10px 0 18px;
+  font-size: 14px;
+  color: #245c3a;
+}
+
+/* CTA Button */
+.product-detail__btn {
+  display: inline-block;
+  border: 0;
+  cursor: pointer;
+
+  padding: 10px 22px;
+  border-radius: 999px;
+
+  background: #e4b0bf;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+
+  box-shadow: 0 6px 14px rgba(36, 92, 58, 0.08);
+  transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+.product-detail__btn:hover {
+  filter: brightness(0.98);
+}
+
+.product-detail__btn:active {
+  transform: translateY(1px);
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+
+@media (max-width: 1000px) {
+  .product-detail__inner {
+    gap: 50px;
+  }
+
+  .product-detail__title {
+    font-size: 42px;
+  }
+
+  .product-detail__media {
+    flex-basis: 380px;
+  }
+
+  .product-detail__img {
+    width: 380px;
+  }
+}
+
+@media (max-width: 900px) {
+  .product-detail {
+    padding: 60px 0 70px;
+  }
+
+  .product-detail__inner {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .product-detail__content {
+    max-width: 620px;
+  }
+
+  .product-detail__text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .product-detail__btn {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-detail__title {
+    font-size: 34px;
+  }
+
+  .product-detail__img {
+    width: 320px;
+  }
+}
