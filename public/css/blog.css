@@ -83,7 +83,7 @@
 }
 
 .footer {
-  background: #2e5f49;
+  background: #1f5a3c;
   padding: 35px 0;
 }
 
@@ -100,4 +100,8 @@
   color: white;
   text-decoration: none;
   font-weight: 600;
+}
+.blog-detail-text {
+  white-space: pre-line;
+  line-height: 1.7;
 }

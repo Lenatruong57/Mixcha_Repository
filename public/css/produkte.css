@@ -98,3 +98,8 @@
       grid-template-columns: 1fr;
     }
   }
+
+
+.product-card__link { display: block; text-decoration: none; color: inherit; }
+.product-card__img { cursor: pointer; }
+.product-card__titlelink { display: inline-block; }

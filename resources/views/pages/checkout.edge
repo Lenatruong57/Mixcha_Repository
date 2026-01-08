@@ -1,0 +1,64 @@
+@include('pages/headerfooter/header')
+@vite(['resources/css/checkout.css'])
+
+<main class="checkout">
+  <div class="checkout-grid">
+
+    <!-- LINKS: Form -->
+    <section class="left">
+      <h2>Kontaktdaten</h2>
+
+      <form action="/checkout" method="post">
+        {{ csrfField() }}
+
+        <input class="input" type="text" name="first_name" placeholder="Vorname" required>
+        <input class="input" type="text" name="last_name" placeholder="Name" required>
+
+        <h2 class="space">Adresse</h2>
+        <input class="input" type="text" name="street" placeholder="Straße + Hausnr." required>
+        <input class="input" type="text" name="zip" placeholder="PLZ" required>
+        <input class="input" type="text" name="city" placeholder="Stadt" required>
+        <input class="input" type="text" name="country" placeholder="Land" required>
+
+        <button class="btn" type="submit">Jetzt kostenpflichtig bestellen</button>
+      </form>
+    </section>
+
+    <!-- RECHTS: Übersicht -->
+    <aside class="right">
+      <div class="info-box">
+        Mit Klick auf "Jetzt kostenpflichtig bestellen" erkläre ich mich mit den Datenschutzbestimmung, der Widerrufsbelehrung und den AGB's einverstanden.
+      </div>
+
+      <div class="summary">
+        <h3>Bestellübersicht</h3>
+
+        @if(items.length === 0)
+          <p>Dein Warenkorb ist leer.</p>
+        @else
+          @each(item in items)
+            <div class="row">
+              <div>
+                <div class="title">{{ item.name }}</div>
+                <div class="small">Anzahl: {{ item.quantity }}</div>
+              </div>
+              <div class="price">
+                {{ (item.price * item.quantity).toFixed(2) }} €
+              </div>
+            </div>
+          @end
+
+          <div class="totals">
+            <div class="line total">
+              <span>Gesamt</span>
+              <span>{{ total.toFixed(2) }} €</span>
+            </div>
+          </div>
+        @endif
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+@include('pages/headerfooter/footer')

@@ -28,17 +28,12 @@ router.get('/user', [UserController, 'index'])
 router.get('/haendler-login', [LoginController, 'haendlerIndex'])
 
 router.post('/login', [LoginController, 'loginCustomer'])
+router.post('/registrieren', [RegistrierungsController, 'register'])
 router.post('/logout', [LoginController, 'logout'])
 router.post('/haendler-login', [LoginController, 'loginHaendler'])
-router.post('/registrieren', [RegistrierungsController, 'register'])
 router.post('/haendler-logout', [LoginController, 'logout'])
 router.post('/checkout/process', [CheckoutsController, 'process'])
 router.post('/warenkorb/add', [WarenkorbsController, 'add'])
 router.post('/warenkorb/update-quantity', [WarenkorbsController, 'updateQuantity'])
 router.post('/warenkorb/remove-item', [WarenkorbsController, 'removeItem'])
 router.post('/user/login', [UserController, 'login'])
-
-
-
-
-
