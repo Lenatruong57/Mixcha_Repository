@@ -1,43 +1,35 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Premium Matcha – Mixcha</title>
 
-  <!-- Globales Styling -->
-  <link rel="stylesheet" href="/css/main.css" />
-  <!-- Seiten-spezifisches Styling -->
-  <link rel="stylesheet" href="/css/produkt_detail.css" />
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/produkt_detail.css">
 </head>
 
 <body class="page">
-
   @include('pages/headerfooter/header')
 
   <main class="product-detail">
     <div class="product-detail__inner">
-
-      <!-- Bild -->
       <div class="product-detail__media">
-        <img
-          class="product-detail__img"
-          src="/images/MixchaPremium.png"
-          alt="Mixcha Premium Matcha"
-        />
+        <img class="product-detail__img" src="/images/MixchaPremium.png" alt="Mixcha Premium Matcha">
       </div>
 
-      <!-- Inhalt -->
       <section class="product-detail__content">
         <h1 class="product-detail__title">Premium Matcha</h1>
+        <p class="product-detail__text">Wähle deine bevorzugten Extras und erstelle deine eigene Matcha-Mischung.</p>
 
-        <p class="product-detail__text">
-          Wähle deine bevorzugten Extras und erstelle deine eigene Matcha-Mischung.
-        </p>
+        <form class="product-detail__form" method="POST" action="/warenkorb/add">
+          <input type="hidden" name="product_id" value="1">
+          <input type="hidden" name="name" value="Premium Matcha">
+          <input type="hidden" name="image_url" value="/images/MixchaPremium.png">
 
-        <form class="product-detail__form" method="post" action="">
-          <!-- Extras -->
+          <!-- wichtig: wird per JS aktualisiert -->
+          <input type="hidden" id="unitPriceInput" name="unit_price" value="19.90">
+
           <div class="form-group">
             <label class="form-label" for="extras">Extras</label>
             <select class="form-select" id="extras" name="extras">
@@ -48,7 +40,6 @@
             </select>
           </div>
 
-          <!-- Verpackungsgröße -->
           <div class="form-group">
             <label class="form-label" for="size">Verpackungsgröße</label>
             <select class="form-select" id="size" name="size">
@@ -58,46 +49,41 @@
             </select>
           </div>
 
+          <p class="product-detail__price"><span id="priceValue">19,90</span> €</p>
 
-          <!-- Preis -->
-          <p class="product-detail__price">
-            <span id="priceValue" data-base="19,90">19,90</span> €
-          </p>
-
-          <button class="product-detail__btn" type="button">
-            Mix your Matcha
-          </button>
+          <button class="product-detail__btn" type="submit">In den Warenkorb</button>
         </form>
       </section>
     </div>
   </main>
 
-  @include('pages/headerfooter/footer')
-
-  <!-- Preis-Logik -->
   <script>
-    (function () {
+    document.addEventListener("DOMContentLoaded", () => {
       const prices = {
-        "30": "19,90",
-        "70": "39,90",
-        "100": "59,90",
+        "30": 19.90,
+        "70": 39.90,
+        "100": 59.90
       };
 
       const sizeSelect = document.getElementById("size");
       const priceValue = document.getElementById("priceValue");
+      const unitPriceInput = document.getElementById("unitPriceInput");
 
-      if (!sizeSelect || !priceValue) return;
+      if (!sizeSelect || !priceValue || !unitPriceInput) return;
 
-      function updatePrice() {
-        const selected = sizeSelect.value;
-        priceValue.textContent =
-          prices[selected] || priceValue.dataset.base || "19,90";
-      }
+      const fmt = (n) => n.toFixed(2).replace(".", ",");
 
-      sizeSelect.addEventListener("change", updatePrice);
+      const updatePrice = () => {
+        const p = prices[sizeSelect.value] ?? 19.90;
+        priceValue.textContent = fmt(p);
+        unitPriceInput.value = String(p);
+      };
+
       updatePrice();
-    })();
+      sizeSelect.addEventListener("change", updatePrice);
+    });
   </script>
 
+  @include('pages/headerfooter/footer')
 </body>
 </html>

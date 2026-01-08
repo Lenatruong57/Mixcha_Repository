@@ -8,30 +8,10 @@ export default class ProdukteController {
   public async show({ params, view }: HttpContext) {
     const id = Number(params.id)
 
-    if (id === 1) {
-      return view.render('pages/produkt_detail_premium', {
-        title: 'Premium Matcha – Mixcha',
-        pageCss: 'produkt_detail.css',
-        basePrice: '19,90',
-      })
-    }
+    if (id === 1) return view.render('pages/produkt_detail_premium')
+    if (id === 2) return view.render('pages/produkt_detail_ceremonial')
 
-    if (id === 2) {
-      return view.render('pages/produkt_detail_ceremonial', {
-        title: 'Ceremonial Matcha – Mixcha',
-        pageCss: 'produkt_detail.css',
-        basePrice: '25,90',
-      })
-    }
-
-    if (id === 3) {
-      return view.render('pages/produkt_detail_set', {
-        title: 'Matcha Traditional Set – Mixcha',
-        pageCss: 'produkt_detail.css',
-        basePrice: '39,90',
-      })
-    }
-
+    // id === 3 später (Traditional Set)
     return view.render('errors/not_found')
   }
 }

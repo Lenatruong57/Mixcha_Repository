@@ -1,66 +1,54 @@
-<<!doctype html>
+<!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Unsere Produkte – Mixcha</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unsere Produkte – Mixcha</title>
 
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/produkte.css" />
-  </head>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/produkte.css">
+</head>
 
-  <body class="page">
-    @include('pages/headerfooter/header')
+<body class="page">
+  @include('pages/headerfooter/header')
 
-    <main class="products">
-      <h1 class="products__title">Unsere Produkte</h1>
-      <p class="products__subtitle">Entdecke deinen perfekten Matcha und mixe ihn nach deinem Geschmack.</p>
+  <main class="products">
+    <h1 class="products__title">Unsere Produkte</h1>
+    <p class="products__subtitle">Entdecke deinen perfekten Matcha und mixe ihn nach deinem Geschmack.</p>
 
-      <section class="products__grid">
-        <!-- Produkt 1 -->
-        <article class="product-card">
-          <a class="product-card__link" href="/produkte/1" aria-label="Premium Matcha öffnen">
-            <img class="product-card__img" src="/images/MixchaPremium.png" alt="Mixcha Premium Matcha" />
-          </a>
+    <section class="products__grid">
+      <!-- Premium -->
+      <article class="product-card">
+        <a class="product-card__link" href="/produkte/1" aria-label="Premium Matcha öffnen">
+          <img class="product-card__img" src="/images/MixchaPremium.png" alt="Mixcha Premium Matcha">
+        </a>
+        <h2 class="product-card__name">Mix your Premium Matcha</h2>
+        <p class="product-card__price">ab 19,90 €</p>
+        <a class="product-card__btn" href="/produkte/1">Mix now</a>
+      </article>
 
-          <a class="product-card__link product-card__titlelink" href="/produkte/1">
-            <h2 class="product-card__name">Mix your Premium Matcha</h2>
-          </a>
+      <!-- Ceremonial -->
+      <article class="product-card">
+        <a class="product-card__link" href="/produkte/2" aria-label="Ceremonial Matcha öffnen">
+          <img class="product-card__img" src="/images/MixchaCeremonial.png" alt="Mixcha Ceremonial Matcha">
+        </a>
+        <h2 class="product-card__name">Mix your Ceremonial Matcha</h2>
+        <p class="product-card__price">ab 25,90 €</p>
+        <a class="product-card__btn" href="/produkte/2">Mix now</a>
+      </article>
 
-          <p class="product-card__price">ab 19,90 €</p>
-          <a class="product-card__btn" href="/produkte/1">Mix now</a>
-        </article>
+      <!-- Traditional Set -->
+      <article class="product-card">
+        <a class="product-card__link" href="/produkte/3" aria-label="Matcha Traditional Set öffnen">
+          <img class="product-card__img" src="/images/MatchaSet.png" alt="Matcha Traditional Set">
+        </a>
+        <h2 class="product-card__name">Matcha Traditional Set</h2>
+        <p class="product-card__price">ab 39,90 €</p>
+        <a class="product-card__btn" href="/produkte/3">Buy now</a>
+      </article>
+    </section>
+  </main>
 
-        <!-- Produkt 2 -->
-        <article class="product-card">
-          <a class="product-card__link" href="/produkte/2" aria-label="Ceremonial Matcha öffnen">
-            <img class="product-card__img product-card__img--zoom" src="/images/MixchaCeremonial.png" alt="Mixcha Ceremonial Matcha" />
-          </a>
-
-          <a class="product-card__link product-card__titlelink" href="/produkte/2">
-            <h2 class="product-card__name">Mix your Ceremonial Matcha</h2>
-          </a>
-
-          <p class="product-card__price">ab 25,90 €</p>
-          <a class="product-card__btn" href="/produkte/2">Mix now</a>
-        </article>
-
-        <!-- Produkt 3 -->
-        <article class="product-card">
-          <a class="product-card__link" href="/produkte/3" aria-label="Matcha Traditional Set öffnen">
-            <img class="product-card__img product-card__img--zoom" src="/images/MatchaSet.png" alt="Matcha Traditional Set" />
-          </a>
-
-          <a class="product-card__link product-card__titlelink" href="/produkte/3">
-            <h2 class="product-card__name">Matcha Traditional Set</h2>
-          </a>
-
-          <p class="product-card__price">ab 39,90 €</p>
-          <a class="product-card__btn" href="/produkte/3">Buy now</a>
-        </article>
-      </section>
-    </main>
-
-    @include('pages/headerfooter/footer')
-  </body>
+  @include('pages/headerfooter/footer')
+</body>
 </html>

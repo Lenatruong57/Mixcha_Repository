@@ -1,108 +1,103 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import db from '@adonisjs/lucid/services/db'
+
+type CartItem = {
+  key: string
+  productId: number
+  name: string
+  imageUrl: string
+  extras: string
+  size: string
+  unitPrice: number
+  quantity: number
+}
 
 export default class WarenkorbsController {
-  // Warenkorb anzeigen
+  // =========================
+  // GET /warenkorb
+  // =========================
   public async index({ view, session }: HttpContext) {
-    const cartId = session.get('cart_id')
+    const cart: CartItem[] = session.get('cart', [])
 
-    let items: any[] = []
-    let total = 0
-
-    if (cartId) {
-      items = await db
-        .from('cart_items')
-        .join('products', 'cart_items.product_id', 'products.id')
-        .where('cart_items.cart_id', cartId)
-        .select(
-          'cart_items.id',
-          'cart_items.quantity',
-          'products.name',
-          'products.price'
-        )
-
-      total = items.reduce(
-        (sum, item) => sum + item.quantity * item.price,
-        0
-      )
-    }
+    const subtotal = cart.reduce((sum, item) => {
+      return sum + item.unitPrice * item.quantity
+    }, 0)
 
     return view.render('pages/warenkorb', {
-      items,
-      total,
+      cart,
+      subtotal,
     })
   }
 
-  // Produkt zum Warenkorb hinzufügen
-  public async add({ request, session, response }: HttpContext) {
-    const productId = request.input('product_id')
-    const quantity = Number(request.input('quantity') || 1)
+  // =========================
+  // POST /warenkorb/add
+  // =========================
+  public async add({ request, response, session }: HttpContext) {
+    const productId = Number(request.input('product_id'))
+    const name = String(request.input('name'))
+    const imageUrl = String(request.input('image_url'))
+    const extras = String(request.input('extras') ?? 'vanille')
+    const size = String(request.input('size') ?? '30')
+    const unitPrice = Number(request.input('unit_price'))
 
-    // 1. Sicherstellen, dass es einen cart gibt
-    let cartId = session.get('cart_id')
-
-    if (!cartId) {
-      const [id] = await db
-        .table('carts')
-        .insert({ created_at: new Date().toISOString() })
-      cartId = id
-      session.put('cart_id', cartId)
+    // ❗ Sicherheitscheck (wichtig gegen 500 Errors)
+    if (!productId || !name || !imageUrl || !unitPrice || Number.isNaN(unitPrice)) {
+      return response.redirect('/produkte')
     }
 
-    // 2. Prüfen, ob das Produkt schon im Warenkorb ist
-    const existing = await db
-      .from('cart_items')
-      .where({ cart_id: cartId, product_id: productId })
-      .first()
+    const key = `${productId}-${extras}-${size}`
 
-    if (existing) {
-      await db
-        .from('cart_items')
-        .where('id', existing.id)
-        .update({ quantity: existing.quantity + quantity })
+    const cart: CartItem[] = session.get('cart', [])
+
+    const existingItem = cart.find((item) => item.key === key)
+
+    if (existingItem) {
+      existingItem.quantity += 1
     } else {
-      await db.table('cart_items').insert({
-        cart_id: cartId,
-        product_id: productId,
-        quantity,
+      cart.push({
+        key,
+        productId,
+        name,
+        imageUrl,
+        extras,
+        size,
+        unitPrice,
+        quantity: 1,
       })
     }
 
-    return response.redirect('/warenkorb')
-  }
-
-  // Menge anpassen
-  public async updateQuantity({ request, session, response }: HttpContext) {
-    const cartId = session.get('cart_id')
-    const itemId = request.input('item_id')
-    const quantity = Number(request.input('quantity'))
-
-    if (cartId && itemId) {
-      if (quantity <= 0) {
-        await db.from('cart_items').where({ id: itemId, cart_id: cartId }).delete()
-      } else {
-        await db
-          .from('cart_items')
-          .where({ id: itemId, cart_id: cartId })
-          .update({ quantity })
-      }
-    }
+    session.put('cart', cart)
 
     return response.redirect('/warenkorb')
   }
 
-  // Position aus dem Warenkorb löschen
-  public async removeItem({ request, session, response }: HttpContext) {
-    const cartId = session.get('cart_id')
-    const itemId = request.input('item_id')
+  // =========================
+  // POST /warenkorb/update-quantity
+  // =========================
+  public async updateQuantity({ request, response, session }: HttpContext) {
+    const key = String(request.input('key'))
+    const quantity = Math.max(1, Number(request.input('quantity') ?? 1))
 
-    if (cartId && itemId) {
-      await db
-        .from('cart_items')
-        .where({ id: itemId, cart_id: cartId })
-        .delete()
+    const cart: CartItem[] = session.get('cart', [])
+
+    const item = cart.find((i) => i.key === key)
+    if (item) {
+      item.quantity = quantity
     }
 
+    session.put('cart', cart)
+    return response.redirect('/warenkorb')
+  }
+
+  // =========================
+  // POST /warenkorb/remove-item
+  // =========================
+  public async removeItem({ request, response, session }: HttpContext) {
+    const key = String(request.input('key'))
+
+    const cart: CartItem[] = session.get('cart', [])
+    const filtered = cart.filter((item) => item.key !== key)
+
+    session.put('cart', filtered)
     return response.redirect('/warenkorb')
   }
 }
