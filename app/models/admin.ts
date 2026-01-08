@@ -12,3 +12,5 @@ export default class Admin extends BaseModel {
   @column({ serializeAs: null })
   declare password: string
 }
+
+

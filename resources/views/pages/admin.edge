@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <title>Admin – Mixcha</title>
 
-  @vite(['resources/css/admin.css'])
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  
 </head>
 <body>
 
@@ -13,34 +15,49 @@
 
   <main class="admin">
 
-    <h1 class="admin_title">Admin-Bereich</h1>
-    <p class="admin_subtitle">
-      Willkommen im Händlerbereich.  
-      Hier kannst du Produkte verwalten.
-    </p>
+  <p class="admin_subtitle">
+    Willkommen im Händlerbereich.<br>
+    Hier kannst du Produkte verwalten.
+  </p>
 
-    <section class="admin_actions">
-      <a href="/admin/produkte" class="admin_btn">Produkte verwalten</a>
-      <a href="/admin/produkte/neu" class="admin_btn admin_btn--secondary">Produkt anlegen</a>
-    </section>
+  <section class="admin_actions">
+    <a href="/admin/produkte" class="admin_btn">Produkte verwalten</a>
+    <a href="/admin/produkte/new" class="admin_btn admin_btn--secondary">Produkt anlegen</a>
+  </section>
 
-    <section class="admin_info">
-      <h2>Hinweise</h2>
+  <section class="admin_products">
+    <h2>Produkte</h2>
+
+    @if(products.length === 0)
+      <p>Noch keine Produkte vorhanden.</p>
+    @else
       <ul>
-        <li>Nur eingeloggte Händler haben Zugriff auf diesen Bereich</li>
-        <li>Produkte können angelegt, bearbeitet und gelöscht werden</li>
-        <li>Bestellungen sind für Kunden reserviert</li>
+        @each(product in products)
+          <li>
+            {{ product.id }} – {{ product.name ?? 'kein Name' }}
+          </li>
+        @endeach
       </ul>
-    </section>
+    @endif
+  </section>
 
-    <form method="POST" action="/haendler-logout" class="admin_logout">
-      {{ csrfField() }}
-      <button type="submit" class="admin_btn admin_btn--logout">
-        Logout Händler
-      </button>
-    </form>
+  <section class="admin_info">
+    <h2>Hinweise</h2>
+    <ul>
+      <li>Nur eingeloggte Händler haben Zugriff</li>
+      <li>Produkte können angelegt, bearbeitet und gelöscht werden</li>
+      <li>Bestellungen sind für Kunden reserviert</li>
+    </ul>
+  </section>
 
-  </main>
+  <form method="POST" action="/haendler-logout" class="admin_logout">
+    {{ csrfField() }}
+    <button type="submit" class="admin_btn admin_btn--logout">
+      Logout Händler
+    </button>
+  </form>
+
+</main>
 
   {{-- Footer --}}
   @include('pages/headerfooter/footer')

@@ -12,6 +12,7 @@ import UserController from '#controllers/user_controller'
 import RegistrierungsController from '#controllers/registrierungs_controller'
 import HaendlerloginsController from '#controllers/haendlerlogins_controller'
 import AdminController from '#controllers/admin_controller'
+import { middleware } from './kernel.js'
 
 router.get('/', [HomeController, 'index'])
 router.get('/produkte', [ProdukteController, 'index'])
@@ -28,7 +29,7 @@ router.get('/impressum', [ImpressumsController, 'index'])
 router.get('/datenschutz', [DatenschutzsController, 'index'])
 router.get('/user', [UserController, 'index'])
 router.get('/haendler-login', [HaendlerloginsController, 'index'])
-router.get('/admin', [AdminController, 'index'])
+router.get('/admin', [AdminController, 'index']).use(middleware.admin())
 
 router.post('/login', [LoginController, 'loginCustomer'])
 router.post('/registrieren', [RegistrierungsController, 'register'])
