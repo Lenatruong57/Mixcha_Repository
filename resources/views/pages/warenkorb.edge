@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Warenkorb – Mixcha</title>
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/warenkorb.css" />
+  </head>
+
+  <body class="page">
+    @include('pages/headerfooter/header')
+
+    <main class="cart">
+      <div class="cart__inner">
+        <div class="cart__top">
+          <h1 class="cart__title">Dein Warenkorb</h1>
+          <a class="cart__continue" href="/produkte">Weiter shoppen</a>
+        </div>
+
+        <div class="cart__table">
+          <div class="cart__head">
+            <div class="cart__h cart__h--product">Produkt</div>
+            <div class="cart__h cart__h--price">Preis</div>
+            <div class="cart__h cart__h--qty">Menge</div>
+            <div class="cart__h cart__h--total">Total</div>
+          </div>
+
+          <div class="cart__row">
+            <div class="cart__cell cart__cell--product">
+              <img class="cart__img" src="/images/MixchaCeremonial.png" alt="Ceremonial Matcha" />
+              <div class="cart__pinfo">
+                <div class="cart__brand">MIXCHA GMBH</div>
+                <div class="cart__name">Ceremonial Matcha 30gr</div>
+              </div>
+            </div>
+
+            <div class="cart__cell cart__cell--price">
+              <span class="cart__money">25,90 €</span>
+            </div>
+
+            <div class="cart__cell cart__cell--qty">
+              <div class="qty">
+                <button class="qty__btn" type="button" aria-label="Menge reduzieren">−</button>
+                <span class="qty__value">1</span>
+                <button class="qty__btn" type="button" aria-label="Menge erhöhen">+</button>
+              </div>
+            </div>
+
+            <div class="cart__cell cart__cell--total">
+              <span class="cart__money cart__money--strong">25,90 €</span>
+              <button class="cart__trash" type="button" aria-label="Entfernen">
+                <!-- simple trash icon -->
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <path
+                    d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v10h-2V9zm4 0h2v10h-2V9zM7 9h2v10H7V9z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart__bottom">
+          <div class="cart__note">
+            <label class="cart__noteLabel" for="note">Fügen Sie Ihrer Bestellung eine Notiz hinzu</label>
+            <textarea class="cart__textarea" id="note" rows="4" placeholder="Wie können wir Ihnen helfen?"></textarea>
+          </div>
+
+          <div class="cart__summary">
+            <div class="cart__sumRow">
+              <span class="cart__sumLabel">Zwischensumme</span>
+              <span class="cart__sumValue">25,90 €</span>
+            </div>
+
+            <div class="cart__sumHint">
+              <span>Steuern inklusive.</span>
+              <a href="#" class="cart__sumLink">Versandkosten</a>
+              <span>werden beim Checkout berechnet.</span>
+            </div>
+
+            <a class="cart__checkoutBtn" href="/checkout">Sicher zur Kasse</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    @include('pages/headerfooter/footer')
+  </body>
+</html>
