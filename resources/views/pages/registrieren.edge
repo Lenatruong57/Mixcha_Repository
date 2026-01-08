@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Registrieren – Mixcha</title>
+
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/registrieren.css" />
+  </head>
+
+  <body>
+    @include('pages/headerfooter/header')
+
+    <main class="auth">
+      <div class="auth__card">
+        <h1 class="auth__title">Jetzt Registrieren</h1>
+        <p class="auth__subtitle">Erstelle ein Konto, um deinen Warenkorb und deine Mischung zu speichern.</p>
+
+        @if(flashMessages.has('error'))
+          <p class="auth__msg auth__msg--error">{{ flashMessages.get('error') }}</p>
+        @endif
+
+        @if(flashMessages.has('success'))
+          <p class="auth__msg auth__msg--success">{{ flashMessages.get('success') }}</p>
+        @endif
+
+        <form class="auth_form" method="POST" action="/registrieren">
+            {{ csrfField() }}
+
+            <div class="field">
+             <label for="first_name">Vorname</label>
+             <input id="first_name" name="first_name" type="text" required />
+            </div>
+
+         <div class="field">
+            <label for="last_name">Nachname</label>
+            <input id="last_name" name="last_name" type="text" required />
+        </div>
+
+         <div class="field">
+            <label for="email">E-Mail</label>
+            <input id="email" name="email" type="email" required />
+         </div>
+
+        <div class="field">
+            <label for="password">Passwort</label>
+            <input id="password" name="password" type="password" required />
+        </div>
+
+        <div class="field">
+            <label for="password2">Passwort wiederholen</label>
+            <input id="password2" name="password2" type="password" required />
+        </div>
+     <button type="submit">Registrieren</button>
+</form>
+
+        <div class="auth__switch">
+          Schon ein Konto? <a href="/login">Zum Login</a>
+        </div>
+      </div>
+    </main>
+
+    @include('pages/headerfooter/footer')
+  </body>
+</html>
+
+
+
+ 

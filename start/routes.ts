@@ -9,6 +9,7 @@ import AgbsController from '#controllers/agbs_controller'
 import ImpressumsController from '#controllers/impressums_controller'
 import DatenschutzsController from '#controllers/datenschutzs_controller'
 import UserController from '#controllers/user_controller'
+import RegistrierungsController from '#controllers/registrierungs_controller'
 
 router.get('/', [HomeController, 'index'])
 router.get('/produkte', [ProdukteController, 'index'])
@@ -17,6 +18,7 @@ router.get('/warenkorb', [WarenkorbsController, 'index'])
 router.get('/checkout', [CheckoutsController, 'index'])
 router.get('/checkout/success', [CheckoutsController, 'success'])
 router.get('/login', [LoginController, 'index'])
+router.get('/registrieren', [RegistrierungsController, 'index'])
 router.get('/blog', [BlogController, 'index'])
 router.get('/blog/:id', [BlogController, 'show'])
 router.get('/agb', [AgbsController, 'index'])
@@ -26,6 +28,7 @@ router.get('/user', [UserController, 'index'])
 router.get('/haendler-login', [LoginController, 'haendlerIndex'])
 
 router.post('/login', [LoginController, 'loginCustomer'])
+router.post('/registrieren', [RegistrierungsController, 'register'])
 router.post('/logout', [LoginController, 'logout'])
 router.post('/haendler-login', [LoginController, 'loginHaendler'])
 router.post('/haendler-logout', [LoginController, 'logout'])
@@ -34,5 +37,3 @@ router.post('/warenkorb/add', [WarenkorbsController, 'add'])
 router.post('/warenkorb/update-quantity', [WarenkorbsController, 'updateQuantity'])
 router.post('/warenkorb/remove-item', [WarenkorbsController, 'removeItem'])
 router.post('/user/login', [UserController, 'login'])
-
-
