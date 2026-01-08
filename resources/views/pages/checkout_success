@@ -1,0 +1,43 @@
+@include('pages/headerfooter/header')
+@vite(['resources/css/checkout_success.css'])
+
+<main class="success">
+  <div class="box">
+    <h1>Vielen Dank für Ihre Bestellung!</h1>
+
+    <h2>Zusammenfassung</h2>
+
+    <div class="table">
+      <div class="head">
+        <div>Produkt</div>
+        <div>Anzahl</div>
+        <div>Preis</div>
+      </div>
+
+      @each(item in items)
+        <div class="row">
+          <div class="prod">{{ item.name }}</div>
+          <div>{{ item.quantity }}</div>
+          <div>{{ (item.price * item.quantity).toFixed(2) }} €</div>
+        </div>
+      @end
+    </div>
+
+    <div class="ship">
+      <h3>Wir liefern an:</h3>
+      <p>
+        {{ customer.first_name }} {{ customer.last_name }}<br>
+        {{ address.street }}<br>
+        {{ address.zip }} {{ address.city }}<br>
+        {{ address.country }}
+      </p>
+    </div>
+
+    <div class="sum">
+      <div>Gesamtsumme</div>
+      <div class="big">{{ total.toFixed(2) }} €</div>
+    </div>
+  </div>
+</main>
+
+@include('pages/headerfooter/footer')

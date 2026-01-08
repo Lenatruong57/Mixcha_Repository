@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ post.title }}</title>
 
-  <link rel="stylesheet" href="/css/home.css">
-  <link rel="stylesheet" href="/css/blog.css">
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/blog.css" />
 </head>
 
 <body>
+  @include('pages/headerfooter/header')
+
   <main class="blog-page">
     <a class="back-link" href="/blog">← Zurück zum Blog</a>
 
@@ -18,5 +20,7 @@
       <p class="blog-detail-text">{{ post.content }}</p>
     </article>
   </main>
+
+  @include('pages/headerfooter/footer')
 </body>
 </html>
