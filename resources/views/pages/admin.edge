@@ -1,66 +1,76 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin – Mixcha</title>
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/admin.css">
-  
 </head>
-<body>
 
-  {{-- Header --}}
+<body class="page">
   @include('pages/headerfooter/header')
 
   <main class="admin">
+    <h1>Admin-Bereich</h1>
+    <p class="admin_subtitle">Produkte aus der Datenbank</p>
 
-  <p class="admin_subtitle">
-    Willkommen im Händlerbereich.<br>
-    Hier kannst du Produkte verwalten.
-  </p>
+    <!-- Aktionen -->
+    <div class="admin_actions">
+      <a href="/admin/produkte/new" class="admin_btn">
+        + Produkt anlegen
+      </a>
+    </div>
 
-  <section class="admin_actions">
-    <a href="/admin/produkte" class="admin_btn">Produkte verwalten</a>
-    <a href="/admin/produkte/new" class="admin_btn admin_btn--secondary">Produkt anlegen</a>
-  </section>
+    <!-- Produktliste -->
+    <section class="admin_products">
+      <h2>Produkte</h2>
 
-  <section class="admin_products">
-    <h2>Produkte</h2>
+      @if(products.length === 0)
+        <p>Keine Produkte vorhanden.</p>
+      @else
+        <ul>
+          @each(product in products)
+            <li>
+              <strong>{{ product.name }}</strong><br>
+              Preis: {{ product.basePrice }} €<br>
+              Kategorie-ID: {{ product.categoryId }}
 
-    @if(products.length === 0)
-      <p>Noch keine Produkte vorhanden.</p>
-    @else
-      <ul>
-        @each(product in products)
-          <li>
-            {{ product.id }} – {{ product.name ?? 'kein Name' }}
-          </li>
-        @endeach
-      </ul>
-    @endif
-  </section>
+              <div class="admin_item_actions">
+                <a href="/admin/produkte/{{ product.id }}/edit"
+                   class="admin_btn admin_btn--secondary">
+                  Bearbeiten
+                </a>
 
-  <section class="admin_info">
-    <h2>Hinweise</h2>
-    <ul>
-      <li>Nur eingeloggte Händler haben Zugriff</li>
-      <li>Produkte können angelegt, bearbeitet und gelöscht werden</li>
-      <li>Bestellungen sind für Kunden reserviert</li>
-    </ul>
-  </section>
+                <form method="POST"
+                      action="/admin/produkte/{{ product.id }}/delete"
+                      class="admin_delete_form">
+                  {{ csrfField() }}
+                  <button type="submit"
+                          class="admin_btn admin_btn--danger"
+                          onclick="return confirm('Produkt wirklich löschen?')">
+                    Löschen
+                  </button>
+                </form>
+              </div>
+            </li>
+          @endeach
+        </ul>
+      @endif
+    </section>
 
-  <form method="POST" action="/haendler-logout" class="admin_logout">
-    {{ csrfField() }}
-    <button type="submit" class="admin_btn admin_btn--logout">
-      Logout Händler
-    </button>
-  </form>
+    <!-- Logout -->
+    <div class="admin_logout">
+      <form method="POST" action="/haendler-logout">
+        {{ csrfField() }}
+        <button type="submit" class="admin_btn admin_btn--logout">
+          Logout
+        </button>
+      </form>
+    </div>
+  </main>
 
-</main>
-
-  {{-- Footer --}}
   @include('pages/headerfooter/footer')
-
 </body>
 </html>

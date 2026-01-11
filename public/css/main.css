@@ -108,3 +108,47 @@ main{
   opacity:1;
   text-decoration:underline;
 }
+
+/* Logout-Button in der Navigation soll wie ein normaler Link aussehen */
+.site-nav .nav-linklike{
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  /* exakt wie .site-nav a */
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0.95;
+
+  font: inherit;          /* übernimmt Schriftart + Größe */
+  line-height: inherit;   /* gleiche Höhe wie Links */
+}
+
+.site-nav .nav-linklike:hover{
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* Logout-Button wie Link aussehen lassen */
+.site-nav__logout {
+  margin: 0;
+}
+
+.site-nav__logoutBtn {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--white);
+  font: inherit;
+  font-weight: 600;
+  opacity: 0.95;
+  cursor: pointer;
+}
+
+.site-nav__logoutBtn:hover {
+  opacity: 1;
+  text-decoration: underline;
+}

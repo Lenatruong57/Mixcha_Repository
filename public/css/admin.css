@@ -97,3 +97,52 @@
   border-color: #8a2d2d;
   background: #8a2d2d;
 }
+
+/* Buttons innerhalb der Produktliste */
+.admin_products .admin_btn {
+  margin-right: 8px;
+  margin-top: 6px;
+}
+
+/* Formular-Button inline halten */
+.admin_products form {
+  display: inline;
+}
+
+/* Form-Felder im Admin */
+.admin .field {
+  margin-bottom: 14px;
+}
+
+.admin .field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #2f5f49;
+}
+
+.admin .field input {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 10px;
+  border: 1px solid #d9e2dc;
+  box-sizing: border-box;
+}
+
+.admin_item_actions{
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin_delete_form{
+  display: inline;
+}
+
+/* Danger Button für Löschen */
+.admin_btn--danger{
+  border-color: #8a2d2d;
+  background: #8a2d2d;
+  color: #fff;
+}

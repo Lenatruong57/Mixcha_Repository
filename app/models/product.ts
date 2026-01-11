@@ -1,25 +1,25 @@
-import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Product extends BaseModel {
+  // Ihr habt in eurer products-Tabelle KEINE created_at/updated_at Spalten,
+  // darum schalten wir timestamps aus (sonst passt Model <-> DB nicht sauber).
+  public static timestamps = false
+
   @column({ isPrimary: true })
   declare id: number
+
+  @column({ columnName: 'category_id' })
+  declare categoryId: number
 
   @column()
   declare name: string
 
   @column()
-  declare price: number
+  declare description: string | null
 
-  @column()
-  declare description: string
+  @column({ columnName: 'base_price' })
+  declare basePrice: number
 
-  @column()
-  declare image: string
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  @column({ columnName: 'image_url' })
+  declare imageUrl: string | null
 }

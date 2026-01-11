@@ -8,7 +8,16 @@
       <a href="/">Home</a>
       <a href="/produkte">Unsere Produkte</a>
       <a href="/blog">Blog</a>
-      <a href="/login">Login</a>
+
+      @if(session.has('customer_id'))
+        <form method="POST" action="/logout" class="site-nav__logout">
+          {{ csrfField() }}
+          <button type="submit" class="site-nav__logoutBtn">Logout</button>
+        </form>
+      @else
+        <a href="/login">Login</a>
+      @endif
+
       <a href="/warenkorb">Warenkorb</a>
     </nav>
   </div>
