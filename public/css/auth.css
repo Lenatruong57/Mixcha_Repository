@@ -1,0 +1,127 @@
+/* auth.css – für Login, Registrieren, Händler-Login */
+
+/* gleiche Grün wie Header/Footer (falls du es genau kennst, nimm deinen exakten Wert) */
+:root{
+  --mixcha-green: #2f5f4a;
+  --card-bg: #ffffff;
+  --text: #1f2a24;
+  --muted: #6b7b73;
+  --border: #d9e2dc;
+  --radius: 16px;
+}
+
+/* WICHTIG: Seite bleibt im normalen Dokumentfluss */
+body{
+  margin: 0;
+  background: var(--mixcha-green);
+}
+
+/* Auth-Bereich sitzt zwischen Header und Footer und “drückt” nichts drüber */
+main.auth{
+  /* NICHT fixed/absolute */
+  position: relative;
+
+  /* Abstand zu Header/Footer */
+  padding: 48px 16px;
+
+  /* Card zentrieren */
+  display: flex;
+  justify-content: center;
+}
+
+/* Card */
+.auth__card{
+  width: min(760px, 100%);
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+
+  /* verhindert, dass es “über” Header/Footer malt */
+  position: relative;
+  z-index: 0;
+}
+
+.auth__title{
+  margin: 0 0 8px 0;
+  color: var(--mixcha-green);
+  font-size: 48px;
+  line-height: 1.05;
+}
+
+.auth__subtitle{
+  margin: 0 0 24px 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.auth__form{
+  display: grid;
+  gap: 16px;
+}
+
+.field{
+  display: grid;
+  gap: 8px;
+}
+
+.field label{
+  font-weight: 600;
+  color: var(--mixcha-green);
+  font-size: 14px;
+}
+
+.field input{
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+  font-size: 16px;
+  background: #fff;
+  color: var(--text);
+}
+
+.field input:focus{
+  border-color: var(--mixcha-green);
+}
+
+.btn-primary{
+  width: 100%;
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #d7a6b2; /* dein Rosa */
+  color: #ffffff;
+}
+
+.btn-primary:hover{
+  filter: brightness(0.98);
+}
+
+.auth__switch,
+.auth__alt{
+  margin-top: 16px;
+  color: var(--text);
+}
+
+.auth__divider{
+  margin-top: 16px;
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+}
+
+/* Wenn Fenster klein wird: Titel kleiner + Padding weniger */
+@media (max-width: 520px){
+  main.auth{
+    padding: 24px 12px;
+  }
+  .auth__card{
+    padding: 20px;
+  }
+  .auth__title{
+    font-size: 36px;
+  }
+}

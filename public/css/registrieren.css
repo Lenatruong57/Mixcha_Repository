@@ -1,89 +1,124 @@
-.auth {
-  background: #f6f1e8;
-  min-height: calc(100vh - 140px); /* passt meist mit header+footer */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 64px 24px;
+/* =========================
+   GRUNDLAGEN
+   ========================= */
+
+body {
+  margin: 0;
+  background-color: #2f5f4b; /* Grün wie Header & Footer */
+  font-family: sans-serif;
 }
+
+/* =========================
+   HEADER FIXIERT
+   ========================= */
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* =========================
+   FOOTER NORMAL
+   ========================= */
+
+footer {
+  width: 100%;
+}
+
+/* =========================
+   HAUPTBEREICH
+   ========================= */
+
+main.auth {
+  padding-top: 140px;   /* Platz für fixen Header */
+  padding-bottom: 80px; /* Platz zum Footer */
+}
+
+/* =========================
+   WEISSE BOX (LOGIN / REGISTER)
+   ========================= */
 
 .auth__card {
-  width: min(620px, 100%);
-  background: #fff;
-  border-radius: 14px;
-  padding: 40px 44px;
+  background-color: white;
+  width: 500px;
+  margin: 0 auto;       /* horizontal zentrieren */
+  padding: 32px;
+  border-radius: 12px;
 }
 
+/* =========================
+   TEXTE
+   ========================= */
+
 .auth__title {
-  margin: 0 0 8px;
-  color: #1f5a3c;
-  font-size: 44px;
-  line-height: 1.1;
+  margin-top: 0;
+  color: #2f5f4b;
 }
 
 .auth__subtitle {
-  margin: 0 0 24px;
-  color: #6f8f7a;
-  font-size: 14px;
+  color: #555;
+  margin-bottom: 24px;
 }
+
+/* =========================
+   FORMULAR
+   ========================= */
 
 .field {
-  display: grid;
-  gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
-.field label {
-  font-weight: 600;
-  color: #1f5a3c;
-  font-size: 14px;
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
 }
 
-.field input {
-  height: 44px;
-  border-radius: 10px;
-  border: 1px solid #e8b9c6;
-  padding: 0 14px;
-  background: #fbf5f6;
-  outline: none;
-}
-
-.field input:focus {
-  border-color: #d89aaa;
-}
-
-.auth__btn {
+input {
   width: 100%;
-  height: 44px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #e0b6c1;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BUTTON
+   ========================= */
+
+button {
+  width: 100%;
+  padding: 12px;
   border: none;
-  border-radius: 999px;
-  background: #d8a7b7;
-  color: #fff;
-  font-weight: 600;
+  border-radius: 20px;
+  background-color: #e0aebc;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 6px;
 }
 
-.auth__switch {
-  margin-top: 16px;
-  font-size: 14px;
-  color: #2b2b2b;
+button:hover {
+  background-color: #d39aaa;
 }
 
-.auth__switch a {
-  color: #1f5a3c;
-  text-decoration: underline;
+/* =========================
+   LINKS UNTER DEM FORMULAR
+   ========================= */
+
+.auth__alt {
+  margin-top: 20px;
+  text-align: center;
 }
 
-.auth__msg {
-  margin: 0 0 14px;
-  font-size: 14px;
-}
+/* =========================
+   RESPONSIVE (HANDY)
+   ========================= */
 
-.auth__msg--error {
-  color: #b00020;
-}
-
-.auth__msg--success {
-  color: #1f5a3c;
+@media (max-width: 600px) {
+  .auth__card {
+    width: 90%;
+  }
 }
