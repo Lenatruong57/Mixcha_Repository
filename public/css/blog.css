@@ -212,3 +212,15 @@
     font-size: 44px;
   }
 }
+
+.blog-item__img {
+  transition: transform 0.25s ease;
+}
+
+.blog-item__imgwrap:hover .blog-item__img {
+  transform: scale(1.04);
+}
+.blog-item__imgwrap:active .blog-item__img {
+  transform: scale(0.98);
+}
+
