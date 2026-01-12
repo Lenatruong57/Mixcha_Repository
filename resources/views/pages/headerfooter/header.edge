@@ -9,11 +9,29 @@
       <a href="/produkte">Unsere Produkte</a>
       <a href="/blog">Blog</a>
 
-      @if(session.has('customer_id'))
-        <form method="POST" action="/logout" class="site-nav__logout">
+      {{-- ADMIN eingeloggt? --}}
+      @if(session.get('adminId'))
+        <a href="/admin">Admin</a>
+
+        <form method="POST" action="/haendler-logout" style="display:inline;">
           {{ csrfField() }}
-          <button type="submit" class="site-nav__logoutBtn">Logout</button>
+          <button type="submit" style="all: unset; cursor: pointer; color: inherit; font: inherit; font-weight: 600; opacity: .95;">
+            Logout
+          </button>
         </form>
+
+      {{-- KUNDE eingeloggt? --}}
+      @elseif(session.get('customerId'))
+        <a href="/profil">Profil</a>
+
+        <form method="POST" action="/logout" style="display:inline;">
+          {{ csrfField() }}
+          <button type="submit" style="all: unset; cursor: pointer; color: inherit; font: inherit; font-weight: 600; opacity: .95;">
+            Logout
+          </button>
+        </form>
+
+      {{-- Niemand eingeloggt --}}
       @else
         <a href="/login">Login</a>
       @endif

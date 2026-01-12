@@ -124,4 +124,22 @@ main.auth{
   .auth__title{
     font-size: 36px;
   }
+
+/* ===== ULTRA OVERRIDE für Links in Login/Registrieren ===== */
+main.auth .auth__card .auth__switch a,
+main.auth .auth__card .auth__alt a,
+main.auth .auth__card a,
+main.auth .auth__card a:visited,
+main.auth .auth__card a:active,
+main.auth .auth__card a:hover {
+  color: #2f5f4a !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+}
+
+main.auth .auth__card .auth__switch a:hover,
+main.auth .auth__card .auth__alt a:hover,
+main.auth .auth__card a:hover {
+  text-decoration: underline !important;
+}
 }
