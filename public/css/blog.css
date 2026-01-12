@@ -28,6 +28,9 @@
   display: block;
   margin-bottom: 14px;
 }
+.blog-item__img {
+  border-radius: 12px;
+}
 
 .blog-card-headline {
   color: #d9a2b6;
@@ -50,7 +53,7 @@
   align-items: center;
 
   border: 2px solid #2e5f49;
-  border-radius: 18px;
+  border-radius: 12px;
   overflow: hidden;            
   background: transparent;
 }
@@ -83,7 +86,7 @@
   background: #f2a7c7;
   color: white;
   padding: 12px 28px;
-  border-radius: 999px;
+  border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
 }
