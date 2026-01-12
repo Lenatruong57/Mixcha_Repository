@@ -7,11 +7,11 @@ export default class ProdukteController {
 
   public async show({ params, view }: HttpContext) {
     const id = Number(params.id)
-
+  
     if (id === 1) return view.render('pages/produkt_detail_premium')
     if (id === 2) return view.render('pages/produkt_detail_ceremonial')
-
-    // id === 3 später (Traditional Set)
-    return view.render('errors/not_found')
+    if (id === 3) return view.render('pages/produkt_detail_set')
+  
+    return view.render('pages/produkte') // fallback
   }
 }

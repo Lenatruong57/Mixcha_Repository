@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ceremonial Matcha – Mixcha</title>
+  <title>Premium Matcha – Mixcha</title>
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/produkt_detail.css">
@@ -23,11 +23,12 @@
         <p class="product-detail__text">Wähle deine bevorzugten Extras und erstelle deine eigene Matcha-Mischung.</p>
 
         <form class="product-detail__form" method="POST" action="/warenkorb/add">
-          <input type="hidden" name="product_id" value="2">
-          <input type="hidden" name="name" value="Ceremonial Matcha">
-          <input type="hidden" name="image_url" value="/images/MixchaCeremonial.png">
+          <input type="hidden" name="product_id" value="1">
+          <input type="hidden" name="name" value="Premium Matcha">
+          <input type="hidden" name="image_url" value="/images/MixchaPremium.png">
 
-          <input type="hidden" id="unitPriceInput" name="unit_price" value="25.90">
+          <!-- wichtig: wird per JS aktualisiert -->
+          <input type="hidden" id="unitPriceInput" name="unit_price" value="19.90">
 
           <div class="form-group">
             <label class="form-label" for="extras">Extras</label>
@@ -48,7 +49,7 @@
             </select>
           </div>
 
-          <p class="product-detail__price"><span id="priceValue">25,90</span> €</p>
+          <p class="product-detail__price"><span id="priceValue">19,90</span> €</p>
 
           <button class="product-detail__btn" type="submit">In den Warenkorb</button>
         </form>
@@ -59,9 +60,9 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const prices = {
-        "30": 25.90,
-        "70": 45.90,
-        "100": 65.90
+        "30": 19.90,
+        "70": 39.90,
+        "100": 59.90
       };
 
       const sizeSelect = document.getElementById("size");
@@ -73,7 +74,7 @@
       const fmt = (n) => n.toFixed(2).replace(".", ",");
 
       const updatePrice = () => {
-        const p = prices[sizeSelect.value] ?? 25.90;
+        const p = prices[sizeSelect.value] ?? 19.90;
         priceValue.textContent = fmt(p);
         unitPriceInput.value = String(p);
       };

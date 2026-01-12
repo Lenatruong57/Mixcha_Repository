@@ -208,3 +208,57 @@
     width: 320px;
   }
 }
+
+/* ===== Produktdetail Set (Seite 3) ===== */
+
+.product-detail--set .product-detail__text {
+  max-width: 520px;
+}
+
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+/* Farb-Auswahl Punkte */
+.color-dots {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(36, 92, 58, 0.4);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Farben */
+.color-beige {
+  background-color: #e7ddcf;
+}
+
+.color-green {
+  background-color: #2f5d3b;
+}
+
+.color-blue {
+  background-color: #6f8fa6;
+}
+
+.color-pink {
+  background-color: #e6b3c1;
+}
+
+/* Aktiv */
+.color-dot.is-active {
+  transform: scale(1.25);
+  box-shadow: 0 0 0 2px rgba(36, 92, 58, 0.6);
+}

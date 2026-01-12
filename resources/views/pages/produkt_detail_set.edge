@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Matcha Traditional Set – Mixcha</title>
+
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/produkt_detail.css" />
+</head>
+
+<body class="page">
+  @include('pages/headerfooter/header')
+
+  <main class="product-detail">
+    <div class="product-detail__inner">
+
+      <!-- Linke Spalte: Bild -->
+      <div class="product-detail__media">
+        <img
+          id="setImage"
+          class="product-detail__img"
+          src="/images/MatchaSetBeige.png"
+          alt="Matcha Traditional Set"
+        />
+      </div>
+
+      <!-- Rechte Spalte: Inhalt -->
+      <section class="product-detail__content">
+        <h1 class="product-detail__title">Matcha Traditional Set</h1>
+        <p class="product-detail__text">
+          Alles, was du für deinen perfekten Matcha-Moment brauchst – Set mit Chawan, Chasen und Zubehör.
+        </p>
+
+        <form class="product-detail__form" method="post" action="/warenkorb/add">
+          {{ csrfField() }}
+
+          <!-- Pflichtdaten für Warenkorb -->
+          <input type="hidden" name="product_id" value="3" />
+          <input type="hidden" name="name" value="Matcha Traditional Set" />
+          <input type="hidden" id="imageUrl" name="image_url" value="/images/MatchaSetBeige.png" />
+          <input type="hidden" id="colorValue" name="color" value="Beige" />
+          <input type="hidden" id="unitPrice" name="unit_price" value="39.90" />
+
+          <!-- Farben: Klickbare Punkte -->
+          <div class="form-group">
+            <label class="form-label">Farben</label>
+          
+            <div class="color-dots" id="colorDots">
+              <button
+                type="button"
+                class="color-dot color-beige is-active"
+                data-color="Beige"
+                data-image="/images/MatchaSetBeige.png"
+                aria-label="Beige"
+              ></button>
+          
+              <button
+                type="button"
+                class="color-dot color-green"
+                data-color="Green"
+                data-image="/images/MatchaSetGreen.png"
+                aria-label="Grün"
+              ></button>
+          
+              <button
+                type="button"
+                class="color-dot color-blue"
+                data-color="Blue"
+                data-image="/images/MatchaSetBlue.png"
+                aria-label="Blau"
+              ></button>
+          
+              <button
+                type="button"
+                class="color-dot color-pink"
+                data-color="Pink"
+                data-image="/images/MatchaSetPink.png"
+                aria-label="Pink"
+              ></button>
+            </div>
+          </div>
+
+          <!-- Gravur -->
+          <div class="form-group">
+            <label class="form-label" for="engraving">Gravur</label>
+            <select class="form-select" id="engraving" name="engraving">
+              <option value="no" selected>Nein</option>
+              <option value="yes">Ja (+ 5,00 €)</option>
+            </select>
+          </div>
+
+          <!-- Gravur Text (nur wenn Ja) -->
+          <div class="form-group" id="engravingTextWrap" style="display:none;">
+            <label class="form-label" for="engraving_text">Was soll eingraviert werden?</label>
+            <input
+              class="form-input"
+              id="engraving_text"
+              name="engraving_text"
+              type="text"
+              maxlength="30"
+              placeholder="z.B. Lena ❤️"
+            />
+          </div>
+
+          <!-- Preis -->
+          <p class="product-detail__price">
+            <span id="priceValue">39,90</span> €
+          </p>
+
+          <button class="product-detail__btn" type="submit">
+            In den Warenkorb
+          </button>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const BASE_PRICE = 39.90;
+      const ENGRAVING_ADD = 5.00;
+
+      const setImage = document.getElementById("setImage");
+      const imageUrl = document.getElementById("imageUrl");
+      const colorValue = document.getElementById("colorValue");
+
+      const colorDots = document.getElementById("colorDots");
+      const engraving = document.getElementById("engraving");
+      const engravingTextWrap = document.getElementById("engravingTextWrap");
+      const engravingText = document.getElementById("engraving_text");
+
+      const priceValue = document.getElementById("priceValue");
+      const unitPrice = document.getElementById("unitPrice");
+
+      function formatPriceDE(num) {
+        return num.toFixed(2).replace(".", ",");
+      }
+
+      function updatePrice() {
+        const isEngraving = engraving.value === "yes";
+        const finalPrice = BASE_PRICE + (isEngraving ? ENGRAVING_ADD : 0);
+
+        priceValue.textContent = formatPriceDE(finalPrice);
+        unitPrice.value = finalPrice.toFixed(2);
+      }
+
+      // Farben klickbar -> Bild + Hidden Values ändern
+      colorDots.addEventListener("click", (e) => {
+        const btn = e.target.closest(".color-dot");
+        if (!btn) return;
+
+        const newColor = btn.dataset.color;
+        const newImg = btn.dataset.image;
+
+        // active state
+        [...colorDots.querySelectorAll(".color-dot")].forEach(b => b.classList.remove("is-active"));
+        btn.classList.add("is-active");
+
+        // Bild + hidden inputs
+        setImage.src = newImg;
+        imageUrl.value = newImg;
+
+        // Du kannst hier entscheiden, ob du "Green" oder "Dunkelgrün" speichern willst:
+        // Ich speichere genau das data-color.
+        colorValue.value = newColor;
+      });
+
+      // Gravur -> Feld anzeigen + Preis ändern
+      engraving.addEventListener("change", () => {
+        const isEngraving = engraving.value === "yes";
+
+        engravingTextWrap.style.display = isEngraving ? "block" : "none";
+
+        if (!isEngraving) {
+          engravingText.value = "";
+        }
+
+        updatePrice();
+      });
+
+      // Startzustand
+      updatePrice();
+    });
+  </script>
+
+  @include('pages/headerfooter/footer')
+</body>
+</html>
