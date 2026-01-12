@@ -36,8 +36,7 @@ export default class LoginController {
     }
 
     // 3) Kunde einloggen (Session)
-    session.put('customer_id', customer.id)
-
+    session.put('customerId', customer.id)
     return response.redirect('/') // oder /user
   }
 
@@ -87,8 +86,8 @@ export default class LoginController {
   }
 
   public async logout({ session, response }: HttpContext) {
-  session.forget('customer_id')
-  session.forget('admin_id')
+  session.forget('customerId')
+session.forget('adminId')
   return response.redirect('/')
 }
 }

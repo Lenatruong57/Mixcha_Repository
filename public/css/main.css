@@ -152,3 +152,21 @@ main{
   opacity: 1;
   text-decoration: underline;
 }
+
+.nav-link-button{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.nav-link-button:hover{
+  opacity: 1;
+  text-decoration: underline;
+}

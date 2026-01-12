@@ -1,33 +1,22 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import db from '@adonisjs/lucid/services/db'
+import Customer from '#models/customer'
 
 export default class UserController {
-  public async index({ view }: HttpContext) {
-    return view.render('pages/login')
-  }
+  // GET /profil
+  public async index({ view, session, response }: HttpContext) {
+    const customerId = session.get('customerId')
 
-  public async login({ request, response, session }: HttpContext) {
-    const email = request.input('email')
-    const password = request.input('password')
-
-    const user = await db
-      .from('customers')
-      .where('email', email)
-      .andWhere('password', password)
-      .first()
-
-    if (!user) {
-      session.flash({ error: 'Login fehlgeschlagen! Email oder Passwort falsch.' })
+    if (!customerId) {
       return response.redirect('/login')
     }
 
-    session.put('user', user)
+    const customer = await Customer.find(customerId)
 
-    return response.redirect('/')
-  }
+    if (!customer) {
+      session.forget('customerId')
+      return response.redirect('/login')
+    }
 
-  public async logout({ session, response }: HttpContext) {
-    session.forget('user')
-    return response.redirect('/')
+    return view.render('pages/profil', { customer })
   }
 }
