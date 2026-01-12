@@ -12,55 +12,44 @@
   <body>
     @include('pages/headerfooter/header')
 
-    <main class="blog-page blog-new">
+    <main class="blog-page">
 
-      <!-- Seitenüberschrift -->
       <header class="blog-top">
         <h1 class="blog-top__title">Blog</h1>
       </header>
 
-      <!-- Blog-Karten -->
       <section class="blog-grid">
         @each(post in posts)
           <article class="blog-item">
 
             <a class="blog-item__imgwrap" href="/blog/{{ post.id }}">
-              <img
-                class="blog-item__img"
-                src="/images/matcha.jpg"
-                alt="{{ post.title }}"
-              />
+              <img class="blog-item__img" src="/images/matcha.jpg" alt="{{ post.title }}" />
             </a>
 
             <a class="blog-item__title" href="/blog/{{ post.id }}">
               {{ post.title }}
             </a>
 
-            <p class="blog-item__text">
-              {{ post.teaser }}
-            </p>
+            <p class="blog-item__text">{{ post.teaser }}</p>
 
-            <a class="blog-item__more" href="/blog/{{ post.id }}">
-              — Weiterlesen
-            </a>
+            <a class="blog-item__more" href="/blog/{{ post.id }}">— Weiterlesen</a>
 
           </article>
         @endeach
       </section>
 
-      <!-- Share-Box (wie bei dir gewünscht) -->
       <section class="share-box share-box--wide">
-         <div class="share-cta">
-            <h2>Teile deinen<br>Matcha-Moment</h2>
+        <div class="share-cta">
+          <h2>Teile deinen<br>Matcha-Moment</h2>
 
-            <input id="upload" type="file" accept="image/*" hidden>
-            <label class="upload-btn" for="upload">Foto hochladen</label>
+          <input id="upload" type="file" accept="image/*" hidden>
+          <label class="upload-btn" for="upload">Foto hochladen</label>
         </div>
 
         <div class="share-img">
-           <img src="/images/blog 1.png" alt="Matcha Foto">
+          <img src="/images/blog 1.png" alt="Matcha Foto">
         </div>
-       </section>
+      </section>
 
     </main>
 
