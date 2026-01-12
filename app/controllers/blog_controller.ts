@@ -51,6 +51,18 @@ export default class BlogController {
         },
       ],
     },
+    {
+  id: 3,
+  title: 'Matcha Zubereitung',
+  teaser: 'So gelingt dir dein Matcha definitiv!',
+  sections: [
+    {
+      heading: 'Matcha Zubereitung',
+      text: 'Hier kommt bald der Inhalt zur perfekten Zubereitung.',
+    },
+  ],
+},
+
   ]
 
   public async index({ view }: HttpContext) {
