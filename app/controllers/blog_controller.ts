@@ -7,7 +7,7 @@ export default class BlogController {
       id: 1,
       title: 'Matcha Basics',
       teaser: 'Was ist Matcha eigentlich?',
-      image: '/images/matcha.jpg',
+      image: '/images/matchalatte.png',
       sections: [
         {
           heading: 'Was ist Matcha eigentlich?',
@@ -45,7 +45,7 @@ export default class BlogController {
       id: 2,
       title: 'Rezepte',
       teaser: 'Latte, Iced Matcha & mehr',
-      image: '/images/MatchaSet.png',
+      image: '/images/matcharezept.jpg',
       sections: [
         {
           heading: 'Rezepte',
@@ -57,7 +57,7 @@ export default class BlogController {
   id: 3,
   title: 'Matcha Zubereitung',
   teaser: 'So gelingt dir dein Matcha definitiv!',
-  image: '/images/blog 1.png',
+  image: '/images/matchaschale.png',
   sections: [
     {
       heading: 'Matcha Zubereitung',
