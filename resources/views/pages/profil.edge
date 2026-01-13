@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profil – Mixcha</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="page">
+  @include('pages/headerfooter/header')
+
+  <main class="container" style="padding: 40px 24px;">
+    <h1>Mein Profil</h1>
+
+    <p><strong>Vorname:</strong> {{ customer.firstName }}</p>
+    <p><strong>Nachname:</strong> {{ customer.lastName }}</p>
+    <p><strong>E-Mail:</strong> {{ customer.email }}</p>
+  </main>
+
+  @include('pages/headerfooter/footer')
+
+  <script>
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        window.location.reload()
+      }
+    })
+  </script>
+</body>
+</html>

@@ -24,8 +24,9 @@
         @if(flashMessages.has('success'))
           <p class="auth__msg auth__msg--success">{{ flashMessages.get('success') }}</p>
         @endif
-
-        <form class="auth_form" method="POST" action="/registrieren">
+        
+        <form class="auth__form" method="POST" action="/registrieren">
+          
             {{ csrfField() }}
 
             <div class="field">
@@ -52,7 +53,7 @@
             <label for="password2">Passwort wiederholen</label>
             <input id="password2" name="password2" type="password" required />
         </div>
-     <button type="submit">Registrieren</button>
+     <button type="submit" class="btn-primary">Registrieren</button>
 </form>
 
         <div class="auth__switch">
