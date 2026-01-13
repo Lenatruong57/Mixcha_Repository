@@ -1,83 +1,130 @@
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Warenkorb – Mixcha</title>
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/warenkorb.css">
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Warenkorb – Mixcha</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/warenkorb.css" />
+  </head>
 
-<body class="page">
-  @include('pages/headerfooter/header')
+  <body class="page">
+    @include('pages/headerfooter/header')
 
-  <main class="cart">
-    <div class="cart__inner">
-      <div class="cart__top">
-        <h1 class="cart__title">Dein Warenkorb</h1>
-        <a class="cart__continue" href="/produkte">Weiter shoppen</a>
-      </div>
-
-      @if(cart.length === 0)
-        <p class="cart__empty">Dein Warenkorb ist leer.</p>
-      @else
-        <div class="cart__table">
-          @each(item in cart)
-            <div class="cart__row">
-              <div class="cart__product">
-                <img class="cart__img" src="{{ item.imageUrl }}" alt="{{ item.name }}">
-                <div class="cart__info">
-                  <div class="cart__name">{{ item.name }}</div>
-                  <div class="cart__meta">
-                    @if(item.size) Größe: {{ item.size }}gr · @endif
-                    @if(item.extras) Extras: {{ item.extras }} · @endif
-                    @if(item.color) Farbe: {{ item.color }} · @endif
-                    @if(item.engraving) Gravur: {{ item.engraving }} @endif
-                  </div>
-                </div>
-              </div>
-
-              <div class="cart__price">{{ item.unitPrice.toFixed(2).replace(".", ",") }} €</div>
-
-              <div class="cart__qty">
-                <form method="POST" action="/warenkorb/update">
-                  @csrf()
-                  <input type="hidden" name="key" value="{{ item.key }}">
-                  <input type="number" min="1" name="quantity" value="{{ item.quantity }}" />
-                  <button type="submit">OK</button>
-                </form>
-              </div>
-
-              <div class="cart__total">
-                {{ (item.unitPrice * item.quantity).toFixed(2).replace(".", ",") }} €
-              </div>
-
-              <div class="cart__remove">
-                <form method="POST" action="/warenkorb/remove">
-                  @csrf()
-                  <input type="hidden" name="key" value="{{ item.key }}">
-                  <button type="submit">✕</button>
-                </form>
-              </div>
-            </div>
-          @endeach
+    <main class="cart">
+      <div class="cart__inner">
+        <div class="cart__top">
+          <h1 class="cart__title">Dein Warenkorb</h1>
+          <a class="cart__continue" href="/produkte">Weiter shoppen</a>
         </div>
 
-        <div class="cart__summary">
-          <div class="cart__sumline">
-            <span>Zwischensumme</span>
-            <strong>{{ subtotal.toFixed(2).replace(".", ",") }} €</strong>
+        <div class="cart__table">
+          <div class="cart__head">
+            <div>Produkt</div>
+            <div class="cart__headCenter">Preis</div>
+            <div class="cart__headCenter">Menge</div>
+            <div class="cart__headRight">Total</div>
           </div>
 
-          <form method="POST" action="/warenkorb/clear">
-            @csrf()
-            <button type="submit">Warenkorb leeren</button>
-          </form>
-        </div>
-      @endif
-    </div>
-  </main>
+          @if((cartItems || []).length === 0)
+            <div class="cart__empty">Dein Warenkorb ist leer.</div>
+          @else
+            @each(item in cartItems)
+              <div class="cart__row">
+                <div class="cart__product">
+                  <img class="cart__img" src="{{ item.imageUrl }}" alt="{{ item.name }}" />
+                  <div class="cart__meta">
+                    <div class="cart__brand">MIXCHA GMBH</div>
+                    <div class="cart__name">{{ item.name }}</div>
 
-  @include('pages/headerfooter/footer')
-</body>
+                    @if(item.extras || item.size || item.color || item.engraving)
+                    <div class="cart__variant">
+                      @if(item.extras)
+                        Extras: {{ item.extras }}
+                      @endif
+                  
+                      @if(item.size)
+                        · Größe: {{ item.size }}
+                      @endif
+                  
+                      @if(item.color)
+                        · Farbe: {{ item.color }}
+                      @endif
+                  
+                      @if(item.engraving)
+                        · Gravur: "{{ item.engraving }}" (+{{ (item.engravingPrice ?? 0).toFixed(2).replace('.', ',') }} €)
+                      @endif
+                    </div>
+                  @endif
+                  </div>
+                </div>
+
+                <div class="cart__price">
+                  {{ item.unitPrice.toFixed(2).replace('.', ',') }} €
+                </div>
+
+                <div class="cart_qty">
+                  <form method="POST" action="/warenkorb/qty">
+                    {{ csrfField() }}
+                    <input type="hidden" name="key" value="{{ item.key }}">
+                    <input type="hidden" name="delta" value="-1">
+                    <button class="qty_btn" type="submit">−</button>
+                  </form>
+                
+                  <div class="qty_value">{{ item.quantity }}</div>
+                
+                  <form method="POST" action="/warenkorb/qty">
+                    {{ csrfField() }}
+                    <input type="hidden" name="key" value="{{ item.key }}">
+                    <input type="hidden" name="delta" value="1">
+                    <button class="qty_btn" type="submit">+</button>
+                  </form>
+                </div>
+
+                <div class="cart__total">
+                  {{
+                    (
+                      (item.unitPrice + (item.engravingPrice ?? 0)) * item.quantity
+                    ).toFixed(2).replace('.', ',')
+                  }} €
+
+                  <form method="post" action="/warenkorb/remove" class="cart__removeForm">
+                    {{ csrfField() }}
+                    <input type="hidden" name="key" value="{{ item.key }}" />
+                    <button class="cart__trash" type="submit" aria-label="Entfernen">🗑</button>
+                  </form>
+                </div>
+              </div>
+            @endeach
+          @endif
+        </div>
+
+        <div class="cart__bottom">
+          <div class="cart__note">
+            <div class="cart__noteTitle">Fügen Sie Ihrer Bestellung eine Notiz hinzu</div>
+            <textarea class="cart__textarea" placeholder="Wie können wir Ihnen helfen?"></textarea>
+          </div>
+
+          <aside class="cart__summary">
+            <div class="cart__summaryRow">
+              <div class="cart__summaryLabel">Summe</div>
+              <div class="cart__summaryValue">
+                {{ subtotal.toFixed(2).replace('.', ',') }} €
+              </div>
+            </div>
+
+            <div class="cart__summaryHint">
+              Steuern inklusive. <u>Versandkosten</u> werden beim Checkout berechnet.
+            </div>
+
+            <button class="cart__checkout" type="button">Sicher zur Kasse</button>
+
+          
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    @include('pages/headerfooter/footer')
+  </body>
 </html>
