@@ -32,7 +32,7 @@ export default class WarenkorbsController {
   }
 
   public async add({ request, response, session }: HttpContext) {
-    const productId = Number(request.input('product_id'))
+    const productId = String(request.input('product_id'))
     const name = String(request.input('name'))
     const imageUrl = String(request.input('image_url'))
     const unitPrice = Number(request.input('unit_price'))
@@ -65,7 +65,7 @@ export default class WarenkorbsController {
     } else {
       cart.push({
         key,
-        productId,
+        productId: Number(productId),
         name,
         imageUrl,
         unitPrice,
