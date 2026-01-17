@@ -3,30 +3,110 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>Home – Mixcha</title>
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/home.css">
+
+  <!-- DAMIT die Produkte auf Home exakt wie auf /produkte aussehen -->
+  <link rel="stylesheet" href="/css/produkte.css">
 </head>
 
 <body>
-
   @include('pages/headerfooter/header')
 
   <main>
-    <section class="hero">
-      <div class="hero-image"></div>
 
+    <!-- HERO (so lassen wie vorhin / Screenshot) -->
+    <section class="hero">
       <div class="hero-text">
         <h1>Mix your own Matcha.</h1>
         <p>Kreiere deine persönliche Mischung mit nur wenigen Klicks.</p>
         <a href="/produkte" class="btn-main">Jetzt starten</a>
       </div>
     </section>
+
+    <!-- PRODUKTE: exakt wie produkte.edge (gleiche Klassen, gleiches Markup) -->
+    <section class="products home-products">
+      <div class="home-wrap">
+        <h2 class="products__title">Unsere Produkte</h2>
+        <p class="products__subtitle">Entdecke deinen perfekten Matcha und mixe ihn nach deinem Geschmack.</p>
+
+        <section class="products__grid">
+          <!-- Premium -->
+          <article class="product-card">
+            <a class="product-card__link" href="/produkte/1" aria-label="Premium Matcha öffnen">
+              <div class="product-card__media">
+                <img class="product-card__img" src="/images/MixchaPremium.png" alt="Mixcha Premium Matcha">
+              </div>
+            </a>
+
+            <h3 class="product-card__name">Mix your Premium Matcha</h3>
+            <p class="product-card__price">ab 19,90 €</p>
+            <a class="product-card__btn" href="/produkte/1">Mix now</a>
+          </article>
+
+          <!-- Ceremonial -->
+          <article class="product-card">
+            <a class="product-card__link" href="/produkte/2" aria-label="Ceremonial Matcha öffnen">
+              <div class="product-card__media">
+                <img class="product-card__img product-card__img--ceremonial" src="/images/MixchaCeremonial.png" alt="Mixcha Ceremonial Matcha">
+              </div>
+            </a>
+
+            <h3 class="product-card__name">Mix your Ceremonial Matcha</h3>
+            <p class="product-card__price">ab 25,90 €</p>
+            <a class="product-card__btn" href="/produkte/2">Mix now</a>
+          </article>
+
+          <!-- Set -->
+          <article class="product-card">
+            <a class="product-card__link" href="/produkte/3" aria-label="Matcha Traditional Set öffnen">
+              <div class="product-card__media">
+                <img class="product-card__img" src="/images/MatchaSet.png" alt="Matcha Traditional Set">
+              </div>
+            </a>
+
+            <h3 class="product-card__name">Matcha Traditional Set</h3>
+            <p class="product-card__price">ab 39,90 €</p>
+            <a class="product-card__btn" href="/produkte/3">Buy now</a>
+          </article>
+        </section>
+    </section>
+
+    <!-- FAQ: wieder wie vorhin (Accordion) + grüner Hintergrund -->
+    <section class="home-faq">
+      <div class="home-wrap">
+        <h2 class="home-faq__title">FAQ</h2>
+        <p class="home-faq__subtitle">Kurz erklärt – die wichtigsten Fragen zu Matcha.</p>
+
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary class="faq-question">Was macht Matcha so besonders?</summary>
+            <div class="faq-answer">
+              Matcha ist fein gemahlenes Grünteepulver – du konsumierst das ganze Blatt und damit auch mehr Inhaltsstoffe.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">Welcher Matcha eignet sich für Latte?</summary>
+            <div class="faq-answer">
+              Für Latte eignet sich oft Premium Matcha, weil er kräftiger ist und super mit Milch/Alternativen harmoniert.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">Wie bereite ich Matcha richtig zu?</summary>
+            <div class="faq-answer">
+              Matcha sieben, mit warmem Wasser (nicht kochend) anrühren und mit dem Chasen schaumig schlagen.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   @include('pages/headerfooter/footer')
-
 </body>
 </html>
