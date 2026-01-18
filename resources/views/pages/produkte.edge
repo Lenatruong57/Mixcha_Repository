@@ -17,42 +17,47 @@
     <p class="products__subtitle">Entdecke deinen perfekten Matcha und mixe ihn nach deinem Geschmack.</p>
 
     <section class="products__grid">
-      <!-- Premium -->
-      <article class="product-card">
-        <a class="product-card__link" href="/produkte/1" aria-label="Premium Matcha öffnen">
-          <div class="product-card__media">
-            <img class="product-card__img" src="/images/MixchaPremium.png" alt="Mixcha Premium Matcha">
-          </div>
-        </a>
-      
-        <h2 class="product-card__name">Mix your Premium Matcha</h2>
-        <p class="product-card__price">ab 19,90 €</p>
-        <a class="product-card__btn" href="/produkte/1">Mix now</a>
-      </article>
-      
-      <article class="product-card">
-        <a class="product-card__link" href="/produkte/2" aria-label="Ceremonial Matcha öffnen">
-          <div class="product-card__media">
-            <img class="product-card__img product-card__img--ceremonial" src="/images/MixchaCeremonial.png" alt="Mixcha Ceremonial Matcha">
-          </div>
-        </a>
-      
-        <h2 class="product-card__name">Mix your Ceremonial Matcha</h2>
-        <p class="product-card__price">ab 25,90 €</p>
-        <a class="product-card__btn" href="/produkte/2">Mix now</a>
-      </article>
-      
-      <article class="product-card">
-        <a class="product-card__link" href="/produkte/3" aria-label="Matcha Traditional Set öffnen">
-          <div class="product-card__media">
-            <img class="product-card__img" src="/images/MatchaSet.png" alt="Matcha Traditional Set">
-          </div>
-        </a>
-      
-        <h2 class="product-card__name">Matcha Traditional Set</h2>
-        <p class="product-card__price">ab 39,90 €</p>
-        <a class="product-card__btn" href="/produkte/3">Buy now</a>
-      </article>
+      @if(!products || products.length === 0)
+        <p>Keine Produkte vorhanden.</p>
+      @else
+        @each(product in products)
+          <article class="product-card">
+            <a class="product-card__link"
+               href="/produkte/{{ product.id }}"
+               aria-label="{{ product.name }} öffnen">
+              <div class="product-card__media">
+                <img
+                  class="product-card__img {{ product.id === 2 ? 'product-card__img--ceremonial' : '' }}"
+                  src="{{ product.imageUrl ?? '/images/logo.png' }}"
+                  alt="{{ product.name }}">
+              </div>
+            </a>
+
+            <h2 class="product-card__name">
+              @if(product.id === 1)
+                Mix your Premium Matcha
+              @elseif(product.id === 2)
+                Mix your Ceremonial Matcha
+              @else
+                {{ product.name }}
+              @endif
+            </h2>
+
+            <p class="product-card__price">
+              ab {{ Number(product.basePrice).toFixed(2).replace('.', ',') }} €
+            </p>
+
+            <a class="product-card__btn" href="/produkte/{{ product.id }}">
+              @if(product.id === 1 || product.id === 2)
+                Mix now
+              @else
+                Buy now
+              @endif
+            </a>
+          </article>
+        @endeach
+      @endif
+    </section>
   </main>
 
   @include('pages/headerfooter/footer')
