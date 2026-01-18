@@ -1,23 +1,24 @@
-// app/controllers/produkte_controller.ts
 import type { HttpContext } from '@adonisjs/core/http'
 import Product from '#models/product'
 
 export default class ProdukteController {
-  // GET /produkte  -> Liste DYNAMISCH aus DB
   public async index({ view }: HttpContext) {
-  const products = await Product.query().orderBy('id', 'asc')
-  return view.render('pages/produkte', { products })
-}
+    const products = await Product.query().orderBy('id', 'asc')
+    return view.render('pages/produkte', { products })
+  }
 
-  // GET /produkte/:id -> Detail bleibt STATISCH (deine bestehenden Edges!)
-  public async show({ params, view }: HttpContext) {
+  public async show({ params, view, response }: HttpContext) {
     const id = Number(params.id)
 
+    // ✅ Eure 3 “Spezialseiten” bleiben komplett wie sie sind
     if (id === 1) return view.render('pages/produkt_detail_premium')
     if (id === 2) return view.render('pages/produkt_detail_ceremonial')
-    if (id === 3) return view.render('pages/produkt_detail_set') // falls du den hast
+    if (id === 3) return view.render('pages/produkt_detail_set')
 
-    // Für neue Produkte (aus Admin angelegt) NICHT anfassen, bleibt so:
-    return view.render('errors/not_found')
+    // ✅ Alle anderen Produkte kommen dynamisch aus der DB
+    const product = await Product.find(id)
+    if (!product) return response.status(404).send('Not found')
+
+    return view.render('pages/produkt_detail_dynamic', { product })
   }
 }

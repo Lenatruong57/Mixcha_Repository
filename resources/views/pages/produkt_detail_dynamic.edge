@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ product.name }} – Mixcha</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/produkt_detail.css">
+</head>
+
+<body class="page">
+  @include('pages/headerfooter/header')
+
+  <main class="product-detail">
+    <div class="product-detail__inner">
+      <div class="product-detail__media">
+        <img class="product-detail__img"
+             src="{{ product.imageUrl ?? '/images/logo.png' }}"
+             alt="{{ product.name }}">
+      </div>
+
+      <section class="product-detail__content">
+        <h1 class="product-detail__title">{{ product.name }}</h1>
+
+        @if(product.description)
+          <p class="product-detail__text">{{ product.description }}</p>
+        @else
+          <p class="product-detail__text">Produktbeschreibung folgt.</p>
+        @endif
+
+        <form class="product-detail__form" method="POST" action="/warenkorb/add">
+          {{ csrfField() }}
+
+          <input type="hidden" name="product_id" value="{{ product.id }}">
+          <input type="hidden" name="name" value="{{ product.name }}">
+          <input type="hidden" name="image_url" value="{{ product.imageUrl ?? '/images/logo.png' }}">
+          <input type="hidden" name="unit_price" value="{{ product.basePrice }}">
+
+          <p class="product-detail__price">
+            {{ product.basePrice }} €
+          </p>
+
+          <button class="product-detail__btn" type="submit">
+            In den Warenkorb
+          </button>
+        </form>
+
+      </section>
+    </div>
+  </main>
+
+  @include('pages/headerfooter/footer')
+</body>
+</html>
