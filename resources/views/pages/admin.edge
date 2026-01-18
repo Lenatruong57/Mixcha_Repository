@@ -72,14 +72,6 @@
   </main>
 
   @include('pages/headerfooter/footer')
-  <script>
-    // Fix für Browser-Zurück-Button (Back-Forward Cache)
-    window.addEventListener('pageshow', (event) => {
-      if (event.persisted) {
-        window.location.reload()
-      }
-    })
-  </script>
-  
+ 
 </body>
 </html>

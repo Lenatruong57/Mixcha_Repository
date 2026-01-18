@@ -4,7 +4,6 @@ import Customer from '#models/customer'
 import db from '@adonisjs/lucid/services/db'
 
 export default class LoginController {
-
   // =========================
   // KUNDE
   // =========================
@@ -36,14 +35,16 @@ export default class LoginController {
     }
 
     // 3) Kunde einloggen (Session)
+    // WICHTIG: einheitlicher Session-Key
     session.put('customerId', customer.id)
-    return response.redirect('/') // oder /user
+    return response.redirect('/') // oder /profil
   }
 
   // POST /logout (Kunde)
   public async logoutCustomer({ session, response }: HttpContext) {
-    session.forget('customer_id')
-    return response.redirect('/')
+    // WICHTIG: gleicher Key wie beim Login
+    session.forget('customerId')
+    return response.redirect('/login')
   }
 
   // =========================
@@ -60,18 +61,15 @@ export default class LoginController {
     const username = request.input('username')
     const password = request.input('password')
 
-    // Admin suchen (hier bewusst einfach gehalten)
-    const admin = await db
-      .from('admins')
-      .where({ username })
-      .first()
+    // Admin suchen (bewusst einfach gehalten)
+    const admin = await db.from('admins').where({ username }).first()
 
     if (!admin) {
       session.flash('error', 'Login fehlgeschlagen (Händler)')
       return response.redirect('/haendler-login')
     }
 
-    // Passwort prüfen (falls Admin auch gehasht ist)
+    // Passwort-Hash prüfen
     const passwordOk = await hash.verify(admin.password, password)
 
     if (!passwordOk) {
@@ -79,15 +77,24 @@ export default class LoginController {
       return response.redirect('/haendler-login')
     }
 
-    // Admin einloggen
-    session.put('admin_id', admin.id)
+    // Admin einloggen (Session)
+    // WICHTIG: einheitlicher Session-Key (statt admin_id)
+    session.put('adminId', admin.id)
 
     return response.redirect('/admin')
   }
 
+  // POST /haendler-logout (Admin)
+  public async logoutHaendler({ session, response }: HttpContext) {
+    session.forget('adminId')
+    return response.redirect('/haendler-login')
+  }
+
+  // OPTIONAL: "Alles logout" (falls du es irgendwo benutzt)
   public async logout({ session, response }: HttpContext) {
-  session.forget('customerId')
-session.forget('adminId')
-  return response.redirect('/')
+    session.forget('customerId')
+    session.forget('adminId')
+    return response.redirect('/')
+  }
 }
-}
+

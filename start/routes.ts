@@ -1,4 +1,7 @@
 import router from '@adonisjs/core/services/router'
+import type { HttpContext } from '@adonisjs/core/http'
+import type { NextFn } from '@adonisjs/core/types/http'
+
 import HomeController from '#controllers/home_controller'
 import ProdukteController from '#controllers/produkte_controller'
 import WarenkorbsController from '#controllers/warenkorbs_controller'
@@ -13,6 +16,13 @@ import RegistrierungsController from '#controllers/registrierungs_controller'
 import HaendlerloginsController from '#controllers/haendlerlogins_controller'
 import AdminController from '#controllers/admin_controller'
 import { middleware } from './kernel.js'
+
+const noCache = async ({ response }: HttpContext, next: NextFn) => {
+  response.header('Cache-Control', 'no-store')
+  response.header('Pragma', 'no-cache')
+  response.header('Expires', '0')
+  await next()
+}
 
 router.get('/', [HomeController, 'index'])
 router.get('/produkte', [ProdukteController, 'index'])
@@ -29,20 +39,24 @@ router.get('/impressum', [ImpressumsController, 'index'])
 router.get('/datenschutz', [DatenschutzsController, 'index'])
 router.get('/user', [UserController, 'index'])
 router.get('/haendler-login', [HaendlerloginsController, 'index'])
-router.get('/admin', [AdminController, 'index']).use(middleware.admin())
-router.get('/admin/produkte/new', [AdminController, 'new']).use(middleware.admin())
-router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin())
-router.get('/admin/produkte/:id/edit', [AdminController, 'edit']).use(middleware.admin())
-router.get('/profil', [UserController, 'index']).use(middleware.customer())
+
+router.get('/admin', [AdminController, 'index']).use(middleware.admin()).use(noCache)
+router.get('/admin/produkte/new', [AdminController, 'new']).use(middleware.admin()).use(noCache)
+router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin()).use(noCache)
+router.get('/admin/produkte/:id/edit', [AdminController, 'edit']).use(middleware.admin()).use(noCache)
+
+router.get('/profil', [UserController, 'index']).use(middleware.customer()).use(noCache)
 
 router.post('/login', [LoginController, 'loginCustomer'])
 router.post('/registrieren', [RegistrierungsController, 'register'])
-router.post('/haendler-login', [HaendlerloginsController, 'login'])
-router.post('/haendler-logout', [HaendlerloginsController, 'logout'])
+router.post('/haendler-login', [LoginController, 'loginHaendler'])
 router.post('/checkout/process', [CheckoutsController, 'process'])
 router.post('/warenkorb/add', [WarenkorbsController, 'add'])
 router.post('/warenkorb/remove', [WarenkorbsController, 'remove'])
 router.post('/warenkorb/qty', [WarenkorbsController, 'updateQty'])
+
 router.post('/admin/produkte/:id', [AdminController, 'update']).use(middleware.admin())
 router.post('/admin/produkte/:id/delete', [AdminController, 'destroy']).use(middleware.admin())
-router.post('/logout', [LoginController, 'logout'])
+
+router.post('/haendler-logout', [LoginController, 'logoutHaendler'])
+router.post('/logout', [LoginController, 'logoutCustomer'])

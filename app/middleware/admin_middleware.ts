@@ -2,11 +2,8 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class AdminMiddleware {
   public async handle({ session, response }: HttpContext, next: () => Promise<void>) {
-    response.header('Cache-Control', 'no-store, no-cache, must-revalidate, private, max-age=0')
-    response.header('Pragma', 'no-cache')
-    response.header('Expires', '0')
+    const adminId = session.get('adminId')
 
-    const adminId = session.get('adminId') // bei dir heißt es so
     if (!adminId) {
       return response.redirect('/haendler-login')
     }

@@ -2,13 +2,9 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Customer from '#models/customer'
 
 export default class UserController {
-  // GET /profil
+    //GET /profil
   public async index({ view, session, response }: HttpContext) {
     const customerId = session.get('customerId')
-
-    if (!customerId) {
-      return response.redirect('/login')
-    }
 
     const customer = await Customer.find(customerId)
 
