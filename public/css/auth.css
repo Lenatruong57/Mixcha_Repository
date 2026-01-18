@@ -144,6 +144,9 @@ main.auth .auth__card a:hover {
 }
 }
 .auth__switch a:link, .auth__switch a:visited  {
-  color:red;
+  color: var(--mixcha-green);
 
+}
+.auth__alt a:link, .auth__alt a:visited {
+  color: var(--mixcha-green);
 }
