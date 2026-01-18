@@ -1,30 +1,78 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ post.title }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/blog.css" />
+  <title>{{ post.title }} – Mixcha Blog</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/blog.css">
 </head>
 
 <body>
+
   @include('pages/headerfooter/header')
 
-  <main class="blog-page">
+  <main class="blog-page blog-detail">
+
     <a class="back-link" href="/blog">← Zurück zum Blog</a>
 
-    <article class="blog-detail">
-  <h1 class="blog-detail-title">{{ post.title }}</h1>
+    <h1 class="blog-detail-title">{{ post.title }}</h1>
 
-  @each(section in post.sections)
-    <h2 class="blog-section-title">{{ section.heading }}</h2>
-    <p class="blog-detail-text">{{ section.text }}</p>
-  @end
-    </article>
+    {{-- ========================= --}}
+    {{-- REZEPTE = GRID-ANSICHT --}}
+    {{-- ========================= --}}
+    @if(post.id === 2)
+
+      <section class="blog-grid">
+
+        @each(r in post.sections)
+          <article class="blog-item">
+
+            <a class="blog-item__imgwrap" href="#">
+              <img
+                class="blog-item__img"
+                src="{{ r.image }}"
+                alt="{{ r.heading }}"
+              />
+            </a>
+
+            <h2 class="blog-item__title">
+              {{ r.heading }}
+            </h2>
+
+            <p class="blog-item__text">
+              {{ r.text }}
+            </p>
+
+            <a class="blog-item__more" href="#">
+              — Weiterlesen
+            </a>
+
+          </article>
+        @endeach
+
+      </section>
+
+    {{-- ========================= --}}
+    {{-- ALLE ANDEREN BLOGPOSTS --}}
+    {{-- ========================= --}}
+    @else
+
+      @each(section in post.sections)
+        <section class="blog-detail-section">
+          <h2 class="blog-section-title">{{ section.heading }}</h2>
+
+          <p class="blog-detail-text">{{ section.text }}</p>
+        </section>
+      @endeach
+
+    @endif
+
   </main>
 
   @include('pages/headerfooter/footer')
+
 </body>
 </html>
