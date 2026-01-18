@@ -186,3 +186,8 @@
     align-items: center;
   }
 }
+
+.blog-detail {
+  max-width: 1100px; /* damit Grid wie Blog-Startseite aussehen kann */
+  margin: 0 auto;
+}

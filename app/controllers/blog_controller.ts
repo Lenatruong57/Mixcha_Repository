@@ -48,8 +48,34 @@ export default class BlogController {
       image: '/images/matcharezept.jpg',
       sections: [
         {
-          heading: 'Rezepte',
-          text: 'Hier kommen bald leckere Matcha-Rezepte wie Matcha Latte, Iced Matcha und Smoothies.',
+          heading: 'Iced Matcha Latte',
+          text: 'Klassiker – kalt, cremig & schnell gemacht.',
+          image: '/images/icedmatchalatte.png',
+        },
+        {
+          heading: 'Cloud Matcha',
+          text: 'Fluffig & fancy – mit cremigem Topping.',
+          image: '/images/cloudmatcha.png',
+        },
+        {
+          heading: 'Coconut Matcha',
+          text: 'Tropisch – mit Kokos für den Extra-Kick.',
+          image: '/images/coconutmatcha.png',
+        },
+        {
+          heading: 'Matcha Pudding',
+          text: 'Süßes Dessert – super easy.',
+          image: '/images/puddingmatcha.png',
+        },
+        {
+          heading: 'Raspberry Matcha',
+          text: 'Fruchtig – Himbeere trifft Matcha.',
+          image: '/images/raspberrymatcha.png',
+        },
+        {
+          heading: 'Matcha Soda',
+          text: 'Spritzig & erfrischend.',
+          image: '/images/sodamatcha.png',
         },
       ],
     },
