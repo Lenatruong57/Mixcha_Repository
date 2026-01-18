@@ -53,17 +53,17 @@ export default class BlogController {
           image: '/images/icedmatchalatte.png',
         },
         {
-          heading: 'Cloud Matcha',
+          heading: 'Strawberry Cloud Matcha',
           text: 'Fluffig & fancy – mit cremigem Topping.',
           image: '/images/cloudmatcha.png',
         },
         {
-          heading: 'Coconut Matcha',
+          heading: 'Coconut Cloud Matcha',
           text: 'Tropisch – mit Kokos für den Extra-Kick.',
           image: '/images/coconutmatcha.png',
         },
         {
-          heading: 'Matcha Pudding',
+          heading: 'Banana Pudding Matcha',
           text: 'Süßes Dessert – super easy.',
           image: '/images/puddingmatcha.png',
         },
