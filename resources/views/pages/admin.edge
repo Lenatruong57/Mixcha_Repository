@@ -59,16 +59,6 @@
         </ul>
       @endif
     </section>
-
-    <!-- Logout -->
-    <div class="admin_logout">
-      <form method="POST" action="/haendler-logout">
-        {{ csrfField() }}
-        <button type="submit" class="admin_btn admin_btn--logout">
-          Logout
-        </button>
-      </form>
-    </div>
   </main>
 
   @include('pages/headerfooter/footer')
