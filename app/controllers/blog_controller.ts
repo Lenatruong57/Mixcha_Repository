@@ -7,7 +7,7 @@ export default class BlogController {
       id: 1,
       title: 'Matcha Basics',
       teaser: 'Was ist Matcha eigentlich?',
-      image: '/images/matchalatte.png',
+      image: '/images/coconutmatcha.png',
       sections: [
         {
           heading: 'Was ist Matcha eigentlich?',
@@ -45,16 +45,16 @@ export default class BlogController {
       id: 2,
       title: 'Rezepte',
       teaser: 'Latte, Iced Matcha & mehr',
-      image: '/images/matcharezept.jpg',
+      image: '/images/matchacheesecake.png',
       sections: [
         {
           heading: 'Iced Matcha Latte',
-          text: 'Klassiker – kalt, cremig & schnell gemacht.',
+          text: 'Der Klassiker – kalt, cremig & schnell gemacht.',
           image: '/images/icedmatchalatte.png',
         },
         {
           heading: 'Strawberry Cloud Matcha',
-          text: 'Fluffig & fancy – mit cremigem Topping.',
+          text: 'Fluffig & fruchtig – mit cremigem Topping.',
           image: '/images/cloudmatcha.png',
         },
         {
@@ -64,7 +64,7 @@ export default class BlogController {
         },
         {
           heading: 'Banana Pudding Matcha',
-          text: 'Süßes Dessert – super easy.',
+          text: 'Wie ein süßes Dessert – und super easy.',
           image: '/images/puddingmatcha.png',
         },
         {
@@ -74,7 +74,7 @@ export default class BlogController {
         },
         {
           heading: 'Matcha Soda',
-          text: 'Spritzig & erfrischend.',
+          text: 'Spritzig & erfrischend!',
           image: '/images/sodamatcha.png',
         },
       ],
@@ -83,7 +83,7 @@ export default class BlogController {
   id: 3,
   title: 'Matcha Zubereitung',
   teaser: 'So gelingt dir dein Matcha definitiv!',
-  image: '/images/matchaschale.png',
+  image: '/images/matchaschalechasen.png',
   sections: [
     {
       heading: 'Matcha Zubereitung',
