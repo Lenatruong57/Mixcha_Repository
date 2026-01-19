@@ -99,29 +99,32 @@
           @endif
         </div>
 
-        <div class="cart__bottom">
-          <div class="cart__note">
-            <div class="cart__noteTitle">Fügen Sie Ihrer Bestellung eine Notiz hinzu</div>
-            <textarea class="cart__textarea" placeholder="Wie können wir Ihnen helfen?"></textarea>
+        <div class="cart_bottom">
+
+          <div class="cart_note">
+            <div class="cart_noteTitle">Fügen Sie Ihrer Bestellung eine Notiz hinzu</div>
+            <textarea class="cart_textarea" placeholder="Wie können wir Ihnen helfen?"></textarea>
           </div>
-
-          <aside class="cart__summary">
-            <div class="cart__summaryRow">
-              <div class="cart__summaryLabel">Summe</div>
-              <div class="cart__summaryValue">
-                {{ subtotal.toFixed(2).replace('.', ',') }} €
-              </div>
+        
+          <aside class="cart_summary">
+            <div class="cart_summaryTop">
+              <div class="cart_summaryTitle">Summe</div>
+              <div class="cart_summaryPrice">{{ subtotal.toFixed(2).replace('.', ',') }} €</div>
             </div>
-
-            <div class="cart__summaryHint">
+        
+            <div class="cart_summaryHint">
               Steuern inklusive. <u>Versandkosten</u> werden beim Checkout berechnet.
             </div>
-
-            <button class="cart__checkout" type="button">Sicher zur Kasse</button>
-
-          
+        
+            <button class="cart_checkout" type="button">Sicher zur Kasse</button>
+        
+            <div class="cart_payments">
+              <img src="/images/applepay.svg" alt="Apple Pay" />
+              <img src="/images/paypal.svg" alt="PayPal" />
+              <img src="/images/googlepay.svg" alt="Google Pay" />
+            </div>
           </aside>
-        </div>
+      
       </div>
     </main>
 
