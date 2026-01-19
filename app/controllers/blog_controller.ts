@@ -44,7 +44,7 @@ export default class BlogController {
     {
       id: 2,
       title: 'Rezepte',
-      teaser: 'Latte, Iced Matcha & mehr',
+      teaser: 'Unsere liebsten Matcha-Rezepte!',
       image: '/images/cheesecakematcha.png',
       sections: [
         {
@@ -97,7 +97,7 @@ export default class BlogController {
     {
   id: 3,
   title: 'Matcha Zubereitung',
-  teaser: 'So gelingt dir dein Matcha definitiv!',
+  teaser: 'So gelingt dir dein Matcha zu 100%!',
   image: '/images/matchaschalechasen.png',
   sections: [
     {
