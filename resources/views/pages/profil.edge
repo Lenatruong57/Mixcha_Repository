@@ -1,25 +1,89 @@
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Profil – Mixcha</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profil – Mixcha</title>
 
-  <link rel="stylesheet" href="/css/main.css">
-</head>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/profil.css" />
+  </head>
 
-<body class="page">
-  @include('pages/headerfooter/header')
+  <body class="auth-theme">
+    @include('pages/headerfooter/header')
 
-  <main class="container" style="padding: 40px 24px;">
-    <h1>Mein Profil</h1>
+    <main class="page page--center">
+      <div class="container">
+        <section class="profile">
+          <div class="profile__card">
+            <div class="profile__header">
+              <div class="profile__header-left">
+                <h1 class="profile__title">Mein Profil</h1>
+                <p class="profile__subtitle">Deine persönlichen Daten im Überblick.</p>
+              </div>
 
-    <p><strong>Vorname:</strong> {{ customer.firstName }}</p>
-    <p><strong>Nachname:</strong> {{ customer.lastName }}</p>
-    <p><strong>E-Mail:</strong> {{ customer.email }}</p>
-  </main>
+              <div class="profile__header-right">
+                <img
+                  src="{{ customer.avatar ? '/avatars/' + customer.avatar : '/avatars/default.jpg' }}"
+                  class="profile-avatar profile-avatar--large"
+                  alt="Profilbild"
+                />
+              </div>
+            </div>
 
-  @include('pages/headerfooter/footer')
-  
-</body>
+            @if(flashMessages.has('success'))
+              <p class="profile__msg profile__msg--success">
+                {{ flashMessages.get('success') }}
+              </p>
+            @endif
+
+            @if(flashMessages.has('error'))
+              <p class="profile__msg profile__msg--error">
+                {{ flashMessages.get('error') }}
+              </p>
+            @endif
+
+            <div class="profile__grid">
+              <div class="profile__row">
+                <span class="profile__label">Vorname</span>
+                <span class="profile__value">{{ customer.firstName }}</span>
+              </div>
+
+              <div class="profile__row">
+                <span class="profile__label">Nachname</span>
+                <span class="profile__value">{{ customer.lastName }}</span>
+              </div>
+
+              <div class="profile__row">
+                <span class="profile__label">E-Mail</span>
+                <span class="profile__value">{{ customer.email }}</span>
+              </div>
+
+              <div class="profile__row">
+                <span class="profile__label">Adresse</span>
+                <span class="profile__value">
+                  {{ customer.address ? customer.address : '—' }}
+                </span>
+              </div>
+
+              <div class="profile__row">
+                <span class="profile__label">Telefon</span>
+                <span class="profile__value">
+                  {{ customer.phone ? customer.phone : '—' }}
+                </span>
+              </div>
+
+              <div class="profile__actions">
+                <a class="btn-primary" href="/profil/edit">
+                  Profil bearbeiten
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    @include('pages/headerfooter/footer')
+  </body>
 </html>

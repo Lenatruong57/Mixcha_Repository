@@ -10,6 +10,12 @@
   --radius: 16px;
 }
 
+/* Nur für Login und Profil Seiten*/
+.auth-theme {
+  background: var(--green-900);
+  min-height: 100vh;
+}
+
 /* WICHTIG: Seite bleibt im normalen Dokumentfluss */
 body{
   margin: 0;

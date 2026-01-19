@@ -42,6 +42,8 @@ router.get('/admin', [AdminController, 'index']).use(middleware.admin()).use(noC
 router.get('/admin/produkte/new', [AdminController, 'new']).use(middleware.admin()).use(noCache)
 router.get('/admin/produkte/:id/edit', [AdminController, 'edit']).use(middleware.admin()).use(noCache)
 router.get('/profil', [UserController, 'index']).use(middleware.customer()).use(noCache)
+router.get('/profil/edit', [UserController, 'edit']).use(middleware.customer()).use(noCache)
+router.get('/profil/bearbeiten', [UserController, 'edit']).use(middleware.customer())
 
 router.post('/login', [LoginController, 'loginCustomer'])
 router.post('/registrieren', [RegistrierungsController, 'register'])
@@ -55,8 +57,7 @@ router.post('/admin/produkte/:id/delete', [AdminController, 'destroy']).use(midd
 router.post('/haendler-logout', [LoginController, 'logoutHaendler'])
 router.post('/logout', [LoginController, 'logoutCustomer'])
 router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin()).use(noCache)
-
-
+router.post('/profil', [UserController, 'update']).use(middleware.customer()).use(noCache)
 
 // Debug-session für Entwicklung
 // router.get('/debug-session', async ({ session }) => {
