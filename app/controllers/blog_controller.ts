@@ -45,7 +45,7 @@ export default class BlogController {
       id: 2,
       title: 'Rezepte',
       teaser: 'Latte, Iced Matcha & mehr',
-      image: '/images/matchacheesecake.png',
+      image: '/images/cheesecakematcha.png',
       sections: [
         {
           heading: 'Iced Matcha Latte',
