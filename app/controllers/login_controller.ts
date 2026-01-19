@@ -14,41 +14,37 @@ export default class LoginController {
     return view.render('pages/login')
   }
 
-  // POST /login
+// POST /login
 public async loginCustomer({ request, session, response }: HttpContext) {
-  console.log('LOGIN CUSTOMER START')
-
   const email = request.input('email')
   const password = request.input('password')
 
   const customer = await Customer.findBy('email', email)
-
   if (!customer) {
     session.flash('error', 'E-Mail oder Passwort ist falsch.')
-    return response.redirect('/login')
+    await session.commit()
+    return response.redirect().toPath('/login')
   }
 
   const ok = await hash.verify(customer.password, password)
-
   if (!ok) {
     session.flash('error', 'E-Mail oder Passwort ist falsch.')
-    return response.redirect('/login')
+    await session.commit()
+    return response.redirect().toPath('/login')
   }
 
- // andere Rolle sicher entfernen
-session.forget('adminId')
+  session.forget('adminId')
+  session.put('customerId', customer.id)
 
-// Session setzen
-session.put('customerId', customer.id)
-
-return response.redirect('/')
+  await session.commit()
+  return response.redirect().toPath('/')
 }
 
-  // POST /logout (Kunde)
-  public async logoutCustomer({ session, response }: HttpContext) {
+// POST /logout
+public async logoutCustomer({ session, response }: HttpContext) {
   session.forget('customerId')
-  session.forget('adminId')
-  return response.redirect('/login')
+  await session.commit()
+  return response.redirect().toPath('/login')
 }
 
   // =========================
@@ -61,36 +57,34 @@ return response.redirect('/')
   }
 
   // POST /haendler-login
-  public async loginHaendler({ request, session, response }: HttpContext) {
-    const username = request.input('username')
-    const password = request.input('password')
+public async loginHaendler({ request, session, response }: HttpContext) {
+  const username = request.input('username')
+  const password = request.input('password')
 
-    const admin = await db.from('admins').where({ username }).first()
-
-    if (!admin) {
-      session.flash('error', 'Benutzername oder Passwort ist falsch.')
-      return response.redirect('/haendler-login')
-    }
-
-    const ok = await hash.verify(admin.password, password)
-
-    if (!ok) {
-      session.flash('error', 'Benutzername oder Passwort ist falsch.')
-      return response.redirect('/haendler-login')
-    }
-
-    // andere Rolle entfernen
-    session.forget('customerId')
-
-    session.put('adminId', admin.id)
-
-    return response.redirect('/admin')
+  const admin = await db.from('admins').where({ username }).first()
+  if (!admin) {
+    session.flash('error', 'Benutzername oder Passwort ist falsch.')
+    await session.commit()
+    return response.redirect().toPath('/haendler-login')
   }
 
-  // POST /haendler-logout
-  public async logoutHaendler({ session, response }: HttpContext) {
-  session.forget('adminId')
+  const ok = await hash.verify(admin.password, password)
+  if (!ok) {
+    session.flash('error', 'Benutzername oder Passwort ist falsch.')
+    await session.commit()
+    return response.redirect().toPath('/haendler-login')
+  }
+
   session.forget('customerId')
-  return response.redirect('/haendler-login')
+  session.put('adminId', admin.id)
+
+  await session.commit()
+  return response.redirect().toPath('/admin')
 }
-}
+
+// POST /haendler-logout
+public async logoutHaendler({ session, response }: HttpContext) {
+  session.forget('adminId')
+  await session.commit()
+  return response.redirect().toPath('/haendler-login')
+}}

@@ -57,10 +57,11 @@ router.post('/logout', [LoginController, 'logoutCustomer'])
 router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin()).use(noCache)
 
 
-router.get('/debug-session', async ({ session }) => {
-  return {
-    customerId: session.get('customerId') ?? null,
-    adminId: session.get('adminId') ?? null,
-  }
-})
+
+
+// router.get('/debug-session', async ({ session }) => {
+//   return {
+//     sessionAll: session.all(),
+//   }
+// })
 
