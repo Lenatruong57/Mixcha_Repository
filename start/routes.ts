@@ -58,7 +58,7 @@ router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin(
 
 
 
-
+// Debug-session für Entwicklung
 // router.get('/debug-session', async ({ session }) => {
 //   return {
 //     sessionAll: session.all(),

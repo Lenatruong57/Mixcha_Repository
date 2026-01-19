@@ -88,3 +88,4 @@ public async logoutHaendler({ session, response }: HttpContext) {
   await session.commit()
   return response.redirect().toPath('/haendler-login')
 }}
+
