@@ -101,8 +101,24 @@ export default class BlogController {
   image: '/images/matchaschalechasen.png',
   sections: [
     {
-      heading: 'Matcha Zubereitung',
-      text: 'Hier kommt bald der Inhalt zur perfekten Zubereitung.',
+      heading: 'Der Weg zum perfekten Matcha: Ein umfassender Guide für puren Genuss',
+      text: 'Matcha ist mehr als nur grüner Tee – er ist eine Erfahrung, ein Ritual und ein wahrer Genuss, der Körper und Geist belebt. Doch um das volle Potenzial dieses edlen Pulvers auszuschöpfen, bedarf es der richtigen Zubereitung. Viele versuchen sich an der Zubereitung und sind vielleicht enttäuscht, wenn das Ergebnis nicht dem in Teehäusern Erlebten entspricht. Mit diesem detaillierten Guide wirst du lernen, wie du Schritt für Schritt den perfekten Matcha zubereitest – cremig, schaumig und voller Aroma.',
+    },
+    {
+      heading: 'Warum die richtige Zubereitung so wichtig ist',
+      text: 'Die Qualität des Matcha-Pulvers ist die Basis, doch die Zubereitung ist der Schlüssel zum Genuss. Falsche Wassertemperatur, unzureichendes Aufschlagen oder falsche Proportionen können den Geschmack bitter oder wässrig machen und die cremige Textur verhindern. Ziel ist es, die feinen Nuancen des Matcha hervorzuheben und eine harmonische Balance zu schaffen.',
+    },
+    {
+      heading: 'Die Essentials für deine Matcha-Zeremonie',
+      text: 'Bevor wir ins Detail gehen, stellen wir sicher, dass du alle notwendigen Utensilien beisammen hast. Diese Werkzeuge sind nicht nur traditionell, sondern auch funktional unerlässlich für die perfekte Zubereitung:\n1. Matcha-Pulver: Wähle stets hochwertigen, zeremoniellen Matcha. Achte auf eine leuchtend grüne Farbe und eine feine, pudrige Textur. Billigerer Matcha ist oft gelblicher und schmeckt herber.\n2. Matcha-Schale (Chawan): Eine breite Schale erleichtert das Aufschlagen und hilft, die Temperatur zu halten.\n3. Bambusbesen (Chasen): Dieses traditionelle Werkzeug ist unverzichtbar, um den Matcha klumpenfrei und schaumig zu schlagen. Die feinen Borsten ermöglichen eine optimale Luftzufuhr.\n4. Bambuslöffel (Chashaku): Zum präzisen Dosieren des Pulvers. Ein Chashaku fasst in der Regel etwa 1 Gramm Matcha.\n5. Matcha-Sieb: Ein feines Sieb ist essenziell, um Klümpchen im Pulver zu vermeiden und eine samtige Textur zu gewährleisten.\n6. Wasserkocher mit Temperaturregelung: Die richtige Wassertemperatur ist entscheidend.\n7.Frisches, gefiltertes Wasser: Die Wasserqualität hat einen großen Einfluss auf den Geschmack.',
+    },
+    {
+      heading: 'Schritt-für-Schritt zum perfekten Matcha',
+      text: 'Folge diesen Schritten sorgfältig, und du wirst im Handumdrehen einen exzellenten Matcha genießen können.',
+    },
+    {
+      heading: 'Schritt 1: Vorbereitung der Utensilien und des Wassers',
+      text: '1. Wasser erwärmen: Erhitze dein gefiltertes Wasser auf die ideale Temperatur. Für die meisten Matcha-Sorten liegt diese bei 70-80°C. Heißeres Wasser kann den Tee verbrennen und bitter machen, kälteres Wasser löst die Aromen nicht optimal.\n2. Chawan wärmen: Gieße etwas heißes Wasser in deine Matcha-Schale und schwenke es, um die Schale vorzuwärmen. Das hält den Matcha länger warm und erleichtert das Aufschlagen. Gieße das Wasser danach aus und trockne die Schale kurz ab.\n3. Chasen vorbereiten: Tauche die Borsten deines Bambusbesens kurz in das warme Wasser. Das macht die Borsten flexibler und verhindert ein Brechen während des Aufschlagens.',
     },
   ],
 },
