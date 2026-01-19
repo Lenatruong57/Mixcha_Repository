@@ -45,12 +45,17 @@ export default class BlogController {
       id: 2,
       title: 'Rezepte',
       teaser: 'Latte, Iced Matcha & mehr',
-      image: '/images/matchacheesecake.png',
+      image: '/images/cheesecakematcha.png',
       sections: [
         {
           heading: 'Iced Matcha Latte',
           text: 'Der Klassiker – kalt, cremig & schnell gemacht.',
           image: '/images/icedmatchalatte.png',
+        },
+        {
+          heading: 'Matcha Cheesecake',
+          text: 'Cremig & lecker - das perfekte Dessert..!',
+          image: '/images/cheesecakematcha.png',      
         },
         {
           heading: 'Strawberry Cloud Matcha',
@@ -63,6 +68,11 @@ export default class BlogController {
           image: '/images/coconutmatcha.png',
         },
         {
+          heading: 'Matcha Greenies',
+          text: 'Ein gesunder Snack - und mal was ganz Neues?!',
+          image: '/images/browniematcha.png',
+        },
+        {
           heading: 'Banana Pudding Matcha',
           text: 'Wie ein süßes Dessert – und super easy.',
           image: '/images/puddingmatcha.png',
@@ -71,6 +81,11 @@ export default class BlogController {
           heading: 'Raspberry Matcha',
           text: 'Fruchtig – Himbeere trifft Matcha.',
           image: '/images/raspberrymatcha.png',
+        },
+        {
+          heading: 'Matcha Affogato',
+          text: 'Eis trifft auf Matcha...',
+          image: '/images/affogatomatcha.png',
         },
         {
           heading: 'Matcha Soda',
