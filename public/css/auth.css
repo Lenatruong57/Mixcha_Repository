@@ -113,6 +113,53 @@ main.auth{
   background: rgba(0,0,0,0.08);
 }
 
+/* Passwort-Auge (Wrapper) */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 44px; /* Platz fürs Icon */
+}
+
+/* Button */
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: #6b7b73; /* dezent */
+}
+
+.password-toggle:hover {
+  color: #2f5f4a; /* Mixcha Grün */
+}
+
+/* ICON-Logik: Standard = verborgen -> Auge geschlossen */
+.password-toggle svg {
+  display: none;
+}
+
+.password-toggle .icon-eye-off {
+  display: block; /* Standard sichtbar */
+}
+
+/* Wenn sichtbar -> offenes Auge zeigen */
+.password-toggle.is-visible .icon-eye {
+  display: block;
+}
+
+.password-toggle.is-visible .icon-eye-off {
+  display: none;
+}
+
 /* Wenn Fenster klein wird: Titel kleiner + Padding weniger */
 @media (max-width: 520px){
   main.auth{
@@ -143,10 +190,25 @@ main.auth .auth__card a:hover {
   text-decoration: underline !important;
 }
 }
+
+/* Links grün für Login*/
 .auth__switch a:link, .auth__switch a:visited  {
   color: var(--mixcha-green);
 
 }
 .auth__alt a:link, .auth__alt a:visited {
   color: var(--mixcha-green);
+}
+
+/* Fehlermeldung, wenn im Backend Login Fehler über session.flash auftritt */
+.auth__msg {
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.auth__msg--error {
+  color: #c0392b;
+  background: #fdecea;
+  padding: 12px 16px;
+  border-radius: 10px;
 }

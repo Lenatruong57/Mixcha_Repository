@@ -1,46 +1,83 @@
 <header class="site-header">
   <div class="container site-header__inner">
+    
+    <!-- Logo -->
     <a class="site-header__brand" href="/">
       <img src="/images/logo.png" alt="Mixcha Logo">
     </a>
 
+    <!-- Navigation -->
     <nav class="site-nav" aria-label="Hauptnavigation">
       <a href="/">Home</a>
       <a href="/produkte">Unsere Produkte</a>
       <a href="/blog">Blog</a>
 
-      {{-- ADMIN eingeloggt? --}}
+      {{-- ========================= --}}
+      {{-- ADMIN eingeloggt --}}
+      {{-- ========================= --}}
       @if(session.get('adminId'))
+
         <a href="/admin">Admin</a>
 
         <form method="POST" action="/haendler-logout" style="display:inline;">
           {{ csrfField() }}
-          <button type="submit" style="all: unset; cursor: pointer; color: inherit; font: inherit; font-weight: 600; opacity: .95;">
+          <button
+            type="submit"
+            style="all: unset; cursor: pointer; color: inherit; font: inherit; font-weight: 600;">
             Logout
           </button>
         </form>
 
-      {{-- KUNDE eingeloggt? --}}
+      {{-- ========================= --}}
+      {{-- KUNDE eingeloggt --}}
+      {{-- ========================= --}}
       @elseif(session.get('customerId'))
-        <a href="/profil">Profil</a>
 
+        <!-- Profil -->
+        <a href="/profil"
+           class="nav-icon"
+           aria-label="Profil"
+           style="display:inline-flex; align-items:center;">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               width="20"
+               height="20"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M20 21a8 8 0 0 0-16 0"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+
+        <!-- Logout -->
         <form method="POST" action="/logout" style="display:inline;">
           {{ csrfField() }}
-          <button type="submit" style="all: unset; cursor: pointer; color: inherit; font: inherit; font-weight: 600; opacity: .95;">
+          <button
+            type="submit"
+            style="all: unset; cursor: pointer; color: inherit; font: inherit; font-weight: 600;">
             Logout
           </button>
         </form>
 
+      {{-- ========================= --}}
       {{-- Niemand eingeloggt --}}
+      {{-- ========================= --}}
       @else
+
         <a href="/login" class="nav-icon" aria-label="Login">
           <img src="/images/iconlogin.png" alt="Login">
         </a>
+
       @endif
 
+      <!-- Warenkorb (immer sichtbar) -->
       <a href="/warenkorb" class="nav-icon" aria-label="Warenkorb">
-       <img src="/images/iconwarenkorb.png" alt="Warenkorb">
+        <img src="/images/iconwarenkorb.png" alt="Warenkorb">
       </a>
+
     </nav>
   </div>
 </header>

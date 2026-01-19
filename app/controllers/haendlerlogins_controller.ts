@@ -30,7 +30,6 @@ export default class HaendlerloginsController {
 
     // Händler ist eingeloggt
     session.put('adminId', admin.id)
-
     return response.redirect('/admin')
   }
 

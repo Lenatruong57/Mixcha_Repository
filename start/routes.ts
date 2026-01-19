@@ -13,7 +13,6 @@ import ImpressumsController from '#controllers/impressums_controller'
 import DatenschutzsController from '#controllers/datenschutzs_controller'
 import UserController from '#controllers/user_controller'
 import RegistrierungsController from '#controllers/registrierungs_controller'
-import HaendlerloginsController from '#controllers/haendlerlogins_controller'
 import AdminController from '#controllers/admin_controller'
 import { middleware } from './kernel.js'
 
@@ -24,27 +23,24 @@ const noCache = async ({ response }: HttpContext, next: NextFn) => {
   await next()
 }
 
-router.get('/', [HomeController, 'index'])
-router.get('/produkte', [ProdukteController, 'index'])
-router.get('/produkte/:id', [ProdukteController, 'show'])
+router.get('/', [HomeController, 'index']).use(noCache)
+router.get('/produkte', [ProdukteController, 'index']).use(noCache)
+router.get('/produkte/:id', [ProdukteController, 'show']).use(noCache)
 router.get('/warenkorb', [WarenkorbsController, 'index'])
 router.get('/checkout', [CheckoutsController, 'index'])
 router.get('/checkout/success', [CheckoutsController, 'success'])
-router.get('/login', [LoginController, 'index'])
+router.get('/login', [LoginController, 'index']).use(noCache)
 router.get('/registrieren', [RegistrierungsController, 'index'])
 router.get('/blog', [BlogController, 'index'])
 router.get('/blog/:id', [BlogController, 'show'])
 router.get('/agb', [AgbsController, 'index'])
 router.get('/impressum', [ImpressumsController, 'index'])
 router.get('/datenschutz', [DatenschutzsController, 'index'])
-router.get('/user', [UserController, 'index'])
-router.get('/haendler-login', [HaendlerloginsController, 'index'])
-
+router.get('/user', [UserController, 'index']).use(noCache)
+router.get('/haendler-login', [LoginController, 'haendlerIndex']).use(noCache)
 router.get('/admin', [AdminController, 'index']).use(middleware.admin()).use(noCache)
 router.get('/admin/produkte/new', [AdminController, 'new']).use(middleware.admin()).use(noCache)
-router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin()).use(noCache)
 router.get('/admin/produkte/:id/edit', [AdminController, 'edit']).use(middleware.admin()).use(noCache)
-
 router.get('/profil', [UserController, 'index']).use(middleware.customer()).use(noCache)
 
 router.post('/login', [LoginController, 'loginCustomer'])
@@ -54,9 +50,17 @@ router.post('/checkout/process', [CheckoutsController, 'process'])
 router.post('/warenkorb/add', [WarenkorbsController, 'add'])
 router.post('/warenkorb/remove', [WarenkorbsController, 'remove'])
 router.post('/warenkorb/qty', [WarenkorbsController, 'updateQty'])
-
 router.post('/admin/produkte/:id', [AdminController, 'update']).use(middleware.admin())
 router.post('/admin/produkte/:id/delete', [AdminController, 'destroy']).use(middleware.admin())
-
 router.post('/haendler-logout', [LoginController, 'logoutHaendler'])
 router.post('/logout', [LoginController, 'logoutCustomer'])
+router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin()).use(noCache)
+
+
+router.get('/debug-session', async ({ session }) => {
+  return {
+    customerId: session.get('customerId') ?? null,
+    adminId: session.get('adminId') ?? null,
+  }
+})
+

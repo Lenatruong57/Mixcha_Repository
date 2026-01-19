@@ -15,26 +15,55 @@
     <main class="auth">
       <div class="auth__card">
         <h1 class="auth__title">Login</h1>
-        <p class="auth__subtitle">Melde dich an, um deinen Warenkorb und deine Mischung zu speichern.</p>
+        <p class="auth__subtitle">
+          Melde dich an, um deinen Warenkorb und deine Mischung zu speichern.
+        </p>
 
-        <form class="auth__form" method="POST" action="/login">
+        <form class="auth__form" method="POST" action="/login" autocomplete="off">
           {{ csrfField() }}
 
           <div class="field">
             <label for="email">E-Mail</label>
-            <input id="email" name="email" type="email" placeholder="name@mail.de" required />
+            <input id="email" name="email" type="email" required>
           </div>
 
           <div class="field">
             <label for="password">Passwort</label>
-            <input id="password" name="password" type="password" placeholder="••••••••" required />
+
+            <div class="password-wrapper">
+              <input id="password" name="password" type="password" required autocomplete="off">
+
+              <button type="button" class="password-toggle" aria-label="Passwort anzeigen">
+                <!-- geschlossenes Auge -->
+                <svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.94"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.87 21.87 0 0 1-5.06 6.94"/>
+                </svg>
+
+                <!-- offenes Auge -->
+                <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <button class="btn-primary" type="submit">Einloggen</button>
 
+          @if(flashMessages.has('error'))
+            <p class="auth__msg auth__msg--error">
+              {{ flashMessages.get('error') }}
+            </p>
+          @endif
+
           <div class="auth__switch">
-            Noch kein Konto?
-            <a href="/registrieren">Jetzt registrieren</a>
+            Noch kein Konto? <a href="/registrieren">Jetzt registrieren</a>
           </div>
         </form>
 
@@ -47,5 +76,20 @@
     </main>
 
     @include('pages/headerfooter/footer')
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const toggle = document.querySelector('.password-toggle')
+        const input = document.getElementById('password')
+
+        if (!toggle || !input) return
+
+        toggle.addEventListener('click', () => {
+          const show = input.type === 'password'
+          input.type = show ? 'text' : 'password'
+          toggle.classList.toggle('is-visible', show)
+        })
+      })
+    </script>
   </body>
 </html>
