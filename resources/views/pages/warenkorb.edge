@@ -1,133 +1,151 @@
+{{-- resources/views/pages/warenkorb.edge --}}
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Warenkorb – Mixcha</title>
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/warenkorb.css" />
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Warenkorb – Mixcha</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/warenkorb.css" />
+</head>
 
-  <body class="page">
-    @include('pages/headerfooter/header')
+<body class="page">
+  @include('pages/headerfooter/header')
 
-    <main class="cart">
-      <div class="cart__inner">
-        <div class="cart__top">
-          <h1 class="cart__title">Dein Warenkorb</h1>
-          <a class="cart__continue" href="/produkte">Weiter shoppen</a>
+  <main class="cart">
+    <div class="cart_inner">
+      <div class="cart_top">
+        <h1 class="cart_title">Dein Warenkorb</h1>
+        <a class="cart_continue" href="/produkte">Weiter shoppen</a>
+      </div>
+
+      <div class="cart_table">
+        <div class="cart_head">
+          <div class="cart_headProduct">Produkt</div>
+          <div class="cart_headPrice">Preis</div>
+          <div class="cart_headQty">Menge</div>
+          <div class="cart_headTotal">Total</div>
         </div>
 
-        <div class="cart__table">
-          <div class="cart__head">
-            <div>Produkt</div>
-            <div class="cart__headCenter">Preis</div>
-            <div class="cart__headCenter">Menge</div>
-            <div class="cart__headRight">Total</div>
-          </div>
+        @if((cartItems || []).length === 0)
+          <div class="cart_empty">Dein Warenkorb ist leer.</div>
+        @else
+          @each(item in cartItems)
+            <div class="cart_row">
+              {{-- Produkt --}}
+              <div class="cart_product">
+                <img class="cart_img" src="{{ item.imageUrl }}" alt="{{ item.name }}" />
+                <div class="cart_meta">
+                  <div class="cart_brand">MIXCHA GMBH</div>
+                  <div class="cart_name">{{ item.name }}</div>
 
-          @if((cartItems || []).length === 0)
-            <div class="cart__empty">Dein Warenkorb ist leer.</div>
-          @else
-            @each(item in cartItems)
-              <div class="cart__row">
-                <div class="cart__product">
-                  <img class="cart__img" src="{{ item.imageUrl }}" alt="{{ item.name }}">
-                  <div class="cart__meta">
-                    <div class="cart__brand">MIXCHA GMBH</div>
-                    <div class="cart__name">{{ item.name }}</div>
-
-                    @if(item.extras || item.size || item.color || item.engraving)
-                    <div class="cart__variant">
+                  @if(item.extras || item.size || item.color || item.engraving)
+                    <div class="cart_variant">
                       @if(item.extras)
-                        Extras: {{ item.extras }}
+                        <span class="cart_variantItem">Extras: {{ item.extras }}</span>
                       @endif
-                  
                       @if(item.size)
-                        · Größe: {{ item.size }}
+                        <span class="cart_variantItem">Größe: {{ item.size }}</span>
                       @endif
-                  
                       @if(item.color)
-                        · Farbe: {{ item.color }}
+                        <span class="cart_variantItem">Farbe: {{ item.color }}</span>
                       @endif
-                  
                       @if(item.engraving)
-                        · Gravur: "{{ item.engraving }}" (+{{ (item.engravingPrice ?? 0).toFixed(2).replace('.', ',') }} €)
+                        <span class="cart_variantItem">
+                          Gravur: "{{ item.engraving }}"
+                          @if(item.engravingPrice)
+                            (+{{ Number(item.engravingPrice).toFixed(2).replace('.', ',') }} €)
+                          @endif
+                        </span>
                       @endif
                     </div>
                   @endif
-                  </div>
                 </div>
+              </div>
 
-                <div class="cart__price">
-                  {{ item.unitPrice.toFixed(2).replace('.', ',') }} €
+              {{-- Preis --}}
+              <div class="cart_price">
+                <div class="cart_cellValue">
+                  {{ Number(item.unitPrice).toFixed(2).replace('.', ',') }} €
                 </div>
+              </div>
 
-                <div class="cart_qty">
-                  <form method="POST" action="/warenkorb/qty">
-                    {{ csrfField() }}
-                    <input type="hidden" name="key" value="{{ item.key }}">
-                    <input type="hidden" name="delta" value="-1">
-                    <button class="qty_btn" type="submit">−</button>
-                  </form>
-                
-                  <div class="qty_value">{{ item.quantity }}</div>
-                
-                  <form method="POST" action="/warenkorb/qty">
-                    {{ csrfField() }}
-                    <input type="hidden" name="key" value="{{ item.key }}">
-                    <input type="hidden" name="delta" value="1">
-                    <button class="qty_btn" type="submit">+</button>
-                  </form>
-                </div>
-
-                <div class="cart__total">
-                  {{
-                    (
-                      (item.unitPrice + (item.engravingPrice ?? 0)) * item.quantity
-                    ).toFixed(2).replace('.', ',')
-                  }} €
-
-                  <form method="post" action="/warenkorb/remove" class="cart__removeForm">
+              {{-- Menge --}}
+              <div class="cart_qty">
+                <div class="qty_box" role="group" aria-label="Menge">
+                  <form method="POST" action="/warenkorb/qty" class="qty_form">
                     {{ csrfField() }}
                     <input type="hidden" name="key" value="{{ item.key }}" />
-                    <button class="cart__trash" type="submit" aria-label="Entfernen">🗑</button>
+                    <input type="hidden" name="delta" value="-1" />
+                    <button class="qty_btn" type="submit" aria-label="Minus">−</button>
+                  </form>
+
+                  <div class="qty_value" aria-label="Aktuelle Menge">{{ item.quantity }}</div>
+
+                  <form method="POST" action="/warenkorb/qty" class="qty_form">
+                    {{ csrfField() }}
+                    <input type="hidden" name="key" value="{{ item.key }}" />
+                    <input type="hidden" name="delta" value="1" />
+                    <button class="qty_btn" type="submit" aria-label="Plus">+</button>
                   </form>
                 </div>
               </div>
-            @endeach
-          @endif
+
+              {{-- Total + Trash --}}
+              <div class="cart_total">
+                <div class="cart_cellValue">
+                  {{
+                    (
+                      (Number(item.unitPrice) + (item.engravingPrice ? Number(item.engravingPrice) : 0))
+                      * Number(item.quantity)
+                    ).toFixed(2).replace('.', ',')
+                  }} €
+                </div>
+
+                <form method="POST" action="/warenkorb/remove" class="cart_removeForm">
+                  {{ csrfField() }}
+                  <input type="hidden" name="key" value="{{ item.key }}" />
+                  <button class="cart_trash" type="submit" aria-label="Entfernen">
+                    <svg class="trash_icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M9 3h6l1 2h5v2H3V5h5l1-2zm1 6h2v10h-2V9zm4 0h2v10h-2V9zM7 9h2v10H7V9zm-1 12h12a2 2 0 0 0 2-2V7H4v12a2 2 0 0 0 2 2z"/>
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+          @endeach
+        @endif
+      </div>
+
+      <div class="cart_bottom">
+        <div class="cart_note">
+          <div class="cart_noteTitle">Fügen Sie Ihrer Bestellung eine Notiz hinzu</div>
+          <textarea class="cart_textarea" placeholder="Wie können wir Ihnen helfen?"></textarea>
         </div>
 
-        <div class="cart_bottom">
-
-          <div class="cart_note">
-            <div class="cart_noteTitle">Fügen Sie Ihrer Bestellung eine Notiz hinzu</div>
-            <textarea class="cart_textarea" placeholder="Wie können wir Ihnen helfen?"></textarea>
+        <aside class="cart_summary">
+          <div class="cart_summaryTop">
+            <div class="cart_summaryTitle">Summe</div>
+            <div class="cart_summaryPrice">{{ Number(subtotal).toFixed(2).replace('.', ',') }} €</div>
           </div>
-        
-          <aside class="cart_summary">
-            <div class="cart_summaryTop">
-              <div class="cart_summaryTitle">Summe</div>
-              <div class="cart_summaryPrice">{{ subtotal.toFixed(2).replace('.', ',') }} €</div>
-            </div>
-        
-            <div class="cart_summaryHint">
-              Steuern inklusive. <u>Versandkosten</u> werden beim Checkout berechnet.
-            </div>
-        
-            <button class="cart_checkout" type="button">Sicher zur Kasse</button>
-        
-            <div class="cart_payments">
-              <img src="/images/applepay.svg" alt="Apple Pay" />
-              <img src="/images/paypal.svg" alt="PayPal" />
-              <img src="/images/googlepay.svg" alt="Google Pay" />
-            </div>
-          </aside>
-      
-      </div>
-    </main>
 
-    @include('pages/headerfooter/footer')
-  </body>
+          <div class="cart_summaryHint">
+            Steuern inklusive. <u>Versandkosten</u> werden beim Checkout berechnet.
+          </div>
+
+          <button class="cart_checkout" type="button">Sicher zur Kasse</button>
+
+          
+<div class="cart_paymentsBox" aria-label="Zahlungsarten">
+  <img class="cart_paymentsLogo" src="/images/applepay.png" alt="Apple Pay" />
+  <img class="cart_paymentsLogo" src="/images/paypal.svg.png" alt="PayPal" />
+  <img class="cart_paymentsLogo" src="/images/googlepay.png" alt="Google Pay" />
+</div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  @include('pages/headerfooter/footer')
+</body>
 </html>
