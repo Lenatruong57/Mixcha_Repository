@@ -24,4 +24,13 @@ export default class Customer extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @column()
+  declare address: string | null
+
+  @column()
+  declare phone: string | null
+
+  @column()
+  declare avatar: string | null
 }

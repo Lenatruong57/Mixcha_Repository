@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil bearbeiten – Mixcha</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/profil.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body class="auth-theme">
+  @include('pages/headerfooter/header')
+
+  <main class="page page--center">
+    <div class="container">
+      <section class="profile">
+        <div class="profile__card">
+          <div class="profile__header">
+            <div>
+              <h1 class="profile__title">Profil bearbeiten</h1>
+              <p class="profile__subtitle">Aktualisiere deine persönlichen Daten</p>
+            </div>
+          </div>
+
+          @if(flashMessages.has('error'))
+            <p class="profile__msg profile__msg--error">
+              {{ flashMessages.get('error') }}
+            </p>
+          @endif
+
+          <form
+            method="POST"
+            action="/profil"
+            enctype="multipart/form-data"
+            class="profile__form"
+          >
+            {{ csrfField() }}
+
+            {{-- Profilbild --}}
+            <div class="profile__avatar-edit">
+              <img
+                src="{{ customer.avatar ? '/avatars/' + customer.avatar : '/avatars/default.jpg' }}"
+                class="profile__avatar"
+                alt="Profilbild"
+              />
+
+              <label class="profile__avatar-upload">
+                Profilbild ändern
+                <input type="file" name="avatar" accept="image/*" hidden>
+              </label>
+            </div>
+
+            {{-- Vorname --}}
+            <div class="form__group">
+              <label for="first_name">Vorname</label>
+              <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                value="{{ customer.firstName }}"
+                required
+              />
+            </div>
+
+            {{-- Nachname --}}
+            <div class="form__group">
+              <label for="last_name">Nachname</label>
+              <input
+                type="text"
+                id="last_name"
+                name="last_name"
+                value="{{ customer.lastName }}"
+                required
+              />
+            </div>
+
+            {{-- E-Mail (nicht editierbar) --}}
+            <div class="form__group">
+              <label>E-Mail</label>
+              <input type="email" value="{{ customer.email }}" disabled />
+            </div>
+
+            {{-- Adresse --}}
+            <div class="form__group">
+              <label for="address">Adresse</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value="{{ customer.address || '' }}"
+                placeholder="Straße, PLZ Ort"
+              />
+            </div>
+
+            {{-- Telefon --}}
+            <div class="form__group">
+              <label for="phone">Telefon</label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                value="{{ customer.phone || '' }}"
+                placeholder="z. B. 0123 456789"
+              />
+            </div>
+
+            {{-- Buttons --}}
+            <div class="profile__actions">
+              <button type="submit" class="btn-primary">
+                Änderungen speichern
+              </button>
+
+              <a href="/profil" class="btn-secondary">
+                Abbrechen
+              </a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  @include('pages/headerfooter/footer')
+</body>
+</html>
