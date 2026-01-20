@@ -17,12 +17,19 @@
     <div class="container">
       <section class="profile">
         <div class="profile__card">
+
           <div class="profile__header">
             <div>
               <h1 class="profile__title">Profil bearbeiten</h1>
               <p class="profile__subtitle">Aktualisiere deine persönlichen Daten</p>
             </div>
           </div>
+
+          @if(flashMessages.has('success'))
+            <p class="profile__msg profile__msg--success">
+              {{ flashMessages.get('success') }}
+            </p>
+          @endif
 
           @if(flashMessages.has('error'))
             <p class="profile__msg profile__msg--error">
@@ -46,10 +53,20 @@
                 alt="Profilbild"
               />
 
-              <label class="profile__avatar-upload">
-                Profilbild ändern
-                <input type="file" name="avatar" accept="image/*" hidden>
-              </label>
+              <div>
+                <label class="profile__avatar-upload">
+                  Profilbild ändern
+                  <input type="file" name="avatar" accept="image/*" hidden>
+                </label>
+
+                <p style="margin: 8px 0 0; font-size: 13px; opacity: .75;">
+                  Erlaubt: JPG/PNG/WEBP • max. 10MB
+                  @if(customer.avatar)
+                    <br>
+                    Aktuell: <span style="font-weight: 700;">{{ customer.avatar }}</span>
+                  @endif
+                </p>
+              </div>
             </div>
 
             {{-- Vorname --}}
@@ -117,6 +134,7 @@
               </a>
             </div>
           </form>
+
         </div>
       </section>
     </div>

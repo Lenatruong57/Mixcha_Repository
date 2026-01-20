@@ -65,4 +65,3 @@ router.post('/profil', [UserController, 'update']).use(middleware.customer()).us
 //     sessionAll: session.all(),
 //   }
 // })
-
