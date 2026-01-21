@@ -192,3 +192,32 @@ main{
   transform: scale(1.1);
   opacity: 1;
 }
+
+/* Warenkorb Badge */
+.nav-cart{
+  position: relative;
+}
+
+.nav-cart__badge{
+  position: absolute;
+  top: -6px;
+  right: -8px;
+
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  background: #e7b4c7;
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+
+  border: 2px solid var(--green-900);
+}

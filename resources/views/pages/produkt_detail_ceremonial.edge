@@ -60,25 +60,25 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const prices = {
-        "30": 19.90,
-        "70": 39.90,
-        "100": 59.90
+        "30gr": 25.90,
+        "70gr": 45.90,
+        "100gr": 60.90
       };
-
+  
       const sizeSelect = document.getElementById("size");
       const priceValue = document.getElementById("priceValue");
       const unitPriceInput = document.getElementById("unitPriceInput");
-
+  
       if (!sizeSelect || !priceValue || !unitPriceInput) return;
-
+  
       const fmt = (n) => n.toFixed(2).replace(".", ",");
-
+  
       const updatePrice = () => {
-        const p = prices[sizeSelect.value] ?? 19.90;
+        const p = prices[sizeSelect.value] ?? 25.90;
         priceValue.textContent = fmt(p);
         unitPriceInput.value = String(p);
       };
-
+  
       updatePrice();
       sizeSelect.addEventListener("change", updatePrice);
     });

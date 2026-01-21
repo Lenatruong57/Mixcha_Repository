@@ -293,36 +293,38 @@
   text-decoration: none;
 }
 
-.cart_payments{
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  align-items: center;
-}
 
-.cart_payments img{
-  height: 22px;
-  width: auto;
-  display: block;
-}
+
+/* ===============================
+   Zahlungsmethoden – EINHEITLICH
+================================ */
 
 .cart_paymentsBox{
-  margin-top: 10px;
   width: 100%;
+  max-width: 420px;
   display: flex;
-  align-items: center;
+  justify-content: center;
+  align-items: center;   /* ALLE auf gleicher Höhe */
   gap: 22px;
-  background: transparent;
+  margin: 10px auto 0;  /* mittig unter Button */
   border: none;
+  background: transparent;
   padding: 0;
 }
 
-.cart_paymentsLogo{
-  height: 27px;                 /* ⬅ größer */
+/* Standard: gleiche Basis-Höhe */
+.cart_paymentsLogo,
+.cart_paymentsBox img{
+  height: 34px;
   width: auto;
   display: block;
+  object-fit: contain;
 }
 
+/* Optional: PayPal etwas kleiner */
+.cart_paymentsBox img[src*="paypal"]{
+  height: 23px;
+}
 /* ===== Responsive ===== */
 @media (max-width: 900px){
   .cart_title{ font-size: 42px; }

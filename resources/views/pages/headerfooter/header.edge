@@ -45,8 +45,12 @@
         </a>
       @endif
 
-      <a href="/warenkorb" class="nav-icon" aria-label="Warenkorb">
+      <a href="/warenkorb" class="nav-icon nav-cart" aria-label="Warenkorb">
         <img src="/images/iconwarenkorb.png" alt="Warenkorb">
+      
+        @if((cartCount || 0) > 0)
+          <span class="nav-cart__badge">{{ cartCount }}</span>
+        @endif
       </a>
     </nav>
   </div>
