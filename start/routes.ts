@@ -60,8 +60,15 @@ router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin(
 router.post('/profil', [UserController, 'update']).use(middleware.customer()).use(noCache)
 
 // Debug-session für Entwicklung
-// router.get('/debug-session', async ({ session }) => {
-//   return {
-//     sessionAll: session.all(),
-//   }
-// })
+router.get('/debug-session', async ({ session, response }) => {
+  return response.json({
+    loggedInAs: session.get('adminId')
+      ? 'ADMIN'
+      : session.get('customerId')
+      ? 'CUSTOMER'
+      : 'GUEST',
+
+    adminId: session.get('adminId') ?? null,
+    customerId: session.get('customerId') ?? null,
+  })
+})

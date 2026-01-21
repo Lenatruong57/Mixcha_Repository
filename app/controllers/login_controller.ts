@@ -43,9 +43,11 @@ public async loginCustomer({ request, session, response }: HttpContext) {
 // POST /logout
 public async logoutCustomer({ session, response }: HttpContext) {
   session.forget('customerId')
+  session.forget('adminId') // sicherheitshalber auch das
   await session.commit()
-  return response.redirect().toPath('/login')
+  return response.redirect('/login')
 }
+
 
   // =========================
   // HÄNDLER / ADMIN
@@ -85,7 +87,8 @@ public async loginHaendler({ request, session, response }: HttpContext) {
 // POST /haendler-logout
 public async logoutHaendler({ session, response }: HttpContext) {
   session.forget('adminId')
+  session.forget('customerId') // sicherheitshalber auch das
   await session.commit()
-  return response.redirect().toPath('/haendler-login')
+  return response.redirect('/haendler-login')
 }}
 
