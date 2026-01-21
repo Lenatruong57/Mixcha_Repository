@@ -287,6 +287,12 @@
   cursor: pointer;
 }
 
+.cart_checkout{
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
 .cart_payments{
   display: flex;
   gap: 10px;
