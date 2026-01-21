@@ -74,21 +74,25 @@ export default class UserController {
     // =========================
     // PROFILBILD
     // =========================
+    // Profilbild
     const avatar = request.file('avatar', {
-      size: '2mb',
-      extnames: ['jpg', 'jpeg', 'png'],
+      size: '10mb', // <- höher (z.B. 10mb)
+      extnames: ['jpg', 'jpeg', 'png', 'webp'],
     })
 
     if (avatar) {
-      const fileName = `avatar_${customerId}.${avatar.extname}`
+      if (!avatar.isValid) {
+        // hier bekommst du z.B. size / extension Fehler
+        session.flash('error', avatar.errors.map((e) => e.message).join(' | '))
+        return response.redirect('/profil/edit')
+      }
 
       await avatar.move('public/avatars', {
-        name: fileName,
+        name: `avatar_${customerId}.${avatar.extname}`, // richtige Endung behalten
         overwrite: true,
       })
 
-      // Dateiname in DB speichern
-      customer.avatar = fileName
+      customer.avatar = `avatar_${customerId}.${avatar.extname}`
     }
 
     // =========================
