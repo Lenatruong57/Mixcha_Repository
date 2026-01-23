@@ -12,66 +12,141 @@
   <body>
     @include('pages/headerfooter/header')
 
-    <main class="checkout">
-      <div class="checkout-grid">
+    <main class="checkout-page">
+      <div class="checkout-wrap">
+        <div class="checkout-grid">
 
-        <!-- LINKS: Formular -->
-        <section class="left">
-          <h2>Kontaktdaten</h2>
-
-          <form action="/checkout/process" method="post">
-            {{ csrfField() }}
-
-            <input class="input" type="text" name="first_name" placeholder="Vorname" required>
-            <input class="input" type="text" name="last_name" placeholder="Name" required>
-
-            <h2 class="space">Adresse</h2>
-            <input class="input" type="text" name="street" placeholder="Straße + Hausnr." required>
-            <input class="input" type="text" name="zip" placeholder="PLZ" required>
-            <input class="input" type="text" name="city" placeholder="Stadt" required>
-            <input class="input" type="text" name="country" placeholder="Land" required>
-
-            <button class="btn" type="submit">
-              Jetzt kostenpflichtig bestellen
-            </button>
-          </form>
-        </section>
-
-        <!-- RECHTS: Bestellübersicht -->
-        <aside class="right">
-          <div class="info-box">
-            Mit Klick auf „Jetzt kostenpflichtig bestellen“ erkläre ich mich mit den
-            Datenschutzbestimmungen, der Widerrufsbelehrung und den AGB einverstanden.
-          </div>
-
-          <div class="summary">
-            <h3>Bestellübersicht</h3>
-
-            @if(items.length === 0)
-              <p>Dein Warenkorb ist leer.</p>
-            @else
-              @each(item in items)
-                <div class="row">
-                  <div>
-                    <div class="title">{{ item.name }}</div>
-                    <div class="small">Anzahl: {{ item.quantity }}</div>
-                  </div>
-                  <div class="price">
-                    {{ (item.price * item.quantity).toFixed(2) }} €
-                  </div>
-                </div>
-              @end
-
-              <div class="totals">
-                <div class="line total">
-                  <span>Gesamt</span>
-                  <span>{{ total.toFixed(2) }} €</span>
-                </div>
+          <!-- LINKS -->
+          <section class="checkout-left">
+            <div class="express">
+              <div class="express-title">Express Checkout</div>
+              <div class="express-buttons">
+                <img src="/images/applepay.png" alt="Apple Pay" />
+                <img src="/images/paypal.svg.png" alt="PayPal" />
+                <img src="/images/googlepay.png" alt="Google Pay" />
               </div>
-            @endif
-          </div>
-        </aside>
+              <div class="express-or">
+                <span></span><p>ODER</p><span></span>
+              </div>
+            </div>
 
+            <div class="checkout-block">
+              <div class="checkout-block-head">
+                <h2>Kontaktdaten</h2>
+                <a class="checkout-login" href="/login">Anmelden</a>
+              </div>
+
+              <form action="/checkout/process" method="post" class="checkout-form">
+                {{ csrfField() }}
+
+                <input class="c-input" type="email" name="email" placeholder="E-mail" required />
+
+                <div class="two">
+                  <input class="c-input" type="text" name="first_name" placeholder="Vorname" required />
+                  <input class="c-input" type="text" name="last_name" placeholder="Name" required />
+                </div>
+
+                <h2 class="mt">Adresse</h2>
+                <input class="c-input" type="text" name="street" placeholder="Adresse / Straße + Hausnr." required />
+
+                <div class="two">
+                  <input class="c-input" type="text" name="zip" placeholder="PLZ" required />
+                  <input class="c-input" type="text" name="city" placeholder="Stadt" required />
+                </div>
+
+                <input class="c-input" type="text" name="country" placeholder="Land" required />
+
+                <button class="c-btn" type="submit">
+                  Jetzt kostenpflichtig bestellen
+                </button>
+              </form>
+            </div>
+          </section>
+
+          <!-- RECHTS -->
+          <aside class="checkout-right">
+            <div class="right-card info">
+              <div class="info-dot">i</div>
+              <p>
+                Mit Klick auf „Jetzt kostenpflichtig bestellen“ erkläre ich mich mit den
+                Datenschutzbestimmungen, der Widerrufsbelehrung und den AGB einverstanden.
+              </p>
+            </div>
+
+            <div class="right-card">
+              <div class="right-title">Bestellübersicht</div>
+
+              @if((cartItems || []).length === 0)
+                <p class="empty">Dein Warenkorb ist leer.</p>
+              @else
+
+                <div class="items">
+                  @each(item in cartItems)
+                    <div class="item">
+                      <img class="item-img" src="{{ item.imageUrl }}" alt="{{ item.name }}" />
+
+                      <div class="item-mid">
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-small">Anzahl: {{ item.quantity }}</div>
+                        <a class="item-edit" href="/warenkorb">Bearbeiten</a>
+                      </div>
+
+                      <div class="item-price">
+                        {{
+                          (
+                            (Number(item.unitPrice) + (item.engravingPrice ? Number(item.engravingPrice) : 0))
+                            * Number(item.quantity)
+                          ).toFixed(2).replace('.', ',')
+                        }} €
+                      </div>
+                    </div>
+                  @endeach
+                </div>
+
+                <form method="POST" action="/checkout/coupon" class="coupon">
+                  {{ csrfField() }}
+                  <input class="c-input" type="text" name="coupon" placeholder="Rabattcode oder Gutschein" value="{{ coupon ?? '' }}" />
+                  <button class="coupon-btn" type="submit">Anwenden</button>
+                </form>
+
+                @if(invalidCoupon)
+                  <div class="coupon-error">{{ invalidCoupon }}</div>
+                @endif
+
+                <div class="totals">
+                  <div class="line">
+                    <span>Zwischensumme</span>
+                    <span>{{ Number(subtotal).toFixed(2).replace('.', ',') }} €</span>
+                  </div>
+
+                  <div class="line">
+                    <span>Versand</span>
+                    <span>
+                      @if(shipping > 0)
+                        {{ Number(shipping).toFixed(2).replace('.', ',') }} €
+                      @else
+                        —
+                      @endif
+                    </span>
+                  </div>
+
+                  @if(discount > 0)
+                    <div class="line discount">
+                      <span>Rabatt (mixcha10)</span>
+                      <span>-{{ Number(discount).toFixed(2).replace('.', ',') }} €</span>
+                    </div>
+                  @endif
+
+                  <div class="line total">
+                    <span>Gesamt</span>
+                    <span>{{ Number(total).toFixed(2).replace('.', ',') }} €</span>
+                  </div>
+                </div>
+              @endif
+            </div>
+          </aside>
+
+        </div>
       </div>
     </main>
 
