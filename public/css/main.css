@@ -75,6 +75,29 @@ main{
   text-decoration:underline;
 }
 
+.nav-icon-form { display:inline; }
+
+.nav-icon-btn{
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 999px;
+  color: inherit;
+}
+
+.nav-icon-btn:hover{
+  background: rgba(255,255,255,0.10);
+}
+
+.nav-icon-img{
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
 /* FOOTER */
 .site-footer{
   background:var(--green-900);
@@ -191,4 +214,33 @@ main{
 .nav-icon:hover img {
   transform: scale(1.1);
   opacity: 1;
+}
+
+/* Warenkorb Badge */
+.nav-cart{
+  position: relative;
+}
+
+.nav-cart__badge{
+  position: absolute;
+  top: -6px;
+  right: -8px;
+
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  background: #e7b4c7;
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+
+  border: 2px solid var(--green-900);
 }

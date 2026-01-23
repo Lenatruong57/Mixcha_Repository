@@ -1,12 +1,4 @@
-/*
-|--------------------------------------------------------------------------
-| HTTP kernel file
-|--------------------------------------------------------------------------
-|
-| The HTTP kernel file is used to register the middleware with the server
-| or the router.
-|
-*/
+
 
 import router from '@adonisjs/core/services/router'
 import server from '@adonisjs/core/services/server'
@@ -36,7 +28,10 @@ router.use([
   () => import('@adonisjs/core/bodyparser_middleware'),
   () => import('@adonisjs/session/session_middleware'),
   () => import('@adonisjs/shield/shield_middleware'),
-  () => import('@adonisjs/auth/initialize_auth_middleware')
+  () => import('@adonisjs/auth/initialize_auth_middleware'),
+
+  // ✅ HIER
+  () => import('#middleware/cart_count_middleware'),
 ])
 
 /**
