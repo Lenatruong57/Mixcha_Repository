@@ -7,7 +7,7 @@ tmp
 public/assets
 
 # Build tools specific
-npm-debug.log
+npm-debug.lognpm insta
 yarn-error.log
 
 # Editors specific

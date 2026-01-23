@@ -23,7 +23,7 @@ export default class AdminController {
       'category_id',
     ])
 
-    // Minimal-Validierung (nicht kompliziert)
+    // Minimal-Validierung 
     if (!data.name || !data.base_price || !data.category_id) {
       session.flash('error', 'Bitte Name, Basispreis und Kategorie ausfüllen.')
       return response.redirect().back()
