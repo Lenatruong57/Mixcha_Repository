@@ -1,0 +1,114 @@
+/* AGB, Datenschutz und Impressum */
+
+:root{
+  --paper: #ffffff;
+  --paper-border: rgba(31, 90, 58, 0.12);
+  --shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Seitenabstand */
+main {
+  padding: 64px 0;   /* Abstand zum Header & Footer */
+}
+
+
+.legal-container {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  padding: 32px 24px;
+
+  background: var(--paper, #ffffff);
+  border: 1px solid var(--paper-border, #eee);
+  border-radius: 16px;
+
+  box-shadow: var(--shadow, 0 8px 24px rgba(0,0,0,0.06));
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* dezente "Leiste" oben (Branding) */
+
+.legal-container::before{
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0;
+  height: 8px;
+  background: var(--green-900);
+  opacity: 0.9;
+}
+
+/* Haupttitel */
+.legal-container h1{
+  margin: 8px 0 10px;
+  font-size: 40px;
+  line-height: 1.1;
+  color: var(--green-900);
+  letter-spacing: -0.02em;
+}
+
+/* optional: "Stand: ..." etwas wie ein Badge wirken lassen
+   -> falls ihr es als <p class="legal-stand">Stand: ...</p> setzt */
+.legal-stand{
+  display: inline-block;
+  margin: 8px 0 18px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(31, 90, 58, 0.08);
+  color: var(--green-900);
+  font-weight: 650;
+  font-size: 14px;
+}
+
+/* Untertitel/Abschnitte */
+.legal-container h2{
+  margin: 26px 0 10px;
+  font-size: 18px;
+  color: var(--green-900);
+  padding-left: 12px;
+  border-left: 4px solid rgba(31, 90, 58, 0.55);
+}
+
+.legal-stand {
+  margin: 4px 0 24px;
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+/* Text besser lesbar */
+.legal-container p{
+  margin: 0 0 12px;
+  line-height: 1.75;
+  color: rgba(0,0,0,0.82);
+}
+
+/* Listen (falls vorhanden) */
+.legal-container ul{
+  margin: 0 0 14px;
+  padding-left: 18px;
+  line-height: 1.7;
+}
+
+/* Links im Content */
+.legal-container  a{
+  color: var(--green-900);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Responsive */
+@media (max-width: 768px){
+  main{
+    padding: 32px 0;
+  }
+
+  .legal-container{
+    padding: 26px 18px;
+    border-radius: 14px;
+  }
+
+  .legal-container h1{
+    font-size: 28px;
+  }
+}

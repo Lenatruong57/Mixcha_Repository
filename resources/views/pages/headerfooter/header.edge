@@ -5,7 +5,6 @@
     </a>
 
     <nav class="site-nav" aria-label="Hauptnavigation">
-      <a href="/">Home</a>
       <a href="/produkte">Unsere Produkte</a>
       <a href="/blog">Blog</a>
 
@@ -13,18 +12,14 @@
            ADMIN eingeloggt
          ========================= --}}
       @if(session.get('adminId'))
-        <a href="/admin">Admin</a>
+        <a href="/admin" class="nav-icon" aria-label="Admin">
+          <img src="/images/iconlogin.png" alt="Admin">
+        </a>
 
         <form method="POST" action="/logout" class="nav-icon-form">
           {{ csrfField() }}
-          <button type="submit" class="nav-icon-btn" aria-label="Logout" title="Logout">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-              <path d="M16 17l5-5-5-5"/>
-              <path d="M21 12H9"/>
-            </svg>
+          <button type="submit" class="nav-icon" aria-label="Logout">
+            <img src="/images/logouticon.png" alt="Logout">
           </button>
         </form>
 
@@ -33,24 +28,13 @@
          ========================= --}}
       @elseif(session.get('customerId'))
         <a href="/profil" class="nav-icon" aria-label="Profil">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21a8 8 0 0 0-16 0"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+          <img src="/images/iconlogin.png" alt="Profil">
         </a>
 
         <form method="POST" action="/logout" class="nav-icon-form">
           {{ csrfField() }}
-          <button type="submit" class="nav-icon-btn" aria-label="Logout" title="Logout">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-              <path d="M16 17l5-5-5-5"/>
-              <path d="M21 12H9"/>
-            </svg>
+          <button type="submit" class="nav-icon" aria-label="Logout">
+            <img src="/images/iconlogout.png" alt="Logout">
           </button>
         </form>
 
@@ -63,9 +47,9 @@
         </a>
       @endif
 
+      {{-- Warenkorb (für alle sichtbar) --}}
       <a href="/warenkorb" class="nav-icon nav-cart" aria-label="Warenkorb">
         <img src="/images/iconwarenkorb.png" alt="Warenkorb">
-      
         @if((cartCount || 0) > 0)
           <span class="nav-cart__badge">{{ cartCount }}</span>
         @endif
