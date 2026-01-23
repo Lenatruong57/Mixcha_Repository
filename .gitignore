@@ -1,21 +1,23 @@
-# Dependencies and AdonisJS build
-node_modules
-build
-tmp
+# dependencies
+node_modules/
 
-# Frontend assets compiled code
-public/assets
+# builds
+build/
+dist/
+tmp/
+public/assets/
 
-# Build tools specific
-npm-debug.log
-yarn-error.log
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Editors specific
-.fleet
-.idea
-.vscode
+# env
+.env
 
-# Platform specific
+# mac/windows
 .DS_Store
+Thumbs.db
 
-*.sqbpro
+
+
