@@ -59,6 +59,8 @@ router.post('/haendler-logout', [LoginController, 'logoutHaendler'])
 router.post('/logout', [LoginController, 'logoutCustomer'])
 router.post('/admin/produkte', [AdminController, 'store']).use(middleware.admin()).use(noCache)
 router.post('/profil', [UserController, 'update']).use(middleware.customer()).use(noCache)
+router.post('/blog/upload', [BlogController, 'upload'])
+
 
 // Debug-session für Entwicklung
 router.get('/debug-session', async ({ session, response }) => {

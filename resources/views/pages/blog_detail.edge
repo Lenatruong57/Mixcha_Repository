@@ -16,54 +16,51 @@
 
   <main class="blog-page blog-detail">
 
-    <a class="back-link" href="/blog">← Zurück zum Blog</a>
+    @if(post.id >= 101 && post.id <= 109)
+      <a class="back-link" href="/blog/2">← Zurück zu den Rezepten</a>
+    @else
+      <a class="back-link" href="/blog">← Zurück zum Blog</a>
+    @endif
 
     <h1 class="blog-detail-title">{{ post.title }}</h1>
 
     {{-- ========================= --}}
-    {{-- REZEPTE = GRID-ANSICHT --}}
+    {{-- Rezepte-Übersicht (nur /blog/2) --}}
     {{-- ========================= --}}
     @if(post.id === 2)
 
       <section class="blog-grid">
-
         @each(r in post.sections)
+
           <article class="blog-item">
 
-            <a class="blog-item__imgwrap" href="#">
-              <img
-                class="blog-item__img"
-                src="{{ r.image }}"
-                alt="{{ r.heading }}"
-              />
+            <a class="blog-item__imgwrap" href="/blog/{{ r.recipeId }}">
+              <img class="blog-item__img" src="{{ r.image }}" alt="{{ r.heading }}" />
             </a>
 
-            <h2 class="blog-item__title">
+            <a class="blog-item__title" href="/blog/{{ r.recipeId }}">
               {{ r.heading }}
-            </h2>
+            </a>
 
-            <p class="blog-item__text">
-              {{ r.text }}
-            </p>
+            <p class="blog-item__text">{{ r.text }}</p>
 
-            <a class="blog-item__more" href="#">
+            <a class="blog-item__more" href="/blog/{{ r.recipeId }}">
               — Weiterlesen
             </a>
 
           </article>
-        @endeach
 
+        @endeach
       </section>
 
     {{-- ========================= --}}
-    {{-- ALLE ANDEREN BLOGPOSTS --}}
+    {{-- Alle anderen Posts (inkl. /blog/101..109) --}}
     {{-- ========================= --}}
     @else
 
       @each(section in post.sections)
         <section class="blog-detail-section">
           <h2 class="blog-section-title">{{ section.heading }}</h2>
-
           <p class="blog-detail-text">{{ section.text }}</p>
         </section>
       @endeach

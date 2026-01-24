@@ -42,8 +42,24 @@
         <div class="share-cta">
           <h2>Teile jetzt auch deinen<br>Matcha-Moment!</h2>
 
-          <input id="upload" type="file" accept="image/*" hidden>
-          <label class="upload-btn" for="upload">Hier Foto hochladen</label>
+          <form id="blogUploadForm" method="POST" action="/blog/upload" enctype="multipart/form-data">
+            {{ csrfField() }}
+
+            <input id="upload" type="file" name="image" accept="image/*" hidden>
+            <label class="upload-btn" for="upload">Hier Foto hochladen</label>
+
+            @if(flashMessages.has('uploadSuccess'))
+              <p class="upload-success">
+                {{ flashMessages.get('uploadSuccess') }}
+              </p>
+            @endif
+
+            @if(flashMessages.has('uploadError'))
+              <p class="upload-error">
+                {{ flashMessages.get('uploadError') }}
+              </p>
+            @endif
+          </form>
         </div>
 
         <div class="share-img">
@@ -54,5 +70,20 @@
     </main>
 
     @include('pages/headerfooter/footer')
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('upload')
+        const form = document.getElementById('blogUploadForm')
+
+        if (!input || !form) return
+
+        input.addEventListener('change', () => {
+          if (input.files && input.files.length > 0) {
+            form.submit()
+          }
+        })
+      })
+    </script>
   </body>
 </html>
