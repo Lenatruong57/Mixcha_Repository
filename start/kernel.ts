@@ -1,47 +1,56 @@
-
-
 import router from '@adonisjs/core/services/router'
 import server from '@adonisjs/core/services/server'
 
 /**
- * The error handler is used to convert an exception
- * to an HTTP response.
+ * Der Error-Handler fängt alle unbehandelten Fehler ab
+ * und wandelt sie in eine HTTP-Antwort um.
  */
 server.errorHandler(() => import('#exceptions/handler'))
 
 /**
- * The server middleware stack runs middleware on all the HTTP
- * requests, even if there is no route registered for
- * the request URL.
+ * Server-Middleware:
+ * Diese Middleware läuft bei JEDER Anfrage,
+ * auch wenn keine Route existiert.
  */
 server.use([
+  // Bindet Container / Services
   () => import('#middleware/container_bindings_middleware'),
+
+  // Liefert statische Dateien aus (CSS, Bilder, JS)
   () => import('@adonisjs/static/static_middleware'),
+
+  // Vite Middleware für Development (HMR)
   () => import('@adonisjs/vite/vite_middleware'),
 ])
 
 /**
- * The router middleware stack runs middleware on all the HTTP
- * requests with a registered route.
+ * Router-Middleware:
+ * Diese Middleware läuft nur bei Anfragen,
+ * für die es auch eine definierte Route gibt.
  */
 router.use([
+  // Liest POST-Daten (Formulare, JSON)
   () => import('@adonisjs/core/bodyparser_middleware'),
-  () => import('@adonisjs/session/session_middleware'),
-  () => import('@adonisjs/shield/shield_middleware'),
-  () => import('@adonisjs/auth/initialize_auth_middleware'),
 
-  // ✅ HIER
+  // Aktiviert Sessions (Login-Zustand, Flash-Messages etc.)
+  () => import('@adonisjs/session/session_middleware'),
+
+  // Sicherheitsfeatures (CSRF-Schutz, XSS-Header, etc.)
+  () => import('@adonisjs/shield/shield_middleware'),
+
+  // Eigene Middleware (z. B. Warenkorb-Zähler im Header)
   () => import('#middleware/cart_count_middleware'),
 ])
 
 /**
- * Named middleware collection must be explicitly assigned to
- * the routes or the routes group.
+ * Benannte Middleware:
+ * Diese Middleware wird gezielt in den Routen verwendet,
+ * z. B. zum Schutz von Admin- oder Kunden-Seiten.
  */
-
 export const middleware = router.named({
-  guest: () => import('#middleware/guest_middleware'),
-  auth: () => import('#middleware/auth_middleware'),
+  // Schützt Admin-Bereiche (nur mit adminId in Session)
   admin: () => import('#middleware/admin_middleware'),
+
+  // Schützt Kunden-Bereiche (nur mit customerId in Session)
   customer: () => import('#middleware/customer_middleware'),
 })

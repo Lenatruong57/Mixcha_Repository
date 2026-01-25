@@ -12,14 +12,14 @@
            ADMIN eingeloggt
          ========================= --}}
       @if(session.get('adminId'))
-        <a href="/admin" class="nav-icon" aria-label="Admin">
+        <a href="/admin" class="nav-icon" aria-label="Adminbereich">
           <img src="/images/iconlogin.png" alt="Admin">
         </a>
 
-        <form method="POST" action="/logout" class="nav-icon-form">
+        <form method="POST" action="/haendler-logout" class="nav-icon-form">
           {{ csrfField() }}
           <button type="submit" class="nav-icon" aria-label="Logout">
-            <img src="/images/logouticon.png" alt="Logout">
+            <img src="/images/iconlogout.png" alt="Logout">
           </button>
         </form>
 
@@ -47,7 +47,7 @@
         </a>
       @endif
 
-      {{-- Warenkorb (für alle sichtbar) --}}
+      {{-- Warenkorb (immer sichtbar) --}}
       <a href="/warenkorb" class="nav-icon nav-cart" aria-label="Warenkorb">
         <img src="/images/iconwarenkorb.png" alt="Warenkorb">
         @if((cartCount || 0) > 0)

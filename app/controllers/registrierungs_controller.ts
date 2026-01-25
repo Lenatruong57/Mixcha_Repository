@@ -12,32 +12,38 @@ export default class RegistrierungsController {
 
   // POST /registrieren
   public async register({ request, session, response }: HttpContext) {
-    const firstName = request.input('first_name')
-    const lastName = request.input('last_name')
-    const email = request.input('email')
-    const password = request.input('password')
-    const password2 = request.input('password2')
+    const firstName = (request.input('first_name') || '').trim()
+    const lastName  = (request.input('last_name') || '').trim()
+    const email     = (request.input('email') || '').trim()
+    const password  = (request.input('password') || '').trim()
+    const password2 = (request.input('password2') || '').trim()
 
-    // 1) check: alles ausgefüllt?
+    // Identifizierung der Vollständigkeit
     if (!firstName || !lastName || !email || !password) {
       session.flash('error', 'Bitte alle Felder ausfüllen.')
       return response.redirect().back()
     }
 
-    // 2) passwörter gleich?
+    // Passwörter gleich?
     if (password !== password2) {
       session.flash('error', 'Passwörter stimmen nicht überein.')
       return response.redirect().back()
     }
 
-    // 3) email schon vorhanden?
+    // Passwortlänge prüfen für neue Kunden
+    if (password.length < 8) {
+      session.flash('error', 'Das Passwort muss mindestens 8 Zeichen lang sein.')
+      return response.redirect().back()
+    }
+
+    // Verhinderung von Redundanz der E-Mail
     const existingCustomer = await Customer.findBy('email', email)
     if (existingCustomer) {
       session.flash('error', 'Diese E-Mail ist bereits registriert.')
       return response.redirect().back()
     }
 
-    // 4) speichern in customers (WICHTIG: in Variable speichern)
+    // Speicherung des Kunden 
     const customer = await Customer.create({
       firstName: firstName,
       lastName: lastName,
@@ -45,12 +51,11 @@ export default class RegistrierungsController {
       password: await hash.make(password),
     })
 
-    // ✅ DEFAULT-AVATAR KOPIEREN
-    // Voraussetzung: public/avatars/default.jpg existiert
+    // Default Profilbild einfügen
     const source = path.join(process.cwd(), 'public', 'avatars', 'default.jpg')
     const target = path.join(process.cwd(), 'public', 'avatars', `avatar_${customer.id}.jpg`)
 
-    // Falls default.jpg fehlt, crasht es sonst -> daher check
+    // Check falls default.jpg fehlt
     if (fs.existsSync(source)) {
       fs.copyFileSync(source, target)
     } else {

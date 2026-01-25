@@ -66,17 +66,18 @@
           <button class="btn-primary" type="submit">Einloggen</button>
 
           @if(flashMessages.has('error'))
-            <p class="auth__msg auth__msg--error">
+            <!-- WICHTIG: id damit JS den Text finden kann -->
+            <p class="auth__msg auth__msg--error" id="login-error">
               {{ flashMessages.get('error') }}
             </p>
           @endif
         </form>
 
         <div class="auth__switch">
-        Du bist Kunde?
-        <a href="/login">Zum Kunden-Login</a>
+          Du bist Kunde?
+          <a href="/login">Zum Kunden-Login</a>
         </div>
-        
+
       </div>
     </main>
 
@@ -84,16 +85,44 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+        // =========================
+        // 1) Passwort Auge Toggle
+        // =========================
         const toggle = document.querySelector('.password-toggle')
         const input = document.getElementById('password')
 
-        if (!toggle || !input) return
+        if (toggle && input) {
+          toggle.addEventListener('click', () => {
+            const show = input.type === 'password'
+            input.type = show ? 'text' : 'password'
+            toggle.classList.toggle('is-visible', show)
+          })
+        }
 
-        toggle.addEventListener('click', () => {
-          const show = input.type === 'password'
-          input.type = show ? 'text' : 'password'
-          toggle.classList.toggle('is-visible', show)
-        })
+        // =========================
+        // 2) Countdown bei Sperre
+        // Erwartet Text mit "... 120 Sekunden"
+        // =========================
+        const errorEl = document.getElementById('login-error')
+        if (!errorEl) return
+
+        const match = errorEl.textContent.match(/(\d+)\s*Sekunden/i)
+        if (!match) return
+
+        let seconds = parseInt(match[1], 10)
+        if (Number.isNaN(seconds) || seconds <= 0) return
+
+        const interval = setInterval(() => {
+          seconds--
+
+          if (seconds <= 0) {
+            clearInterval(interval)
+            errorEl.textContent = 'Du kannst es jetzt erneut versuchen.'
+            return
+          }
+
+          errorEl.textContent = `Zu viele Login-Versuche. Bitte warte noch ${seconds} Sekunden.`
+        }, 1000)
       })
     </script>
   </body>
