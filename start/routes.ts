@@ -14,6 +14,7 @@ import DatenschutzsController from '#controllers/datenschutzs_controller'
 import UserController from '#controllers/user_controller'
 import RegistrierungsController from '#controllers/registrierungs_controller'
 import AdminController from '#controllers/admin_controller'
+import RezepteController from '#controllers/rezepte_controller'
 import { middleware } from './kernel.js'
 
 
@@ -34,6 +35,8 @@ router.get('/blog/:id', [BlogController, 'show'])
 router.get('/agb', [AgbsController, 'index'])
 router.get('/impressum', [ImpressumsController, 'index'])
 router.get('/datenschutz', [DatenschutzsController, 'index'])
+router.get('/rezepte', [RezepteController, 'index'])
+router.get('/rezepte/:slug', [RezepteController, 'show'])
 
 // Warenkorb & Checkout
 router.get('/warenkorb', [WarenkorbsController, 'index'])
