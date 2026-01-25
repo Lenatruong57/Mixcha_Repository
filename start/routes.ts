@@ -15,8 +15,6 @@ import UserController from '#controllers/user_controller'
 import RegistrierungsController from '#controllers/registrierungs_controller'
 import AdminController from '#controllers/admin_controller'
 import { middleware } from './kernel.js'
-import RezepteController from '#controllers/rezepte_controller'
-
 
 
 // noCache Middleware (nur für Login & geschützte Seiten)
@@ -36,14 +34,15 @@ router.get('/blog/:id', [BlogController, 'show'])
 router.get('/agb', [AgbsController, 'index'])
 router.get('/impressum', [ImpressumsController, 'index'])
 router.get('/datenschutz', [DatenschutzsController, 'index'])
-router.get('/user', [UserController, 'index']).use(noCache)
-router.get('/haendler-login', [LoginController, 'haendlerIndex']).use(noCache)
-router.get('/admin', [AdminController, 'index']).use(middleware.admin()).use(noCache)
-router.get('/admin/produkte/new', [AdminController, 'new']).use(middleware.admin()).use(noCache)
-router.get('/admin/produkte/:id/edit', [AdminController, 'edit']).use(middleware.admin()).use(noCache)
-router.get('/profil', [UserController, 'index']).use(middleware.customer()).use(noCache)
-router.get('/profil/edit', [UserController, 'edit']).use(middleware.customer()).use(noCache)
-router.get('/profil/bearbeiten', [UserController, 'edit']).use(middleware.customer())
+
+// Warenkorb & Checkout
+router.get('/warenkorb', [WarenkorbsController, 'index'])
+router.get('/checkout', [CheckoutsController, 'index'])
+router.get('/checkout/success', [CheckoutsController, 'success'])
+
+// Auth – Kunde
+router.get('/login', [LoginController, 'index']).use(noCache)
+router.get('/registrieren', [RegistrierungsController, 'index'])
 
 router.post('/login', [LoginController, 'loginCustomer'])
 router.post('/logout', [LoginController, 'logoutCustomer'])
