@@ -1,89 +1,111 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Blog</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog</title>
 
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/blog.css" />
-  </head>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/blog.css" />
+</head>
 
-  <body>
-    @include('pages/headerfooter/header')
+<body>
+  @include('pages/headerfooter/header')
 
-    <main class="blog-page">
+  <main class="blog-page">
 
-      <header class="blog-top">
-        <h1 class="blog-top__title">Blog</h1>
-      </header>
+    <header class="blog-top">
+      <h1 class="blog-top__title">Blog</h1>
+    </header>
 
-      <section class="blog-grid">
-        @each(post in posts)
-          <article class="blog-item">
+    {{-- =========================
+        BLOG GRID
+    ========================= --}}
+    <section class="blog-grid">
+      @each(post in posts)
+        <article class="blog-item">
 
-            <a class="blog-item__imgwrap" href="/blog/{{ post.id }}">
-              <img class="blog-item__img" src="{{ post.image }}" alt="{{ post.title }}" />
-            </a>
+          <a
+            class="blog-item__imgwrap"
+            href="{{ post.link ?? ('/blog/' + post.id) }}"
+          >
+            <img
+              class="blog-item__img"
+              src="{{ post.image }}"
+              alt="{{ post.title }}"
+            />
+          </a>
 
-            <a class="blog-item__title" href="/blog/{{ post.id }}">
-              {{ post.title }}
-            </a>
+          <a
+            class="blog-item__title"
+            href="{{ post.link ?? ('/blog/' + post.id) }}"
+          >
+            {{ post.title }}
+          </a>
 
-            <p class="blog-item__text">{{ post.teaser }}</p>
+          <p class="blog-item__text">
+            {{ post.teaser }}
+          </p>
 
-            <a class="blog-item__more" href="/blog/{{ post.id }}">— Weiterlesen</a>
+          <a
+            class="blog-item__more"
+            href="{{ post.link ?? ('/blog/' + post.id) }}"
+          >
+            — Weiterlesen
+          </a>
 
-          </article>
-        @endeach
-      </section>
+        </article>
+      @endeach
+    </section>
 
-      <section class="share-box share-box--wide">
-        <div class="share-cta">
-          <h2>Teile jetzt auch deinen<br>Matcha-Moment!</h2>
+    {{-- =========================
+        SHARE BOX (bleibt 1:1)
+    ========================= --}}
+    <section class="share-box share-box--wide">
+      <div class="share-cta">
+        <h2>Teile jetzt auch deinen<br>Matcha-Moment!</h2>
 
-          <form id="blogUploadForm" method="POST" action="/blog/upload" enctype="multipart/form-data">
-            {{ csrfField() }}
+        <form
+          method="POST"
+          action="/blog/upload"
+          enctype="multipart/form-data"
+        >
+          {{ csrfField() }}
 
-            <input id="upload" type="file" name="image" accept="image/*" hidden>
-            <label class="upload-btn" for="upload">Hier Foto hochladen</label>
+          <input
+            id="upload"
+            type="file"
+            name="image"
+            accept="image/*"
+            hidden
+            onchange="this.form.submit()"
+          >
 
-            @if(flashMessages.has('uploadSuccess'))
-              <p class="upload-success">
-                {{ flashMessages.get('uploadSuccess') }}
-              </p>
-            @endif
+          <label class="upload-btn" for="upload">
+            Hier Foto hochladen
+          </label>
 
-            @if(flashMessages.has('uploadError'))
-              <p class="upload-error">
-                {{ flashMessages.get('uploadError') }}
-              </p>
-            @endif
-          </form>
-        </div>
+          @if(flashMessages.has('uploadSuccess'))
+            <p class="upload-success">
+              {{ flashMessages.get('uploadSuccess') }}
+            </p>
+          @endif
 
-        <div class="share-img">
-          <img src="/images/rezepte.png" alt="Matcha Foto">
-        </div>
-      </section>
+          @if(flashMessages.has('uploadError'))
+            <p class="upload-error">
+              {{ flashMessages.get('uploadError') }}
+            </p>
+          @endif
+        </form>
+      </div>
 
-    </main>
+      <div class="share-img">
+        <img src="/images/rezepte.png" alt="Matcha Foto">
+      </div>
+    </section>
 
-    @include('pages/headerfooter/footer')
+  </main>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const input = document.getElementById('upload')
-        const form = document.getElementById('blogUploadForm')
-
-        if (!input || !form) return
-
-        input.addEventListener('change', () => {
-          if (input.files && input.files.length > 0) {
-            form.submit()
-          }
-        })
-      })
-    </script>
-  </body>
+  @include('pages/headerfooter/footer')
+</body>
 </html>

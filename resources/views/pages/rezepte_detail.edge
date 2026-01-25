@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ recipe.title }} – Rezepte</title>
+
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/blog.css" />
+</head>
+
+<body>
+  @include('pages/headerfooter/header')
+
+  <main class="recipe-detail">
+
+    <a class="back-link" href="/rezepte">← Zurück zu den Rezepten</a>
+
+    <h1 class="recipe-title">{{ recipe.title }}</h1>
+
+    <div class="recipe-layout">
+
+      {{-- LINKS: TEXT --}}
+      <div class="recipe-content">
+
+        <section class="recipe-section">
+          <h2>Zutaten</h2>
+          <ul>
+            @each(i in recipe.ingredients)
+              <li>{{ i }}</li>
+            @endeach
+          </ul>
+        </section>
+
+        <section class="recipe-section">
+          <h2>Zubereitung</h2>
+          <ol>
+            @each(s in recipe.steps)
+              <li>{{ s }}</li>
+            @endeach
+          </ol>
+        </section>
+
+      </div>
+
+      {{-- RECHTS: BILD --}}
+      <aside class="recipe-aside">
+        <div class="recipe-imageWrap">
+          <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+        </div>
+      </aside>
+
+    </div>
+
+  </main>
+
+  @include('pages/headerfooter/footer')
+</body>
+</html>
