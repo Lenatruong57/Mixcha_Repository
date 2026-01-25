@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rezepte – Mixcha Blog</title>
+
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/blog.css" />
+</head>
+
+<body>
+  @include('pages/headerfooter/header')
+
+  <main class="blog-page">
+
+    <a class="back-link" href="/blog">← Zurück zum Blog</a>
+
+    <header class="blog-top">
+      <h1 class="blog-top__title">Rezepte</h1>
+    </header>
+
+    <section class="blog-grid">
+      @each(r in recipes)
+        <article class="blog-item">
+
+          <a class="blog-item__imgwrap" href="/rezepte/{{ r.slug }}">
+            <img class="blog-item__img" src="{{ r.image }}" alt="{{ r.title }}" />
+          </a>
+
+          <a class="blog-item__title" href="/rezepte/{{ r.slug }}">
+            {{ r.title }}
+          </a>
+
+          <p class="blog-item__text">{{ r.teaser }}</p>
+
+          <a class="blog-item__more" href="/rezepte/{{ r.slug }}">
+            — Weiterlesen
+          </a>
+
+        </article>
+      @endeach
+    </section>
+
+  </main>
+
+  @include('pages/headerfooter/footer')
+</body>
+</html>

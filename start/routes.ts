@@ -15,6 +15,8 @@ import UserController from '#controllers/user_controller'
 import RegistrierungsController from '#controllers/registrierungs_controller'
 import AdminController from '#controllers/admin_controller'
 import { middleware } from './kernel.js'
+import RezepteController from '#controllers/rezepte_controller'
+
 
 const noCache = async ({ response }: HttpContext, next: NextFn) => {
   response.header('Cache-Control', 'no-store')
@@ -44,6 +46,8 @@ router.get('/admin/produkte/:id/edit', [AdminController, 'edit']).use(middleware
 router.get('/profil', [UserController, 'index']).use(middleware.customer()).use(noCache)
 router.get('/profil/edit', [UserController, 'edit']).use(middleware.customer()).use(noCache)
 router.get('/profil/bearbeiten', [UserController, 'edit']).use(middleware.customer())
+router.get('/rezepte', [RezepteController, 'index'])
+router.get('/rezepte/:slug', [RezepteController, 'show'])
 
 router.post('/login', [LoginController, 'loginCustomer'])
 router.post('/registrieren', [RegistrierungsController, 'register'])
