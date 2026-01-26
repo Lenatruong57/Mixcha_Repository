@@ -69,6 +69,8 @@ router.get('/haendler-login', [LoginController, 'haendlerIndex']).use(noCache)
 router.post('/haendler-login', [LoginController, 'loginHaendler'])
 router.post('/haendler-logout', [LoginController, 'logoutHaendler'])
 
+router.post('/blog/upload', [BlogController, 'upload'])
+
 // Admin-Bereich (geschützt)
 router.get('/admin', [AdminController, 'index'])
   .use(middleware.admin())
