@@ -14,32 +14,27 @@
 
     <main class="auth">
       <div class="auth__card">
-        <h1 class="auth__title">Jetzt Registrieren</h1>
+        <h1 class="auth__title">Jetzt registrieren</h1>
         <p class="auth__subtitle">
           Erstelle ein Konto, um deinen Warenkorb und deine Mischung zu speichern.
         </p>
 
-        @if(flashMessages.has('error'))
-          <p class="auth__msg auth__msg--error">{{ flashMessages.get('error') }}</p>
-        @endif
-
-        @if(flashMessages.has('success'))
-          <p class="auth__msg auth__msg--success">{{ flashMessages.get('success') }}</p>
-        @endif
-
         <form class="auth__form" method="POST" action="/registrieren" autocomplete="off">
           {{ csrfField() }}
 
+          <!-- Vorname -->
           <div class="field">
             <label for="first_name">Vorname</label>
             <input id="first_name" name="first_name" type="text" required />
           </div>
 
+          <!-- Nachname -->
           <div class="field">
             <label for="last_name">Nachname</label>
             <input id="last_name" name="last_name" type="text" required />
           </div>
 
+          <!-- E-Mail -->
           <div class="field">
             <label for="email">E-Mail</label>
             <input id="email" name="email" type="email" required />
@@ -48,9 +43,14 @@
           <!-- Passwort -->
           <div class="field">
             <label for="password">Passwort</label>
-
             <div class="password-wrapper">
-              <input id="password" name="password" type="password" required autocomplete="off" />
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                autocomplete="off"
+              />
 
               <button
                 type="button"
@@ -58,19 +58,14 @@
                 aria-label="Passwort anzeigen"
                 data-target="password"
               >
-                <!-- geschlossen -->
                 <svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.94"/>
                   <path d="M1 1l22 22"/>
-                  <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.87 21.87 0 0 1-5.06 6.94"/>
                 </svg>
 
-                <!-- offen -->
                 <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
@@ -81,9 +76,14 @@
           <!-- Passwort wiederholen -->
           <div class="field">
             <label for="password2">Passwort wiederholen</label>
-
             <div class="password-wrapper">
-              <input id="password2" name="password2" type="password" required autocomplete="off" />
+              <input
+                id="password2"
+                name="password2"
+                type="password"
+                required
+                autocomplete="off"
+              />
 
               <button
                 type="button"
@@ -91,19 +91,14 @@
                 aria-label="Passwort anzeigen"
                 data-target="password2"
               >
-                <!-- geschlossen -->
                 <svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.94"/>
                   <path d="M1 1l22 22"/>
-                  <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.87 21.87 0 0 1-5.06 6.94"/>
                 </svg>
 
-                <!-- offen -->
                 <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
@@ -111,7 +106,21 @@
             </div>
           </div>
 
+          <!-- Submit -->
           <button type="submit" class="btn-primary">Registrieren</button>
+
+          <!-- FLASH MESSAGES (immer unter dem Button) -->
+          @if(flashMessages.has('error'))
+            <p class="auth__msg auth__msg--error">
+              {{ flashMessages.get('error') }}
+            </p>
+          @endif
+
+          @if(flashMessages.has('success'))
+            <p class="auth__msg auth__msg--success">
+              {{ flashMessages.get('success') }}
+            </p>
+          @endif
 
           <div class="auth__switch">
             Schon ein Konto? <a href="/login">Zum Login</a>
@@ -126,10 +135,9 @@
       document.addEventListener('DOMContentLoaded', () => {
         const toggles = document.querySelectorAll('.password-toggle')
 
-        toggles.forEach((toggle) => {
+        toggles.forEach(toggle => {
           const targetId = toggle.getAttribute('data-target')
           const input = document.getElementById(targetId)
-
           if (!input) return
 
           toggle.addEventListener('click', () => {

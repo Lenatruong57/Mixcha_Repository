@@ -1,4 +1,6 @@
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import ProductVariant from './product_variant.js'
 
 export default class Product extends BaseModel {
   // Ihr habt in eurer products-Tabelle KEINE created_at/updated_at Spalten,
@@ -22,4 +24,7 @@ export default class Product extends BaseModel {
 
   @column({ columnName: 'image_url' })
   declare imageUrl: string | null
+
+  @hasMany(() => ProductVariant)
+  declare variants: HasMany<typeof ProductVariant>
 }

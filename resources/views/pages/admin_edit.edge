@@ -53,6 +53,85 @@
           <input id="category_id" name="category_id" type="number" required value="{{ product.categoryId }}">
         </div>
 
+        <hr style="margin: 18px 0; opacity: .2;">
+
+        <h3 style="margin: 0 0 10px;">Varianten (genau 3)</h3>
+        <p style="margin: 0 0 14px; opacity: .75;">
+          Jede Variante braucht Name + Preis. (Wird im Warenkorb verwendet.)
+        </p>
+
+        {{-- Variante 1 --}}
+        <div class="field">
+          <label for="v1_name">Variante 1 – Name</label>
+          <input
+            id="v1_name"
+            name="variants[0][name]"
+            type="text"
+            required
+            value="{{ product.variants && product.variants[0] ? product.variants[0].name : '' }}"
+          >
+        </div>
+
+        <div class="field">
+          <label for="v1_price">Variante 1 – Preis</label>
+          <input
+            id="v1_price"
+            name="variants[0][price]"
+            type="number"
+            step="0.01"
+            required
+            value="{{ product.variants && product.variants[0] ? product.variants[0].price : '' }}"
+          >
+        </div>
+
+        {{-- Variante 2 --}}
+        <div class="field">
+          <label for="v2_name">Variante 2 – Name</label>
+          <input
+            id="v2_name"
+            name="variants[1][name]"
+            type="text"
+            required
+            value="{{ product.variants && product.variants[1] ? product.variants[1].name : '' }}"
+          >
+        </div>
+
+        <div class="field">
+          <label for="v2_price">Variante 2 – Preis</label>
+          <input
+            id="v2_price"
+            name="variants[1][price]"
+            type="number"
+            step="0.01"
+            required
+            value="{{ product.variants && product.variants[1] ? product.variants[1].price : '' }}"
+          >
+        </div>
+
+        {{-- Variante 3 --}}
+        <div class="field">
+          <label for="v3_name">Variante 3 – Name</label>
+          <input
+            id="v3_name"
+            name="variants[2][name]"
+            type="text"
+            required
+            value="{{ product.variants && product.variants[2] ? product.variants[2].name : '' }}"
+          >
+        </div>
+
+        <div class="field">
+          <label for="v3_price">Variante 3 – Preis</label>
+          <input
+            id="v3_price"
+            name="variants[2][price]"
+            type="number"
+            step="0.01"
+            required
+            value="{{ product.variants && product.variants[2] ? product.variants[2].price : '' }}"
+          >
+        </div>
+
         <div class="admin_actions">
           <button class="admin_btn" type="submit">Speichern</button>
           <a class="admin_btn admin_btn--secondary" href="/admin">Abbrechen</a>
@@ -62,6 +141,5 @@
   </main>
 
   @include('pages/headerfooter/footer')
-
 </body>
 </html>

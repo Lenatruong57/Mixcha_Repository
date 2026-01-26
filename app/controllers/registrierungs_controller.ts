@@ -30,7 +30,7 @@ export default class RegistrierungsController {
       return response.redirect().back()
     }
 
-    // Passwortlänge prüfen für neue Kunden
+    // Passwortlänge prüfen 
     if (password.length < 8) {
       session.flash('error', 'Das Passwort muss mindestens 8 Zeichen lang sein.')
       return response.redirect().back()

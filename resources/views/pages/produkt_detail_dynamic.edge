@@ -35,10 +35,30 @@
           <input type="hidden" name="product_id" value="{{ product.id }}">
           <input type="hidden" name="name" value="{{ product.name }}">
           <input type="hidden" name="image_url" value="{{ product.imageUrl ?? '/images/logo.png' }}">
-          <input type="hidden" name="unit_price" value="{{ product.basePrice }}">
+
+          <!-- Diese Felder werden (optional) durch die Variantenwahl beeinflusst -->
+          <input type="hidden" id="unit_price" name="unit_price" value="{{ product.basePrice }}">
+          <input type="hidden" id="variant_id" name="variant_id" value="">
+
+          <!-- Varianten (nur wenn vorhanden) -->
+          @if(product.variants && product.variants.length)
+            <div class="field" style="margin-top: 14px;">
+              <label for="variant_select">Variante wählen</label>
+              <select id="variant_select" name="variant_select">
+                @each(variant in product.variants)
+                  <option
+                    value="{{ variant.id }}"
+                    data-price="{{ variant.price }}"
+                  >
+                    {{ variant.name }} – {{ variant.price }} €
+                  </option>
+                @endeach
+              </select>
+            </div>
+          @endif
 
           <p class="product-detail__price">
-            {{ product.basePrice }} €
+            <span id="price_label">{{ product.basePrice }}</span> €
           </p>
 
           <button class="product-detail__btn" type="submit">
@@ -51,5 +71,36 @@
   </main>
 
   @include('pages/headerfooter/footer')
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const select = document.getElementById('variant_select')
+      const priceLabel = document.getElementById('price_label')
+      const unitPriceInput = document.getElementById('unit_price')
+      const variantIdInput = document.getElementById('variant_id')
+
+      // Wenn es keine Varianten gibt, gibt's auch nichts zu tun
+      if (!select) return
+
+      const applyVariant = () => {
+        const option = select.options[select.selectedIndex]
+        const variantId = option.value
+        const variantPrice = option.getAttribute('data-price')
+
+        // Hidden Inputs für Warenkorb
+        variantIdInput.value = variantId
+        unitPriceInput.value = variantPrice
+
+        // Anzeige aktualisieren
+        priceLabel.textContent = variantPrice
+      }
+
+      // Initial direkt setzen (1. Option als Standard)
+      applyVariant()
+
+      // Bei Wechsel aktualisieren
+      select.addEventListener('change', applyVariant)
+    })
+  </script>
 </body>
 </html>
