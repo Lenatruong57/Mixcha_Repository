@@ -53,6 +53,9 @@ database/*.db
 Thumbs.db
 ehthumbs.db
 
+.DS_Store
+datenbank/*.sqlite
+datenbank/*.db
 
 # IDE / EDITOR
 
