@@ -9,9 +9,18 @@ export default class ProdukteController {
 
   public async show({ params, view }: HttpContext) {
     const id = Number(params.id)
-
-    if (id === 1) return view.render('pages/produkt_detail_premium')
-    if (id === 2) return view.render('pages/produkt_detail_ceremonial')
-    if (id === 3) return view.render('pages/produkt_detail_set')
+  
+    const product = await Product.query()
+      .where('id', id)
+      .preload('variants')
+      .preload('extras')
+      .firstOrFail()
+  
+    if (id === 1) return view.render('pages/produkt_detail_premium', { product })
+    if (id === 2) return view.render('pages/produkt_detail_ceremonial', { product })
+    if (id === 3) return view.render('pages/produkt_detail_set', { product })
+  
+    // optional fallback
+    return view.render('pages/produkte', { products: [] })
   }
 }
