@@ -36,6 +36,10 @@ pnpm-debug.log*
 database/*.sqlite
 database/*.db
 
+.DS_Store
+datenbank/*.sqlite
+datenbank/*.db
+
 
 # SQLITE BROWSER / GUI TOOLS
 
@@ -43,6 +47,7 @@ database/*.db
 *.db3
 *.sqlite-wal
 *.sqlite-shm
+
 
 
 # OS FILES
