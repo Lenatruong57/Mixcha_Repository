@@ -58,7 +58,6 @@ datenbank/*.db
 Thumbs.db
 ehthumbs.db
 
-
 # IDE / EDITOR
 
 .vscode/*
@@ -94,3 +93,8 @@ coverage/
 *.bak
 *.old
 *.orig
+
+datenbank/*.sqlite
+datenbank/*.db
+*.sqlite-wal
+*.sqlite-shm
