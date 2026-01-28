@@ -3,7 +3,7 @@ import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Product from '#models/product'
 
-export default class ProductVariant extends BaseModel {
+export default class ProductExtra extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
@@ -13,11 +13,14 @@ export default class ProductVariant extends BaseModel {
   @column()
   declare name: string
 
-  @column()
-  declare grams: number
+  @column({ columnName: 'price_delta' })
+  declare priceDelta: number
 
-  @column()
-  declare price: number
+  @column({ columnName: 'requires_text' })
+  declare requiresText: boolean
+
+  @column({ columnName: 'text_label' })
+  declare textLabel: string | null
 
   @belongsTo(() => Product)
   declare product: BelongsTo<typeof Product>

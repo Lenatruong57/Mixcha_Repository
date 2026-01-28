@@ -21,42 +21,27 @@
       @if(!products || products.length === 0)
         <p>Keine Produkte vorhanden.</p>
       @else
-        @each(product in products)
-          <article class="product-card">
-            <a class="product-card__link"
-               href="/produkte/{{ product.id }}"
-               aria-label="{{ product.name }} öffnen">
-              <div class="product-card__media">
-                <img
-                  class="product-card__img {{ product.id === 2 ? 'product-card__img--ceremonial' : '' }}"
-                  src="{{ product.imageUrl ?? '/images/logo.png' }}"
-                  alt="{{ product.name }}">
-              </div>
-            </a>
-
-            <h2 class="product-card__name">
-              @if(product.id === 1)
-                Mix your Premium Matcha
-              @elseif(product.id === 2)
-                Mix your Ceremonial Matcha
-              @else
-                {{ product.name }}
-              @endif
-            </h2>
-
-            <p class="product-card__price">
-              ab {{ Number(product.basePrice).toFixed(2).replace('.', ',') }} €
-            </p>
-
-            <a class="product-card__btn" href="/produkte/{{ product.id }}">
-              @if(product.id === 1 || product.id === 2)
-                Mix now
-              @else
-                Buy now
-              @endif
-            </a>
-          </article>
-        @endeach
+      @each(product in products)
+      <article class="product-card">
+        <a class="product-card__link" href="/produkte/{{ product.id }}">
+          <div class="product-card__media">
+            <img
+              class="product-card__img"
+              src="{{ product.imageUrl ?? '/images/logo.png' }}"
+              alt="{{ product.name }}"
+            />
+          </div>
+    
+          <h2 class="product-card__name">{{ product.name }}</h2>
+    
+          <p class="product-card__price">
+            ab {{ Number(product.basePrice).toFixed(2).replace('.', ',') }} €
+          </p>
+    
+          <span class="product-card__btn">Buy now</span>
+        </a>
+      </article>
+    @endeach
       @endif
     </section>
   </main>

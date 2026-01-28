@@ -32,13 +32,24 @@
 
 /* Produktkarte */
 .product-card {
-  background-color: #ffffff;
-  padding: 40px 24px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-/* Link um das Bild */
+.product-card_name {
+  margin-top: 12px;
+}
+
+.product-card_price {
+  margin-top: auto;
+}
+
+
 .product-card__link {
+  background: #ffffff;
+  padding: 48px 24px;
+  text-align: center;
   display: block;
   text-decoration: none;
   color: inherit;
@@ -46,32 +57,29 @@
 
 /* >>> Das ist der Trick: gleiche Bildfläche für alle Karten <<< */
 .product-card__media {
-  height: 220px;                 /* fixe Bildhöhe */
+  width: 100%;
+  height: 260px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
 }
 
 /* Standard Bild */
 .product-card__img {
-  max-width: 220px;
-  max-height: 220px;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   display: block;
-  transition: transform 0.25s ease;
-  cursor: pointer;
+
+  transition: transform 0.45s ease;
 }
 
 /* Ceremonial optisch etwas größer machen */
 .product-card__img--ceremonial {
   transform: scale(1.12);
-  transform-origin: center;
+  transition: transform 0.45s ease;
 }
 
-/* Hover (für alle Bilder gleich) */
 .product-card__link:hover .product-card__img {
   transform: scale(1.2);
 }

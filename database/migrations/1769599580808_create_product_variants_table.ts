@@ -15,8 +15,12 @@ export default class extends BaseSchema {
         .inTable('products')
         .onDelete('CASCADE')
 
-      table.string('name').notNullable()           // z.B. "50g"
-      table.decimal('price', 10, 2).notNullable()  // Preis der Variante
+      table.string('name', 255).notNullable()
+      table.integer('grams').notNullable()
+      table.decimal('price', 10, 2).notNullable()
+
+      table.timestamp('created_at').notNullable()
+      table.timestamp('updated_at').notNullable()
     })
   }
 

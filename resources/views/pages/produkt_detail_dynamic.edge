@@ -36,29 +36,56 @@
           <input type="hidden" name="name" value="{{ product.name }}">
           <input type="hidden" name="image_url" value="{{ product.imageUrl ?? '/images/logo.png' }}">
 
-          <!-- Diese Felder werden (optional) durch die Variantenwahl beeinflusst -->
+          <!-- ✅ wird durch Varianten/Extras gesetzt -->
           <input type="hidden" id="unit_price" name="unit_price" value="{{ product.basePrice }}">
           <input type="hidden" id="variant_id" name="variant_id" value="">
 
-          <!-- Varianten (nur wenn vorhanden) -->
+          <!-- ✅ OPTIONAL: Extras als Liste (werden als Array gepostet) -->
+          @if(product.extras && product.extras.length)
+            <div class="field" style="margin-top: 14px;">
+              <label>Extras wählen</label>
+
+              <div style="display:grid; gap:8px; margin-top:8px;">
+                @each(e in product.extras)
+                  <label style="display:flex; gap:10px; align-items:center;">
+                    <input
+                      type="checkbox"
+                      class="extra_cb"
+                      name="extras[]"
+                      value="{{ e.id }}"
+                      data-price="{{ e.price }}"
+                    >
+                    <span>
+                      {{ e.name }}
+                      @if(Number(e.price) > 0)
+                        (+{{ Number(e.price).toFixed(2).replace('.', ',') }} €)
+                      @endif
+                    </span>
+                  </label>
+                @endeach
+              </div>
+            </div>
+          @endif
+
+          <!-- ✅ Varianten -->
           @if(product.variants && product.variants.length)
             <div class="field" style="margin-top: 14px;">
               <label for="variant_select">Variante wählen</label>
+
+              <!-- WICHTIG: id muss zu JS passen -->
               <select id="variant_select" name="variant_select">
-                @each(variant in product.variants)
-                  <option
-                    value="{{ variant.id }}"
-                    data-price="{{ variant.price }}"
-                  >
-                    {{ variant.name }} – {{ variant.price }} €
+                @each(v in product.variants)
+                  <option value="{{ v.id }}" data-price="{{ v.price }}">
+                    {{ v.name }} – {{ Number(v.price).toFixed(2).replace('.', ',') }} €
                   </option>
                 @endeach
               </select>
             </div>
           @endif
 
+          <!-- ✅ Preisanzeige -->
           <p class="product-detail__price">
-            <span id="price_label">{{ product.basePrice }}</span> €
+            <span id="price_label">{{ Number(product.basePrice).toFixed(2).replace('.', ',') }}</span> €
           </p>
 
           <button class="product-detail__btn" type="submit">
@@ -79,27 +106,47 @@
       const unitPriceInput = document.getElementById('unit_price')
       const variantIdInput = document.getElementById('variant_id')
 
-      // Wenn es keine Varianten gibt, gibt's auch nichts zu tun
-      if (!select) return
+      const extraCheckboxes = Array.from(document.querySelectorAll('.extra_cb'))
 
-      const applyVariant = () => {
+      const formatPrice = (num) => {
+        return Number(num).toFixed(2).replace('.', ',')
+      }
+
+      const getSelectedVariantPrice = () => {
+        if (!select) return Number(unitPriceInput.value || 0)
+
         const option = select.options[select.selectedIndex]
         const variantId = option.value
-        const variantPrice = option.getAttribute('data-price')
+        const variantPrice = Number(option.getAttribute('data-price') || 0)
 
         // Hidden Inputs für Warenkorb
         variantIdInput.value = variantId
-        unitPriceInput.value = variantPrice
+        unitPriceInput.value = String(variantPrice)
 
-        // Anzeige aktualisieren
-        priceLabel.textContent = variantPrice
+        return variantPrice
       }
 
-      // Initial direkt setzen (1. Option als Standard)
-      applyVariant()
+      const getExtrasTotal = () => {
+        let total = 0
+        for (const cb of extraCheckboxes) {
+          if (cb.checked) total += Number(cb.getAttribute('data-price') || 0)
+        }
+        return total
+      }
 
-      // Bei Wechsel aktualisieren
-      select.addEventListener('change', applyVariant)
+      const updatePrice = () => {
+        const base = getSelectedVariantPrice()
+        const extras = getExtrasTotal()
+        const finalPrice = base + extras
+        priceLabel.textContent = formatPrice(finalPrice)
+      }
+
+      // ✅ initial
+      updatePrice()
+
+      // ✅ events
+      if (select) select.addEventListener('change', updatePrice)
+      for (const cb of extraCheckboxes) cb.addEventListener('change', updatePrice)
     })
   </script>
 </body>
