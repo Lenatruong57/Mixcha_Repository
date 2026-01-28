@@ -16,20 +16,6 @@
       <div class="checkout-wrap">
         <div class="checkout-grid">
 
-          <!-- LINKS -->
-          <section class="checkout-left">
-            <div class="express">
-              <div class="express-title">Express Checkout</div>
-              <div class="express-buttons">
-                <img src="/images/applepay.png" alt="Apple Pay" />
-                <img src="/images/paypal.svg.png" alt="PayPal" />
-                <img src="/images/googlepay.png" alt="Google Pay" />
-              </div>
-              <div class="express-or">
-                <span></span><p>ODER</p><span></span>
-              </div>
-            </div>
-
             <div class="checkout-block">
               <div class="checkout-block-head">
                 <h2>Kontaktdaten</h2>
@@ -39,7 +25,7 @@
               <form action="/checkout/process" method="post" class="checkout-form">
                 {{ csrfField() }}
 
-                <input class="c-input" type="email" name="email" placeholder="E-mail" required />
+                <input class="c-input" type="email" name="email" placeholder="E-Mail" required />
 
                 <div class="two">
                   <input class="c-input" type="text" name="first_name" placeholder="Vorname" required />
@@ -47,14 +33,13 @@
                 </div>
 
                 <h2 class="mt">Adresse</h2>
-                <input class="c-input" type="text" name="street" placeholder="Adresse / Straße + Hausnr." required />
+                <input class="c-input" type="text" name="street" placeholder="Straße" required />
+                <input class="c-input" type="text" name="house_number" placeholder="Hausnr." required />
 
                 <div class="two">
                   <input class="c-input" type="text" name="zip" placeholder="PLZ" required />
                   <input class="c-input" type="text" name="city" placeholder="Stadt" required />
                 </div>
-
-                <input class="c-input" type="text" name="country" placeholder="Land" required />
 
                 <button class="c-btn" type="submit">
                   Jetzt kostenpflichtig bestellen
