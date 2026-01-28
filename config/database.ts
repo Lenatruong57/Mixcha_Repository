@@ -1,20 +1,18 @@
+import env from '#start/env'
 import { defineConfig } from '@adonisjs/lucid'
 
-const dbConfig = defineConfig({
+const databaseConfig = defineConfig({
   connection: 'sqlite',
+
   connections: {
     sqlite: {
-      client: 'better-sqlite3',
+      client: 'sqlite3',
       connection: {
-        filename: './datenbank/Mixcha_Datenbank.db.sqlite'
+        filename: env.get('DB_DATABASE', 'database/Mixcha_Datenbank.db.sqlite'),
       },
       useNullAsDefault: true,
-      migrations: {
-        naturalSort: true,
-        paths: ['database/migrations'],
-      },
     },
   },
 })
 
-export default dbConfig
+export default databaseConfig
