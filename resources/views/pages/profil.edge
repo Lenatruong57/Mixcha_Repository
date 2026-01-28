@@ -24,9 +24,10 @@
 
               <div class="profile__header-right">
                 <img
-                src="{{ customer.avatar ? '/avatars/' + customer.avatar : '/avatars/default.jpg' }}"
-                class="profile-avatar"
-                alt="Profilbild"/>
+                  src="{{ customer.avatar ? '/avatars/' + customer.avatar : '/avatars/default.jpg' }}"
+                  class="profile-avatar"
+                  alt="Profilbild"
+                />
               </div>
             </div>
 
@@ -59,9 +60,24 @@
               </div>
 
               <div class="profile__row">
-                <span class="profile__label">Adresse</span>
+                <span class="profile__label">Straße</span>
                 <span class="profile__value">
-                  {{ customer.address ? customer.address : '—' }}
+                {{ customer.street ? customer.street : '—' }}
+                {{ customer.houseNumber ? customer.houseNumber : '' }}
+                </span>
+              </div>
+
+              <div class="profile__row">
+                <span class="profile__label">PLZ</span>
+                <span class="profile__value">
+                  {{ customer.postalCode ? customer.postalCode : '—' }}
+                </span>
+              </div>
+
+              <div class="profile__row">
+                <span class="profile__label">Stadt</span>
+                <span class="profile__value">
+                  {{ customer.city ? customer.city : '—' }}
                 </span>
               </div>
 

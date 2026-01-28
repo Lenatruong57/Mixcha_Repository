@@ -1,9 +1,6 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
 
 export default class Customer extends BaseModel {
-  public static table = 'customers'
-
   @column({ isPrimary: true })
   declare id: number
 
@@ -16,17 +13,25 @@ export default class Customer extends BaseModel {
   @column()
   declare email: string
 
-  @column({ serializeAs: null })
+  @column()
   declare password: string
 
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
-
+  // bisher
   @column()
   declare address: string | null
+
+  // ✅ neu
+  @column()
+  declare street: string | null
+
+  @column({ columnName: 'house_number' })
+  declare houseNumber: string | null
+
+  @column({ columnName: 'postal_code' })
+  declare postalCode: string | null
+
+  @column()
+  declare city: string | null
 
   @column()
   declare phone: string | null

@@ -2,19 +2,12 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Customer from '#models/customer'
 
 export default class UserController {
-  // =========================
-  // PROFIL ANZEIGEN
-  // =========================
   // GET /profil
   public async index({ view, session, response }: HttpContext) {
     const customerId = session.get('customerId')
-
-    if (!customerId) {
-      return response.redirect('/login')
-    }
+    if (!customerId) return response.redirect('/login')
 
     const customer = await Customer.find(customerId)
-
     if (!customer) {
       session.forget('customerId')
       return response.redirect('/login')
@@ -23,19 +16,12 @@ export default class UserController {
     return view.render('pages/profil', { customer })
   }
 
-  // =========================
-  // PROFIL BEARBEITEN (FORMULAR)
-  // =========================
   // GET /profil/edit
   public async edit({ view, session, response }: HttpContext) {
     const customerId = session.get('customerId')
-
-    if (!customerId) {
-      return response.redirect('/login')
-    }
+    if (!customerId) return response.redirect('/login')
 
     const customer = await Customer.find(customerId)
-
     if (!customer) {
       session.forget('customerId')
       return response.redirect('/login')
@@ -44,9 +30,6 @@ export default class UserController {
     return view.render('pages/profil_edit', { customer })
   }
 
-  // =========================
-  // PROFIL SPEICHERN
-  // =========================
   // POST /profil
   public async update({ request, session, response }: HttpContext) {
     const customerId = session.get('customerId')
@@ -58,49 +41,46 @@ export default class UserController {
       return response.redirect('/login')
     }
 
-    // Pflichtfelder
-    const firstName = request.input('first_name')
-    const lastName = request.input('last_name')
+    const firstName = (request.input('first_name') || '').trim()
+    const lastName = (request.input('last_name') || '').trim()
 
-    // Optionale Felder
-    const address = request.input('address') || null
-    const phone = request.input('phone') || null
+    const street = (request.input('street') || '').trim() || null
+    const houseNumber = (request.input('house_number') || '').trim() || null
+    const postalCode = (request.input('postal_code') || '').trim() || null
+    const city = (request.input('city') || '').trim() || null
+    const phone = (request.input('phone') || '').trim() || null
 
     if (!firstName || !lastName) {
       session.flash('error', 'Bitte Vorname und Nachname ausfüllen.')
       return response.redirect('/profil/edit')
     }
 
-    // =========================
-    // PROFILBILD
-    // =========================
-    // Profilbild
+    // Avatar Upload (optional)
     const avatar = request.file('avatar', {
-      size: '10mb', // <- höher (z.B. 10mb)
+      size: '10mb',
       extnames: ['jpg', 'jpeg', 'png', 'webp'],
     })
 
     if (avatar) {
       if (!avatar.isValid) {
-        // hier bekommst du z.B. size / extension Fehler
         session.flash('error', avatar.errors.map((e) => e.message).join(' | '))
         return response.redirect('/profil/edit')
       }
 
       await avatar.move('public/avatars', {
-        name: `avatar_${customerId}.${avatar.extname}`, // richtige Endung behalten
+        name: `avatar_${customerId}.${avatar.extname}`,
         overwrite: true,
       })
 
       customer.avatar = `avatar_${customerId}.${avatar.extname}`
     }
 
-    // =========================
-    // DATEN SPEICHERN
-    // =========================
     customer.firstName = firstName
     customer.lastName = lastName
-    customer.address = address
+    customer.street = street
+    customer.houseNumber = houseNumber
+    customer.postalCode = postalCode
+    customer.city = city
     customer.phone = phone
 
     await customer.save()

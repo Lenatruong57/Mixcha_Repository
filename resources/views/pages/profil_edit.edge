@@ -99,16 +99,25 @@
               <input type="email" value="{{ customer.email }}" disabled />
             </div>
 
-            {{-- Adresse --}}
+            {{-- Adresse (neu, aufgeteilt) --}}
             <div class="form__group">
-              <label for="address">Adresse</label>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                value="{{ customer.address || '' }}"
-                placeholder="Straße, PLZ Ort"
-              />
+             <label for="street">Straße</label>
+             <input type="text" id="street" name="street" value="{{ customer.street ?? '' }}" placeholder="z. B. Musterstraße"/>
+            </div>
+
+            <div class="form__group">
+             <label for="house_number">Hausnummer</label>
+             <input type="text" id="house_number" name="house_number" value="{{ customer.houseNumber ?? '' }}" placeholder="z. B. 12a"/>
+            </div>
+
+            <div class="form__group">
+              <label for="postal_code">PLZ</label>
+              <input type="text" id="postal_code" name="postal_code" value="{{ customer.postalCode ?? '' }}" placeholder="z. B. 12345"/>
+            </div>
+
+            <div class="form__group">
+              <label for="city">Stadt</label>
+              <input type="text" id="city" name="city" value="{{ customer.city ?? '' }}" placeholder="z. B. Musterstadt"/>
             </div>
 
             {{-- Telefon --}}
