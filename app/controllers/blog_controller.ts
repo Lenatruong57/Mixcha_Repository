@@ -1,8 +1,6 @@
-// app/controllers/blog_controller.ts
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 
-// ✅ Jerome: Rezepte-Vorschau im Blog (eigene Seite später über /rezepte)
 import RezepteController from '#controllers/rezepte_controller'
 const rezepte = new RezepteController()
 
