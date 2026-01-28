@@ -17,11 +17,11 @@
 
 /* Wenn du page--center nutzt */
 .page--center {
-  min-height: calc(100vh - 180px);
+  min-height: calc(100vh - 120px); /* Header/Footer berücksichtigen */
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 48px 24px;
+  align-items: flex-start; /* oben ausgerichtet, nicht mitten im Screen */
+  padding-top: 40px;
 }
 
 /* Card */
