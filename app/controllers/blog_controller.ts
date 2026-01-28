@@ -37,7 +37,7 @@ export default class BlogController {
         {
           heading: 'Matcha mit natürlichen Extras',
           text:
-            'Unsere Matcha-Sorten verbinden höchste Qualität mit modernen Bedürfnissen:\nVanille, Kokos oder Zimt direkt im Pulver\nVeganes Kollagenpulver (optional)\nVerschiedene Größen (30g, 70g, 100g)',
+            'Unsere Matcha-Sorten verbinden höchste Qualität mit modernen Bedürfnissen:\n - Vanille, Kokos oder Zimt direkt im Pulver\n - Veganes Kollagenpulver (optional)\n - Verschiedene Größen (30g, 70g, 100g)',
         },
         {
           heading: 'Nachhaltigkeit & Herkunft',
