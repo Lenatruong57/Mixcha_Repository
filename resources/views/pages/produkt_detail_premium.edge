@@ -1,27 +1,12 @@
-<<!doctype html>
+<!doctype html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ product.name }} – Mixcha</title>
+  <title>Premium Matcha – Mixcha</title>
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/produkt_detail.css">
-
-  <style>
-    /* kleine Ergänzungen nur für die Farbpunkte */
-    .color-dots { display:flex; gap:10px; margin-top:8px; }
-    .color-dot {
-      width:14px; height:14px; border-radius:999px;
-      border:1px solid rgba(0,0,0,.2);
-      background:#ddd;
-      cursor:pointer;
-    }
-    .color-dot.is-active { outline:2px solid rgba(0,0,0,.35); outline-offset:2px; }
-
-    .radio-row { display:flex; gap:18px; align-items:center; margin-top:8px; }
-    .radio-row label { display:flex; gap:8px; align-items:center; }
-  </style>
 </head>
 
 <body class="page">
@@ -29,99 +14,53 @@
 
   <main class="product-detail">
     <div class="product-detail__inner">
-
-      <!-- IMAGE -->
       <div class="product-detail__media">
         <img
-          id="setImage"
           class="product-detail__img"
-          src="{{ product.imageUrl ?? '/images/MatchaSet.png' }}"
-          alt="{{ product.name }}"
+          src="/images/MixchaPremium.png"
+          alt="Mixcha Premium Matcha"
         >
       </div>
 
-      <!-- CONTENT -->
       <section class="product-detail__content">
-        <h1 class="product-detail__title">{{ product.name }}</h1>
+        <h1 class="product-detail__title">Premium Matcha</h1>
         <p class="product-detail__text">
-          Wähle deine bevorzugte Farbe und entscheide, ob du eine Gravur möchtest.
+          Wähle deine bevorzugten Extras und erstelle deine eigene Matcha-Mischung.
         </p>
 
         <form class="product-detail__form" method="post" action="/warenkorb/add">
           {{ csrfField() }}
 
-          <!-- BASIC PRODUCT DATA -->
-          <input type="hidden" name="product_id" value="{{ product.id }}">
-          <input type="hidden" name="name" value="{{ product.name }}">
-          <input type="hidden" name="image_url" id="imageUrlInput" value="{{ product.imageUrl ?? '/images/MatchaSet.png' }}">
-          <input type="hidden" name="unit_price" id="unitPriceInput" value="">
+          <!-- Produktdaten -->
+          <input type="hidden" name="product_id" value="premium">
+          <input type="hidden" name="name" value="Premium Matcha">
+          <input type="hidden" name="image_url" value="/images/MixchaPremium.png">
+          <input type="hidden" id="unitPriceInput" name="unit_price" value="19.90">
 
-          <!-- FARBE (aus extras ohne requiresText) -->
+          <!-- Extras -->
           <div class="form-group">
-            <label class="form-label">Farbe</label>
-
-            <input type="hidden" name="color" id="colorInput" value="">
-
-            <div class="color-dots" id="colorDots">
-              @each(extra in product.extras)
-                @if(!extra.requiresText)
-                  <button
-                    type="button"
-                    class="color-dot"
-                    data-color="{{ extra.name }}"
-                    aria-label="{{ extra.name }}"
-                    title="{{ extra.name }}"
-                  ></button>
-                @endif
-              @endeach
-            </div>
+            <label class="form-label" for="extras">Extras</label>
+            <select class="form-select" id="extras" name="extras">
+              <option value="Vanille">Vanille</option>
+              <option value="Kokos">Kokos</option>
+              <option value="Zimt">Zimt</option>
+              <option value="Kollagen">Veganes Kollagenpulver</option>
+            </select>
           </div>
 
-          <!-- GRAVUR (extra mit requiresText=true, z.B. "Gravur") -->
-          @set(hasEngraving = false)
-          @each(extra in product.extras)
-            @if(extra.requiresText)
-              @set(hasEngraving = true)
-            @endif
-          @endeach
+          <!-- Größen -->
+          <div class="form-group">
+            <label class="form-label" for="size">Verpackungsgröße</label>
+            <select class="form-select" id="size" name="size">
+              <option value="30gr">30 gr</option>
+              <option value="70gr" selected>70 gr</option>
+              <option value="100gr">100 gr</option>
+            </select>
+          </div>
 
-          @if(hasEngraving)
-            <div class="form-group">
-              <label class="form-label">Gravur</label>
-
-              <div class="radio-row">
-                <label>
-                  <input type="radio" name="engraving" value="0" checked>
-                  Nein
-                </label>
-
-                @each(extra in product.extras)
-                  @if(extra.requiresText)
-                    <label>
-                      <input
-                        type="radio"
-                        name="engraving"
-                        value="{{ extra.id }}"
-                        data-price="{{ extra.priceDelta }}"
-                      >
-                      Ja (+{{ Number(extra.priceDelta).toFixed(2).replace('.', ',') }}€)
-                    </label>
-                  @endif
-                @endeach
-              </div>
-
-              <div style="margin-top:10px;">
-                <label class="form-label" for="engravingText">Gravurtext</label>
-                <input class="form-select" id="engravingText" name="engraving_text" type="text" placeholder="z.B. Lena">
-              </div>
-            </div>
-          @endif
-
-          <!-- (Optional) VARIANT: falls du fürs Set später auch Varianten hast -->
-          <input type="hidden" id="variantPrice" value="{{ product.basePrice ?? 0 }}">
-
+          <!-- Preis -->
           <p class="product-detail__price">
-            <span id="priceValue"></span> €
+            <span id="priceValue">19,90</span> €
           </p>
 
           <button class="product-detail__btn" type="submit">
@@ -134,83 +73,28 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const img = document.getElementById("setImage");
-      const imageUrlInput = document.getElementById("imageUrlInput");
+      const prices = {
+        "30gr": 19.90,
+        "70gr": 39.90,
+        "100gr": 59.90
+      };
 
-      const colorDots = document.getElementById("colorDots");
-      const colorInput = document.getElementById("colorInput");
-
+      const sizeSelect = document.getElementById("size");
       const priceValue = document.getElementById("priceValue");
       const unitPriceInput = document.getElementById("unitPriceInput");
 
-      const engravingRadios = document.querySelectorAll('input[name="engraving"]');
+      if (!sizeSelect || !priceValue || !unitPriceInput) return;
 
-      const basePrice = Number(document.getElementById("variantPrice")?.value || 0);
+      const fmt = (n) => n.toFixed(2).replace(".", ",");
 
-      const fmt = (n) => Number(n).toFixed(2).replace(".", ",");
+      const updatePrice = () => {
+        const p = prices[sizeSelect.value] ?? 19.90;
+        priceValue.textContent = fmt(p);
+        unitPriceInput.value = String(p);
+      };
 
-      function imageForColor(color) {
-        // passt zu deinen Dateinamen:
-        // MatchaSetBeige.png, MatchaSetGreen.png, MatchaSetBlue.png, MatchaSetPink.png
-        const map = {
-          "Beige": "/images/MatchaSetBeige.png",
-          "Green": "/images/MatchaSetGreen.png",
-          "Blau": "/images/MatchaSetBlue.png",
-          "Blue": "/images/MatchaSetBlue.png",
-          "Pink": "/images/MatchaSetPink.png",
-          "Rosa": "/images/MatchaSetPink.png",
-          "Grün": "/images/MatchaSetGreen.png",
-        };
-        return map[color] || "/images/MatchaSet.png";
-      }
-
-      function setActiveDot(btn) {
-        document.querySelectorAll(".color-dot").forEach(b => b.classList.remove("is-active"));
-        btn.classList.add("is-active");
-      }
-
-      function updatePrice() {
-        let engravingPrice = 0;
-
-        const checked = document.querySelector('input[name="engraving"]:checked');
-        if (checked && checked.dataset && checked.dataset.price) {
-          engravingPrice = Number(checked.dataset.price || 0);
-        }
-
-        const total = basePrice + engravingPrice;
-        priceValue.textContent = fmt(total);
-        unitPriceInput.value = String(total);
-      }
-
-      // Farben initialisieren (erster Punkt aktiv)
-      if (colorDots) {
-        const first = colorDots.querySelector(".color-dot");
-        if (first) {
-          const c = first.dataset.color;
-          colorInput.value = c || "";
-          setActiveDot(first);
-          const url = imageForColor(c);
-          img.src = url;
-          imageUrlInput.value = url;
-        }
-
-        colorDots.addEventListener("click", (e) => {
-          const btn = e.target.closest(".color-dot");
-          if (!btn) return;
-
-          const c = btn.dataset.color;
-          colorInput.value = c || "";
-          setActiveDot(btn);
-
-          const url = imageForColor(c);
-          img.src = url;
-          imageUrlInput.value = url;
-        });
-      }
-
-      // Gravur / Preis
-      engravingRadios.forEach(r => r.addEventListener("change", updatePrice));
       updatePrice();
+      sizeSelect.addEventListener("change", updatePrice);
     });
   </script>
 
