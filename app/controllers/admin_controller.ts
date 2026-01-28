@@ -15,15 +15,17 @@ export default class AdminController {
   }
 
   // Hilfsfunktion: Varianten sauber aus Request holen & validieren
-  private cleanVariants(input: any): Array<{ name: string; price: number }> {
-    const variants = (input ?? []) as Array<{ name?: string; price?: string | number }>
+  // akzeptiert {name, price} ODER {size, price} und mappt immer auf size
+  private cleanVariants(input: any): Array<{ size: string; price: number }> {
+    const variants =
+      (input ?? []) as Array<{ name?: string; size?: string; price?: string | number }>
 
     return variants
       .map((v) => ({
-        name: (v?.name ?? '').trim(),
+        size: ((v?.size ?? v?.name) ?? '').trim(),
         price: Number(v?.price),
       }))
-      .filter((v) => v.name && Number.isFinite(v.price))
+      .filter((v) => v.size && Number.isFinite(v.price))
   }
 
   // POST /admin/produkte -> Speichern (neu)
@@ -46,11 +48,11 @@ export default class AdminController {
       return response.redirect().back()
     }
 
-    // Varianten kommen als variants[0][name] / variants[0][price] ...
+    // Varianten kommen als variants[0][name]/[price] (oder später variants[0][size])
     const cleanVariants = this.cleanVariants(request.input('variants'))
 
     if (cleanVariants.length !== 3) {
-      session.flash('error', 'Bitte genau 3 Varianten angeben (Name + Preis).')
+      session.flash('error', 'Bitte genau 3 Varianten angeben (Größe + Preis).')
       return response.redirect().back()
     }
 
@@ -63,11 +65,11 @@ export default class AdminController {
       categoryId,
     })
 
-    // Varianten speichern
+    // Varianten speichern (DB hat "size", nicht "name")
     await ProductVariant.createMany([
-      { productId: product.id, name: cleanVariants[0].name, price: cleanVariants[0].price },
-      { productId: product.id, name: cleanVariants[1].name, price: cleanVariants[1].price },
-      { productId: product.id, name: cleanVariants[2].name, price: cleanVariants[2].price },
+      { productId: product.id, size: cleanVariants[0].size, price: cleanVariants[0].price },
+      { productId: product.id, size: cleanVariants[1].size, price: cleanVariants[1].price },
+      { productId: product.id, size: cleanVariants[2].size, price: cleanVariants[2].price },
     ])
 
     session.flash('success', 'Produkt wurde angelegt (inkl. 3 Varianten).')
@@ -122,7 +124,7 @@ export default class AdminController {
     const cleanVariants = this.cleanVariants(request.input('variants'))
 
     if (cleanVariants.length !== 3) {
-      session.flash('error', 'Bitte genau 3 Varianten angeben (Name + Preis).')
+      session.flash('error', 'Bitte genau 3 Varianten angeben (Größe + Preis).')
       return response.redirect().back()
     }
 
@@ -138,9 +140,9 @@ export default class AdminController {
     await product.related('variants').query().delete()
 
     await ProductVariant.createMany([
-      { productId: product.id, name: cleanVariants[0].name, price: cleanVariants[0].price },
-      { productId: product.id, name: cleanVariants[1].name, price: cleanVariants[1].price },
-      { productId: product.id, name: cleanVariants[2].name, price: cleanVariants[2].price },
+      { productId: product.id, size: cleanVariants[0].size, price: cleanVariants[0].price },
+      { productId: product.id, size: cleanVariants[1].size, price: cleanVariants[1].price },
+      { productId: product.id, size: cleanVariants[2].size, price: cleanVariants[2].price },
     ])
 
     session.flash('success', 'Produkt wurde gespeichert (inkl. 3 Varianten).')

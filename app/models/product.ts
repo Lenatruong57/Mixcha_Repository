@@ -1,31 +1,29 @@
-import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import ProductVariant from './product_variant.js'
 
 export default class Product extends BaseModel {
+  // Wenn eure Tabelle KEINE created_at / updated_at hat:
+  public static timestamps = false
+
   @column({ isPrimary: true })
-  public id: number
+  declare id: number
+
+  @column({ columnName: 'category_id' })
+  declare categoryId: number
 
   @column()
-  public slug: string
+  declare name: string
 
   @column()
-  public name: string
+  declare description: string | null
 
-  @column()
-  public description?: string
+  @column({ columnName: 'base_price' })
+  declare basePrice: number
 
-  @column({ columnName: 'price_cents' })
-  public priceCents: number
+  @column({ columnName: 'image_url' })
+  declare imageUrl: string | null
 
-  @column()
-  public image?: string
-
-  @column({ columnName: 'is_active' })
-  public isActive: boolean
-
-  @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  @hasMany(() => ProductVariant)
+  declare variants: HasMany<typeof ProductVariant>
 }

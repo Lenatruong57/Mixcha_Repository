@@ -29,7 +29,7 @@ pnpm-debug.log*
 
 # DATABASE (VERY IMPORTANT)
 
-*.sqlite
+
 *.sqlite3
 *.db
 *.db-journal
@@ -41,8 +41,7 @@ database/*.db
 
 *.sqbpro
 *.db3
-*.sqlite-wal
-*.sqlite-shm
+
 
 
 
@@ -90,7 +89,3 @@ coverage/
 *.old
 *.orig
 
-datenbank/*.sqlite
-datenbank/*.db
-*.sqlite-wal
-*.sqlite-shm
