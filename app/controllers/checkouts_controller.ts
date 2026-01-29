@@ -170,6 +170,45 @@ export default class CheckoutsController {
     // === Jerome: Order-IDs für die Success-Seite speichern ===
     session.put('lastOrderIds', createdOrderIds)
 
+    // === Jerome: Snapshot für Success-Seite (Preise aus Session/Warenkorb inkl. Extras & Coupon) ===
+    const subtotalAll = this.calcSubtotal(cartItems)
+    const discountAll = this.calcDiscount(subtotalAll, coupon ?? undefined)
+    const shippingAll = cartItems.length > 0 ? this.shipping : 0
+    const totalAll = Math.max(0, subtotalAll - discountAll + shippingAll)
+
+    const itemsSnapshot: Array<{ name: string; imageUrl: string; quantity: number; price: number }> = cartItems.map(
+      (it) => {
+        const engrave = it.engravingPrice ? Number(it.engravingPrice) : 0
+        const linePrice = (Number(it.unitPrice) + engrave) * Number(it.quantity)
+        return {
+          name: it.name,
+          imageUrl: it.imageUrl,
+          quantity: Number(it.quantity),
+          price: Number(linePrice),
+        }
+      }
+    )
+
+    session.put('lastCheckoutSummary', {
+      customer: {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        street,
+        house_number: houseNumber,
+        postal_code: postalCode,
+        city,
+      },
+      items: itemsSnapshot,
+      subtotal: subtotalAll,
+      discount: discountAll,
+      shipping: shippingAll,
+      total: totalAll,
+      totalSum: totalAll,
+      shippingSum: shippingAll,
+    })
+    // === Jerome ===
+
     // === 4) Session leeren ===
     session.forget('cart')
     session.forget('coupon')
@@ -179,6 +218,38 @@ export default class CheckoutsController {
 
   // GET /checkout/success
   public async success({ view, session }: HttpContext) {
+    // === Jerome: Wenn Snapshot vorhanden ist, Success-Seite daraus rendern (statt DB-Preise) ===
+    const summary = session.get('lastCheckoutSummary') as
+      | {
+          customer: any
+          items: Array<{ name: string; imageUrl: string; quantity: number; price: number }>
+          totalSum: number
+          shippingSum: number
+          subtotal?: number
+          discount?: number
+          shipping?: number
+          total?: number
+        }
+      | undefined
+
+    if (summary) {
+      // optional: nach Anzeige löschen, damit Reload nicht wieder alte Bestellung zeigt
+      session.forget('lastCheckoutSummary')
+
+      return view.render('pages/checkout_success', {
+        customer: summary.customer,
+        items: summary.items,
+        totalSum: summary.totalSum,
+        shippingSum: summary.shippingSum,
+        // falls du es im Edge anzeigen willst (optional):
+        subtotal: summary.subtotal,
+        discount: summary.discount,
+        shipping: summary.shipping,
+        total: summary.total,
+      })
+    }
+    // === Jerome ===
+
     // === Jerome: Order-IDs aus Session holen und Daten aus DB laden ===
     const orderIds = (session.get('lastOrderIds') as number[] | undefined) ?? []
     const customerId = session.get('customerId') as number | undefined
