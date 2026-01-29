@@ -6,21 +6,20 @@ export default class ProdukteController {
     const products = await Product.query().orderBy('id', 'asc')
     return view.render('pages/produkte', { products })
   }
-
-  public async show({ params, view }: HttpContext) {
-    const id = Number(params.id)
   
-    const product = await Product.query()
-      .where('id', id)
-      .preload('variants')
-      .preload('extras')
-      .firstOrFail()
-  
-    if (id === 1) return view.render('pages/produkt_detail_premium', { product })
-    if (id === 2) return view.render('pages/produkt_detail_ceremonial', { product })
-    if (id === 3) return view.render('pages/produkt_detail_set', { product })
-  
-    // optional fallback
-    return view.render('pages/produkte', { products: [] })
-  }
-}
+      public async show({ params, view, response}: HttpContext) {
+        const product = await Product.query()
+          .where('id', params.id)
+          .preload('variants')
+          .preload('extras')
+          .firstOrFail()
+    
+        // du kannst weiter deine 3 spezial-templates behalten:
+        if (product.id === 1) return view.render('pages/produkt_detail_premium', { product })
+        if (product.id === 2) return view.render('pages/produkt_detail_ceremonial', { product })
+        if (product.id === 3) return view.render('pages/produkt_detail_set', { product })
+    
+        // fallback
+        return response.redirect('/produkte')
+      }
+    }

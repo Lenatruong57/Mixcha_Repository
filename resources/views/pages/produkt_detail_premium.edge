@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Premium Matcha – Mixcha</title>
+  <title>{{ product.name }} – Mixcha</title>
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/produkt_detail.css">
@@ -17,13 +17,13 @@
       <div class="product-detail__media">
         <img
           class="product-detail__img"
-          src="/images/MixchaPremium.png"
-          alt="Mixcha Premium Matcha"
+          src="{{ product.imageUrl ?? '/images/logo.png' }}"
+          alt="{{ product.name }}"
         >
       </div>
 
       <section class="product-detail__content">
-        <h1 class="product-detail__title">Premium Matcha</h1>
+        <h1 class="product-detail__title">{{ product.name }}</h1>
         <p class="product-detail__text">
           Wähle deine bevorzugten Extras und erstelle deine eigene Matcha-Mischung.
         </p>
@@ -32,35 +32,40 @@
           {{ csrfField() }}
 
           <!-- Produktdaten -->
-          <input type="hidden" name="product_id" value="premium">
-          <input type="hidden" name="name" value="Premium Matcha">
-          <input type="hidden" name="image_url" value="/images/MixchaPremium.png">
-          <input type="hidden" id="unitPriceInput" name="unit_price" value="19.90">
+          <input type="hidden" name="product_id" value="{{ product.id }}">
+          <input type="hidden" name="name" value="{{ product.name }}">
+          <input type="hidden" name="image_url" value="{{ product.imageUrl ?? '' }}">
 
-          <!-- Extras -->
+          <!-- wird per JS gesetzt -->
+          <input type="hidden" id="unitPriceInput" name="unit_price" value="">
+
+          <!-- Extras (aus DB) -->
           <div class="form-group">
-            <label class="form-label" for="extras">Extras</label>
-            <select class="form-select" id="extras" name="extras">
-              <option value="Vanille">Vanille</option>
-              <option value="Kokos">Kokos</option>
-              <option value="Zimt">Zimt</option>
-              <option value="Kollagen">Veganes Kollagenpulver</option>
+            <label class="form-label" for="extraSelect">Extras</label>
+            <select class="form-select" id="extraSelect" name="extra_id">
+              @each(extra in product.extras)
+                <option value="{{ extra.id }}" data-price="{{ extra.priceDelta }}">
+                  {{ extra.name }}
+                </option>
+              @endeach
             </select>
           </div>
 
-          <!-- Größen -->
+          <!-- Größen/Varianten (aus DB) -->
           <div class="form-group">
-            <label class="form-label" for="size">Verpackungsgröße</label>
-            <select class="form-select" id="size" name="size">
-              <option value="30gr">30 gr</option>
-              <option value="70gr" selected>70 gr</option>
-              <option value="100gr">100 gr</option>
+            <label class="form-label" for="variantSelect">Verpackungsgröße</label>
+            <select class="form-select" id="variantSelect" name="variant_id">
+              @each(v in product.variants)
+                <option value="{{ v.id }}" data-price="{{ v.price }}">
+                  {{ v.name ?? v.size ?? v.id }}
+                </option>
+              @endeach
             </select>
           </div>
 
           <!-- Preis -->
           <p class="product-detail__price">
-            <span id="priceValue">19,90</span> €
+            <span id="priceValue">0,00</span> €
           </p>
 
           <button class="product-detail__btn" type="submit">
@@ -73,28 +78,31 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const prices = {
-        "30gr": 19.90,
-        "70gr": 39.90,
-        "100gr": 59.90
-      };
-
-      const sizeSelect = document.getElementById("size");
-      const priceValue = document.getElementById("priceValue");
+      const variantSelect = document.getElementById("variantSelect");
+      const extraSelect   = document.getElementById("extraSelect");
+      const priceValue    = document.getElementById("priceValue");
       const unitPriceInput = document.getElementById("unitPriceInput");
 
-      if (!sizeSelect || !priceValue || !unitPriceInput) return;
+      if (!variantSelect || !priceValue || !unitPriceInput) return;
 
-      const fmt = (n) => n.toFixed(2).replace(".", ",");
+      const fmt = (n) => Number(n).toFixed(2).replace(".", ",");
 
       const updatePrice = () => {
-        const p = prices[sizeSelect.value] ?? 19.90;
-        priceValue.textContent = fmt(p);
-        unitPriceInput.value = String(p);
+        const vOpt = variantSelect.selectedOptions[0];
+        const eOpt = extraSelect ? extraSelect.selectedOptions[0] : null;
+
+        const variantPrice = Number(vOpt?.dataset?.price || 0);
+        const extraPrice = Number(eOpt?.dataset?.price || 0);
+
+        const total = variantPrice + extraPrice;
+
+        priceValue.textContent = fmt(total);
+        unitPriceInput.value = String(total.toFixed(2));
       };
 
       updatePrice();
-      sizeSelect.addEventListener("change", updatePrice);
+      variantSelect.addEventListener("change", updatePrice);
+      if (extraSelect) extraSelect.addEventListener("change", updatePrice);
     });
   </script>
 

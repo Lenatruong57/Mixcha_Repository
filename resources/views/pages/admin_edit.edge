@@ -28,6 +28,7 @@
       <form method="POST" action="/admin/produkte/{{ product.id }}">
         {{ csrfField() }}
 
+        <!-- Grunddaten -->
         <div class="field">
           <label for="name">Name</label>
           <input id="name" name="name" type="text" required value="{{ product.name }}">
@@ -55,20 +56,21 @@
 
         <hr style="margin: 18px 0; opacity: .2;">
 
+        <!-- Varianten -->
         <h3 style="margin: 0 0 10px;">Varianten (genau 3)</h3>
         <p style="margin: 0 0 14px; opacity: .75;">
-          Jede Variante braucht Name + Preis. (Wird im Warenkorb verwendet.)
+          Jede Variante braucht Größe + Preis. (Wird im Warenkorb verwendet.)
         </p>
 
-        {{-- Variante 1 --}}
+        <!-- Variante 1 -->
         <div class="field">
-          <label for="v1_name">Variante 1 – Name</label>
+          <label for="v1_size">Variante 1 – Größe</label>
           <input
-            id="v1_name"
-            name="variants[0][name]"
+            id="v1_size"
+            name="variants[0][size]"
             type="text"
             required
-            value="{{ product.variants && product.variants[0] ? product.variants[0].name : '' }}"
+            value="{{ product.variants && product.variants[0] ? product.variants[0].size : '' }}"
           >
         </div>
 
@@ -84,15 +86,15 @@
           >
         </div>
 
-        {{-- Variante 2 --}}
+        <!-- Variante 2 -->
         <div class="field">
-          <label for="v2_name">Variante 2 – Name</label>
+          <label for="v2_size">Variante 2 – Größe</label>
           <input
-            id="v2_name"
-            name="variants[1][name]"
+            id="v2_size"
+            name="variants[1][size]"
             type="text"
             required
-            value="{{ product.variants && product.variants[1] ? product.variants[1].name : '' }}"
+            value="{{ product.variants && product.variants[1] ? product.variants[1].size : '' }}"
           >
         </div>
 
@@ -108,15 +110,15 @@
           >
         </div>
 
-        {{-- Variante 3 --}}
+        <!-- Variante 3 -->
         <div class="field">
-          <label for="v3_name">Variante 3 – Name</label>
+          <label for="v3_size">Variante 3 – Größe</label>
           <input
-            id="v3_name"
-            name="variants[2][name]"
+            id="v3_size"
+            name="variants[2][size]"
             type="text"
             required
-            value="{{ product.variants && product.variants[2] ? product.variants[2].name : '' }}"
+            value="{{ product.variants && product.variants[2] ? product.variants[2].size : '' }}"
           >
         </div>
 
@@ -129,6 +131,54 @@
             step="0.01"
             required
             value="{{ product.variants && product.variants[2] ? product.variants[2].price : '' }}"
+          >
+        </div>
+
+        <hr style="margin: 18px 0; opacity: .2;">
+
+        <!-- Extras -->
+        <h3 style="margin: 0 0 10px;">Extras (genau 4)</h3>
+        <p style="margin: 0 0 14px; opacity: .75;">
+          Jeder Extra braucht nur einen Namen (Geschmack). Kein Aufpreis.
+        </p>
+
+        <div class="field">
+          <label>Extra 1 – Name</label>
+          <input
+            name="extras[0][name]"
+            type="text"
+            required
+            value="{{ product.extras && product.extras[0] ? product.extras[0].name : '' }}"
+          >
+        </div>
+
+        <div class="field">
+          <label>Extra 2 – Name</label>
+          <input
+            name="extras[1][name]"
+            type="text"
+            required
+            value="{{ product.extras && product.extras[1] ? product.extras[1].name : '' }}"
+          >
+        </div>
+
+        <div class="field">
+          <label>Extra 3 – Name</label>
+          <input
+            name="extras[2][name]"
+            type="text"
+            required
+            value="{{ product.extras && product.extras[2] ? product.extras[2].name : '' }}"
+          >
+        </div>
+
+        <div class="field">
+          <label>Extra 4 – Name</label>
+          <input
+            name="extras[3][name]"
+            type="text"
+            required
+            value="{{ product.extras && product.extras[3] ? product.extras[3].name : '' }}"
           >
         </div>
 
