@@ -12,102 +12,57 @@
   <body>
     @include('pages/headerfooter/header')
 
-    <main class="checkout-payge">
+    <main class="checkout-page">
       <div class="checkout-wrap">
         <div class="checkout-grid">
 
+          <!-- LINKS -->
+          <div class="checkout-left">
             <div class="checkout-block">
               <div class="checkout-block-head">
                 <h2>Kontaktdaten</h2>
                 <a class="checkout-login" href="/login">Anmelden</a>
               </div>
 
-              <form action="/checkout/process" method="post" class="checkout-form">
+              <!-- WICHTIG: ID für externen Submit -->
+              <form
+                id="checkout-form"
+                action="/checkout/process"
+                method="post"
+                class="checkout-form"
+              >
                 {{ csrfField() }}
 
-                <input
-                  class="c-input"
-                  type="email"
-                  name="email"
-                  placeholder="E-Mail"
-                  value="{{ customer?.email ?? '' }}"
-                  required
-                />
+                <input class="c-input" type="email" name="email" placeholder="E-Mail"
+                  value="{{ customer?.email ?? '' }}" required />
 
                 <div class="two">
-                  <input
-                    class="c-input"
-                    type="text"
-                    name="first_name"
-                    placeholder="Vorname"
-                    value="{{ customer?.firstName ?? '' }}"
-                    required
-                  />
-                  <input
-                    class="c-input"
-                    type="text"
-                    name="last_name"
-                    placeholder="Name"
-                    value="{{ customer?.lastName ?? '' }}"
-                    required
-                  />
+                  <input class="c-input" type="text" name="first_name" placeholder="Vorname"
+                    value="{{ customer?.firstName ?? '' }}" required />
+                  <input class="c-input" type="text" name="last_name" placeholder="Name"
+                    value="{{ customer?.lastName ?? '' }}" required />
                 </div>
 
                 <h2 class="mt">Adresse</h2>
 
-                <input
-                  class="c-input"
-                  type="text"
-                  name="street"
-                  placeholder="Straße"
-                  value="{{ customer?.street ?? '' }}"
-                  required
-                />
+                <input class="c-input" type="text" name="street" placeholder="Straße"
+                  value="{{ customer?.street ?? '' }}" required />
 
-                <input
-                  class="c-input"
-                  type="text"
-                  name="house_number"
-                  placeholder="Hausnr."
-                  value="{{ customer?.houseNumber ?? '' }}"
-                  required
-                />
+                <input class="c-input" type="text" name="house_number" placeholder="Hausnr."
+                  value="{{ customer?.houseNumber ?? '' }}" required />
 
                 <div class="two">
-                  <input
-                    class="c-input"
-                    type="text"
-                    name="postal_code"
-                    placeholder="PLZ"
-                    value="{{ customer?.postalCode ?? '' }}"
-                    required
-                  />
-                  <input
-                    class="c-input"
-                    type="text"
-                    name="city"
-                    placeholder="Stadt"
-                    value="{{ customer?.city ?? '' }}"
-                    required
-                  />
+                  <input class="c-input" type="text" name="postal_code" placeholder="PLZ"
+                    value="{{ customer?.postalCode ?? '' }}" required />
+                  <input class="c-input" type="text" name="city" placeholder="Stadt"
+                    value="{{ customer?.city ?? '' }}" required />
                 </div>
-
-                <button class="c-btn" type="submit">
-                  Jetzt kostenpflichtig bestellen
-                </button>
               </form>
             </div>
-          </section>
+          </div>
 
           <!-- RECHTS -->
           <aside class="checkout-right">
-            <div class="right-card info">
-              <div class="info-dot">i</div>
-              <p>
-                Mit Klick auf „Jetzt kostenpflichtig bestellen“ erkläre ich mich mit den
-                Datenschutzbestimmungen, der Widerrufsbelehrung und den AGB einverstanden.
-              </p>
-            </div>
 
             <div class="right-card">
               <div class="right-title">Bestellübersicht</div>
@@ -120,13 +75,11 @@
                   @each(item in cartItems)
                     <div class="item">
                       <img class="item-img" src="{{ item.imageUrl }}" alt="{{ item.name }}" />
-
                       <div class="item-mid">
                         <div class="item-name">{{ item.name }}</div>
                         <div class="item-small">Anzahl: {{ item.quantity }}</div>
                         <a class="item-edit" href="/warenkorb">Bearbeiten</a>
                       </div>
-
                       <div class="item-price">
                         {{
                           (
@@ -141,7 +94,8 @@
 
                 <form method="POST" action="/checkout/coupon" class="coupon">
                   {{ csrfField() }}
-                  <input class="c-input" type="text" name="coupon" placeholder="Rabattcode oder Gutschein" value="{{ coupon ?? '' }}" />
+                  <input class="c-input" type="text" name="coupon"
+                    placeholder="Rabattcode oder Gutschein" value="{{ coupon ?? '' }}" />
                   <button class="coupon-btn" type="submit">Anwenden</button>
                 </form>
 
@@ -157,13 +111,7 @@
 
                   <div class="line">
                     <span>Versand</span>
-                    <span>
-                      @if(shipping > 0)
-                        {{ Number(shipping).toFixed(2).replace('.', ',') }} €
-                      @else
-                        —
-                      @endif
-                    </span>
+                    <span>{{ Number(shipping).toFixed(2).replace('.', ',') }} €</span>
                   </div>
 
                   @if(discount > 0)
@@ -178,6 +126,27 @@
                     <span>{{ Number(total).toFixed(2).replace('.', ',') }} €</span>
                   </div>
                 </div>
+
+                <!-- 🔥 DER BUTTON (submitet linkes Formular) -->
+                <div class="checkout-submit-right">
+                  <button
+                    type="submit"
+                    form="checkout-form"
+                    class="c-btn c-btn-primary"
+                  >
+                    Jetzt kostenpflichtig bestellen
+                  </button>
+                </div>
+
+                <!-- Info Kasten UNTER dem Button -->
+                <div class="right-card info">
+                  <div class="info-dot">i</div>
+                  <p>
+                    Mit Klick auf „Jetzt kostenpflichtig bestellen“ erkläre ich mich mit den
+                    Datenschutzbestimmungen, der Widerrufsbelehrung und den AGB einverstanden.
+                  </p>
+                </div>
+
               @endif
             </div>
           </aside>

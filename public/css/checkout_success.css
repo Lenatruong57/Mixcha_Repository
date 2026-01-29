@@ -25,7 +25,7 @@
 /* Box wie in Figma */
 .summary {
   background: rgba(255, 255, 255, 0.08);
-  border: 2px solid rgba(47, 91, 67, 0.22);
+  border: 2px solid #e7b4c7;
   border-radius: 18px;
   padding: 26px 26px 22px;
   text-align: left;
@@ -41,7 +41,7 @@
 
 /* Table wrapper */
 .summary-table {
-  border-top: 2px solid rgba(221, 162, 175, 0.55); /* rosé line */
+  border-top: 2px solid #e7b4c7; /* rosé line */
   padding-top: 16px;
   margin-top: 10px;
 }
@@ -62,14 +62,14 @@
   grid-template-columns: 1fr 140px 160px;
   gap: 16px;
   padding: 14px 0;
-  border-top: 1px solid rgba(47, 91, 67, 0.12);
+  border-top: 1px solid #e7b4c7;
   align-items: center;
   color: #2b2b2b;
   font-size: 15px;
 }
 
 .summary-row:first-of-type {
-  border-top: 1px solid rgba(47, 91, 67, 0.12);
+  border-top: 1px solid #e7b4c7;
 }
 
 .center {
@@ -190,6 +190,19 @@
 .btn-primary:hover,
 .btn-secondary:hover {
   transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* Jerome: Bild unter dem Success-Kasten */
+.success-image {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+.success-image img {
+  max-width: 420px;
+  width: 100%;
   opacity: 0.95;
 }
 
