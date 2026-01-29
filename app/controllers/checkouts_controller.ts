@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
+import Customer from '#models/customer'
 
 type CartItem = {
   key: string
@@ -31,6 +32,7 @@ export default class CheckoutsController {
     return 0
   }
 
+  // GET /checkout
   public async index({ view, session }: HttpContext) {
     const cartItems: CartItem[] = session.get('cart', [])
     const coupon: string | null = session.get('coupon', null)
@@ -40,6 +42,12 @@ export default class CheckoutsController {
     const shipping = cartItems.length > 0 ? this.shipping : 0
     const total = Math.max(0, subtotal - discount + shipping)
 
+    let customer: Customer | null = null
+    const customerId = session.get('customerId') as number | undefined
+    if (customerId) {
+      customer = await Customer.find(customerId)
+    }
+
     return view.render('pages/checkout', {
       cartItems,
       coupon,
@@ -47,10 +55,12 @@ export default class CheckoutsController {
       discount,
       shipping,
       total,
+      customer,
       invalidCoupon: session.flashMessages.get('invalidCoupon'),
     })
   }
 
+  // POST /checkout/coupon
   public async applyCoupon({ request, session, response }: HttpContext) {
     const code = String(request.input('coupon', '')).trim()
 
@@ -69,48 +79,66 @@ export default class CheckoutsController {
     return response.redirect('/checkout')
   }
 
+  // POST /checkout/process
   public async process({ request, session, response }: HttpContext) {
     const cartItems: CartItem[] = session.get('cart', [])
     if (cartItems.length === 0) return response.redirect('/warenkorb')
 
-    // Form fields
-    const email = String(request.input('email')).trim()
-    const firstName = String(request.input('first_name')).trim()
-    const lastName = String(request.input('last_name')).trim()
-    const street = String(request.input('street')).trim()
-    const zip = String(request.input('zip')).trim()
-    const city = String(request.input('city')).trim()
-    const country = String(request.input('country')).trim()
+    // === Form fields (passen zu deinem checkout.edge) ===
+    const email = String(request.input('email') ?? '').trim().toLowerCase()
+    const firstName = String(request.input('first_name') ?? '').trim()
+    const lastName = String(request.input('last_name') ?? '').trim()
+    const street = String(request.input('street') ?? '').trim()
+    const houseNumber = String(request.input('house_number') ?? '').trim()
+    const postalCode = String(request.input('postal_code') ?? '').trim()
+    const city = String(request.input('city') ?? '').trim()
 
-    // Optional: wenn Kunde eingeloggt ist, nutze ihn
+    // Optional: eingeloggter Kunde?
     let customerId = session.get('customerId') as number | undefined
 
+    // === 1) Kunde anlegen oder aktualisieren (alles in customers) ===
     if (!customerId) {
-      // minimal "vorlesungskonform": Kunde anlegen (wenn ihr später Auth macht, kann das weg)
+      // Gast: Customer erstellen
       const [newCustomerId] = await db.table('customers').insert({
         first_name: firstName,
         last_name: lastName,
         email,
-        password: 'dummy', // falls bei euch NOT NULL ist
+        password: 'dummy', // nur wenn NOT NULL
+        street,
+        house_number: houseNumber,
+        postal_code: postalCode,
+        city,
       })
-      customerId = newCustomerId
+
+      // ✅ FIX: cast auf number, damit session.put kein undefined/other types bekommt
+      customerId = Number(newCustomerId)
+
+      // Optional aber praktisch: direkt einloggen
+      session.put('customerId', customerId)
+    } else {
+      // Eingeloggt: Customer updaten (damit ALLE Felder mitkommen)
+      await db
+        .from('customers')
+        .where('id', customerId)
+        .update({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          street,
+          house_number: houseNumber,
+          postal_code: postalCode,
+          city,
+        })
     }
 
-    await db.table('addresses').insert({
-      customer_id: customerId,
-      street,
-      zip,
-      city,
-      country,
-    })
-
+    // === 2) Order anlegen ===
     const [orderId] = await db.table('orders').insert({
       customer_id: customerId,
       created_at: new Date().toISOString(),
       status: 'offen',
     })
 
-    // Order Items aus Session-Warenkorb
+    // === 3) Order Items ===
     for (const item of cartItems) {
       await db.table('order_items').insert({
         order_id: orderId,
@@ -119,13 +147,14 @@ export default class CheckoutsController {
       })
     }
 
-    // Warenkorb leeren
+    // === 4) Session leeren ===
     session.forget('cart')
     session.forget('coupon')
 
     return response.redirect('/checkout/success')
   }
 
+  // GET /checkout/success
   public async success({ view }: HttpContext) {
     return view.render('pages/checkout_success')
   }
