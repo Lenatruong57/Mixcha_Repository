@@ -7,19 +7,24 @@ export default class ProdukteController {
     return view.render('pages/produkte', { products })
   }
   
-      public async show({ params, view, response}: HttpContext) {
-        const product = await Product.query()
-          .where('id', params.id)
-          .preload('variants')
-          .preload('extras')
-          .firstOrFail()
-    
-        // du kannst weiter deine 3 spezial-templates behalten:
-        if (product.id === 1) return view.render('pages/produkt_detail_premium', { product })
-        if (product.id === 2) return view.render('pages/produkt_detail_ceremonial', { product })
-        if (product.id === 3) return view.render('pages/produkt_detail_set', { product })
-    
-        // fallback
-        return response.redirect('/produkte')
-      }
-    }
+  public async show({ params, view }: HttpContext) {
+    const product = await Product.query()
+      .where('id', params.id)
+      .preload('variants')
+      .preload('extras')
+      .firstOrFail()
+  
+    // alte Spezialseiten
+    if (product.id === 1)
+      return view.render('pages/produkt_detail_premium', { product })
+  
+    if (product.id === 2)
+      return view.render('pages/produkt_detail_ceremonial', { product })
+  
+    if (product.id === 3)
+      return view.render('pages/produkt_detail_set', { product })
+  
+    // ✅ ALLE NEUEN PRODUKTE
+    return view.render('pages/produkt_detail_dynamic', { product })
+  }
+}

@@ -38,7 +38,13 @@
             ab {{ Number(product.basePrice).toFixed(2).replace('.', ',') }} €
           </p>
     
-          <span class="product-card__btn">Buy now</span>
+          <span class="product-card__btn">
+            @if(product.id === 1 || product.id === 2)
+              Mix now
+            @else
+              Buy now
+            @endif
+          </span>
         </a>
       </article>
     @endeach

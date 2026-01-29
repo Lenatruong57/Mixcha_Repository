@@ -10,144 +10,150 @@
 </head>
 
 <body class="page">
-  @include('pages/headerfooter/header')
+@include('pages/headerfooter/header')
 
-  <main class="product-detail">
-    <div class="product-detail__inner">
-      <div class="product-detail__media">
-        <img class="product-detail__img"
-             src="{{ product.imageUrl ?? '/images/logo.png' }}"
-             alt="{{ product.name }}">
-      </div>
+<main class="product-detail">
+  <div class="product-detail__inner">
 
-      <section class="product-detail__content">
-        <h1 class="product-detail__title">{{ product.name }}</h1>
+    <!-- =======================
+         LINKES PRODUKTBILD
+    ======================== -->
+    <div class="product-detail__media">
+      <img
+        class="product-detail__img"
+        src="{{ product.imageUrl ?? '/images/logo.png' }}"
+        alt="{{ product.name }}"
+      >
+    </div>
 
-        @if(product.description)
-          <p class="product-detail__text">{{ product.description }}</p>
-        @else
-          <p class="product-detail__text">Produktbeschreibung folgt.</p>
+    <!-- =======================
+         RECHTE SEITE
+    ======================== -->
+    <section class="product-detail__content">
+
+      <h1 class="product-detail__title">
+        {{ product.name }}
+      </h1>
+
+      <p class="product-detail__text">
+        {{ product.description ?? 'Wähle deine bevorzugten Extras und erstelle deine eigene Matcha-Mischung.' }}
+      </p>
+
+      <form class="product-detail__form" method="POST" action="/warenkorb/add">
+        {{ csrfField() }}
+
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <input type="hidden" name="name" value="{{ product.name }}">
+        <input type="hidden" name="image_url" value="{{ product.imageUrl ?? '/images/logo.png' }}">
+
+        <input type="hidden" id="unit_price" name="unit_price" value="0">
+        <input type="hidden" id="variant_id" name="variant_id" value="">
+
+        <!-- =======================
+             EXTRAS
+        ======================== -->
+        @if(product.extras && product.extras.length)
+          <div class="form-group">
+            <label class="form-label">Extras</label>
+
+            <select class="form-select" id="extras_select">
+              @each(e in product.extras)
+                <option
+                  value="{{ e.id }}"
+                  data-price="{{ e.price_delta ?? 0 }}"
+                >
+                  {{ e.name }}
+                  @if(Number(e.price_delta) > 0)
+                    (+{{ Number(e.price_delta).toFixed(2).replace('.', ',') }} €)
+                  @endif
+                </option>
+              @endeach
+            </select>
+          </div>
         @endif
 
-        <form class="product-detail__form" method="POST" action="/warenkorb/add">
-          {{ csrfField() }}
+        <!-- =======================
+             VARIANTEN
+        ======================== -->
+        @if(product.variants && product.variants.length)
+          <div class="form-group">
+            <label class="form-label">Verpackungsgröße</label>
 
-          <input type="hidden" name="product_id" value="{{ product.id }}">
-          <input type="hidden" name="name" value="{{ product.name }}">
-          <input type="hidden" name="image_url" value="{{ product.imageUrl ?? '/images/logo.png' }}">
+            <select class="form-select" id="variant_select">
+              @each(v in product.variants)
+                <option
+                  value="{{ v.id }}"
+                  data-price="{{ v.price }}"
+                >
+                  {{ v.size }} 
+                </option>
+              @endeach
+            </select>
+          </div>
+        @endif
 
-          <!-- ✅ wird durch Varianten/Extras gesetzt -->
-          <input type="hidden" id="unit_price" name="unit_price" value="{{ product.basePrice }}">
-          <input type="hidden" id="variant_id" name="variant_id" value="">
+        <!-- =======================
+             PREIS
+        ======================== -->
+        <p class="product-detail__price">
+          <span id="price_label">0,00</span> €
+        </p>
 
-          <!-- ✅ OPTIONAL: Extras als Liste (werden als Array gepostet) -->
-          @if(product.extras && product.extras.length)
-            <div class="field" style="margin-top: 14px;">
-              <label>Extras wählen</label>
+        <button class="product-detail__btn" type="submit">
+          In den Warenkorb
+        </button>
 
-              <div style="display:grid; gap:8px; margin-top:8px;">
-                @each(e in product.extras)
-                  <label style="display:flex; gap:10px; align-items:center;">
-                    <input
-                      type="checkbox"
-                      class="extra_cb"
-                      name="extras[]"
-                      value="{{ e.id }}"
-                      data-price="{{ e.price }}"
-                    >
-                    <span>
-                      {{ e.name }}
-                      @if(Number(e.price) > 0)
-                        (+{{ Number(e.price).toFixed(2).replace('.', ',') }} €)
-                      @endif
-                    </span>
-                  </label>
-                @endeach
-              </div>
-            </div>
-          @endif
+      </form>
+    </section>
+  </div>
+</main>
 
-          <!-- ✅ Varianten -->
-          @if(product.variants && product.variants.length)
-            <div class="field" style="margin-top: 14px;">
-              <label for="variant_select">Variante wählen</label>
+@include('pages/headerfooter/footer')
 
-              <!-- WICHTIG: id muss zu JS passen -->
-              <select id="variant_select" name="variant_select">
-                @each(v in product.variants)
-                  <option value="{{ v.id }}" data-price="{{ v.price }}">
-                    {{ v.name }} – {{ Number(v.price).toFixed(2).replace('.', ',') }} €
-                  </option>
-                @endeach
-              </select>
-            </div>
-          @endif
+<!-- =======================
+     JAVASCRIPT
+======================== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
-          <!-- ✅ Preisanzeige -->
-          <p class="product-detail__price">
-            <span id="price_label">{{ Number(product.basePrice).toFixed(2).replace('.', ',') }}</span> €
-          </p>
+  const variantSelect = document.getElementById("variant_select");
+  const extrasSelect  = document.getElementById("extras_select");
 
-          <button class="product-detail__btn" type="submit">
-            In den Warenkorb
-          </button>
-        </form>
+  const priceLabel    = document.getElementById("price_label");
+  const unitPrice     = document.getElementById("unit_price");
+  const variantId     = document.getElementById("variant_id");
 
-      </section>
-    </div>
-  </main>
+  function format(num) {
+    return Number(num).toFixed(2).replace(".", ",");
+  }
 
-  @include('pages/headerfooter/footer')
+  function updatePrice() {
+    let variantPrice = 0;
+    let extraPrice = 0;
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const select = document.getElementById('variant_select')
-      const priceLabel = document.getElementById('price_label')
-      const unitPriceInput = document.getElementById('unit_price')
-      const variantIdInput = document.getElementById('variant_id')
+    if (variantSelect) {
+      const opt = variantSelect.options[variantSelect.selectedIndex];
+      variantPrice = Number(opt.dataset.price || 0);
+      variantId.value = opt.value;
+    }
 
-      const extraCheckboxes = Array.from(document.querySelectorAll('.extra_cb'))
+    if (extrasSelect) {
+      const opt = extrasSelect.options[extrasSelect.selectedIndex];
+      extraPrice = Number(opt.dataset.price || 0);
+    }
 
-      const formatPrice = (num) => {
-        return Number(num).toFixed(2).replace('.', ',')
-      }
+    const total = variantPrice + extraPrice;
 
-      const getSelectedVariantPrice = () => {
-        if (!select) return Number(unitPriceInput.value || 0)
+    unitPrice.value = total.toFixed(2);
+    priceLabel.textContent = format(total);
+  }
 
-        const option = select.options[select.selectedIndex]
-        const variantId = option.value
-        const variantPrice = Number(option.getAttribute('data-price') || 0)
+  if (variantSelect) variantSelect.addEventListener("change", updatePrice);
+  if (extrasSelect) extrasSelect.addEventListener("change", updatePrice);
 
-        // Hidden Inputs für Warenkorb
-        variantIdInput.value = variantId
-        unitPriceInput.value = String(variantPrice)
+  updatePrice();
+});
+</script>
 
-        return variantPrice
-      }
-
-      const getExtrasTotal = () => {
-        let total = 0
-        for (const cb of extraCheckboxes) {
-          if (cb.checked) total += Number(cb.getAttribute('data-price') || 0)
-        }
-        return total
-      }
-
-      const updatePrice = () => {
-        const base = getSelectedVariantPrice()
-        const extras = getExtrasTotal()
-        const finalPrice = base + extras
-        priceLabel.textContent = formatPrice(finalPrice)
-      }
-
-      // ✅ initial
-      updatePrice()
-
-      // ✅ events
-      if (select) select.addEventListener('change', updatePrice)
-      for (const cb of extraCheckboxes) cb.addEventListener('change', updatePrice)
-    })
-  </script>
 </body>
 </html>
