@@ -12,7 +12,7 @@
   <body>
     @include('pages/headerfooter/header')
 
-    <main class="checkout-page">
+    <main class="checkout-payge">
       <div class="checkout-wrap">
         <div class="checkout-grid">
 
@@ -25,20 +25,71 @@
               <form action="/checkout/process" method="post" class="checkout-form">
                 {{ csrfField() }}
 
-                <input class="c-input" type="email" name="email" placeholder="E-Mail" required />
+                <input
+                  class="c-input"
+                  type="email"
+                  name="email"
+                  placeholder="E-Mail"
+                  value="{{ customer?.email ?? '' }}"
+                  required
+                />
 
                 <div class="two">
-                  <input class="c-input" type="text" name="first_name" placeholder="Vorname" required />
-                  <input class="c-input" type="text" name="last_name" placeholder="Name" required />
+                  <input
+                    class="c-input"
+                    type="text"
+                    name="first_name"
+                    placeholder="Vorname"
+                    value="{{ customer?.firstName ?? '' }}"
+                    required
+                  />
+                  <input
+                    class="c-input"
+                    type="text"
+                    name="last_name"
+                    placeholder="Name"
+                    value="{{ customer?.lastName ?? '' }}"
+                    required
+                  />
                 </div>
 
                 <h2 class="mt">Adresse</h2>
-                <input class="c-input" type="text" name="street" placeholder="Straße" required />
-                <input class="c-input" type="text" name="house_number" placeholder="Hausnr." required />
+
+                <input
+                  class="c-input"
+                  type="text"
+                  name="street"
+                  placeholder="Straße"
+                  value="{{ customer?.street ?? '' }}"
+                  required
+                />
+
+                <input
+                  class="c-input"
+                  type="text"
+                  name="house_number"
+                  placeholder="Hausnr."
+                  value="{{ customer?.houseNumber ?? '' }}"
+                  required
+                />
 
                 <div class="two">
-                  <input class="c-input" type="text" name="zip" placeholder="PLZ" required />
-                  <input class="c-input" type="text" name="city" placeholder="Stadt" required />
+                  <input
+                    class="c-input"
+                    type="text"
+                    name="postal_code"
+                    placeholder="PLZ"
+                    value="{{ customer?.postalCode ?? '' }}"
+                    required
+                  />
+                  <input
+                    class="c-input"
+                    type="text"
+                    name="city"
+                    placeholder="Stadt"
+                    value="{{ customer?.city ?? '' }}"
+                    required
+                  />
                 </div>
 
                 <button class="c-btn" type="submit">
