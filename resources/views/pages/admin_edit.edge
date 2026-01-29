@@ -28,7 +28,6 @@
       <form method="POST" action="/admin/produkte/{{ product.id }}">
         {{ csrfField() }}
 
-        <!-- Grunddaten -->
         <div class="field">
           <label for="name">Name</label>
           <input id="name" name="name" type="text" required value="{{ product.name }}">
@@ -56,17 +55,14 @@
 
         <hr style="margin: 18px 0; opacity: .2;">
 
-        <!-- Varianten -->
         <h3 style="margin: 0 0 10px;">Varianten (genau 3)</h3>
         <p style="margin: 0 0 14px; opacity: .75;">
           Jede Variante braucht Größe + Preis. (Wird im Warenkorb verwendet.)
         </p>
 
-        <!-- Variante 1 -->
         <div class="field">
-          <label for="v1_size">Variante 1 – Größe</label>
+          <label>Variante 1 – Größe</label>
           <input
-            id="v1_size"
             name="variants[0][size]"
             type="text"
             required
@@ -75,9 +71,8 @@
         </div>
 
         <div class="field">
-          <label for="v1_price">Variante 1 – Preis</label>
+          <label>Variante 1 – Preis</label>
           <input
-            id="v1_price"
             name="variants[0][price]"
             type="number"
             step="0.01"
@@ -86,11 +81,9 @@
           >
         </div>
 
-        <!-- Variante 2 -->
         <div class="field">
-          <label for="v2_size">Variante 2 – Größe</label>
+          <label>Variante 2 – Größe</label>
           <input
-            id="v2_size"
             name="variants[1][size]"
             type="text"
             required
@@ -99,9 +92,8 @@
         </div>
 
         <div class="field">
-          <label for="v2_price">Variante 2 – Preis</label>
+          <label>Variante 2 – Preis</label>
           <input
-            id="v2_price"
             name="variants[1][price]"
             type="number"
             step="0.01"
@@ -110,11 +102,9 @@
           >
         </div>
 
-        <!-- Variante 3 -->
         <div class="field">
-          <label for="v3_size">Variante 3 – Größe</label>
+          <label>Variante 3 – Größe</label>
           <input
-            id="v3_size"
             name="variants[2][size]"
             type="text"
             required
@@ -123,9 +113,8 @@
         </div>
 
         <div class="field">
-          <label for="v3_price">Variante 3 – Preis</label>
+          <label>Variante 3 – Preis</label>
           <input
-            id="v3_price"
             name="variants[2][price]"
             type="number"
             step="0.01"
@@ -136,7 +125,6 @@
 
         <hr style="margin: 18px 0; opacity: .2;">
 
-        <!-- Extras -->
         <h3 style="margin: 0 0 10px;">Extras (genau 4)</h3>
         <p style="margin: 0 0 14px; opacity: .75;">
           Jeder Extra braucht nur einen Namen (Geschmack). Kein Aufpreis.

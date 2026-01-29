@@ -15,8 +15,10 @@ export default class AdminController {
     return view.render('pages/admin_new')
   }
 
-  // Hilfsfunktion: Varianten sauber aus Request holen & validieren
-  // akzeptiert {name, price} ODER {size, price} und mappt immer auf size
+  /**
+   * Varianten sauber aus Request holen & validieren
+   * akzeptiert {name, price} ODER {size, price} und mappt immer auf size
+   */
   private cleanVariants(input: any): Array<{ size: string; price: number }> {
     const variants =
       (input ?? []) as Array<{ name?: string; size?: string; price?: string | number }>
@@ -29,12 +31,15 @@ export default class AdminController {
       .filter((v) => v.size && Number.isFinite(v.price))
   }
 
-  // Hilfsfunktion: Extras sauber aus Request holen
-  // NUR Name, kein Aufpreis
+  /**
+   * Extras sauber aus Request holen & validieren
+   * erwartet extras[i][name]
+   * -> speichert nur name, ohne Aufpreis
+   */
   private cleanExtras(input: any): Array<{ name: string }> {
     const extras = (input ?? []) as Array<{ name?: string }>
     return extras
-      .map((e) => ({ name: ((e?.name ?? '') as string).trim() }))
+      .map((e) => ({ name: (e?.name ?? '').trim() }))
       .filter((e) => e.name.length > 0)
   }
 
@@ -58,14 +63,15 @@ export default class AdminController {
       return response.redirect().back()
     }
 
+    // 3 Varianten Pflicht (Premium/Ceremonial)
     const cleanVariants = this.cleanVariants(request.input('variants'))
     if (cleanVariants.length !== 3) {
       session.flash('error', 'Bitte genau 3 Varianten angeben (Größe + Preis).')
       return response.redirect().back()
     }
 
+    // 4 Extras Pflicht (ohne Aufpreis)
     const cleanExtras = this.cleanExtras(request.input('extras'))
-    // falls du "genau 4" willst:
     if (cleanExtras.length !== 4) {
       session.flash('error', 'Bitte genau 4 Extras angeben (nur Name).')
       return response.redirect().back()
@@ -87,15 +93,15 @@ export default class AdminController {
       { productId: product.id, size: cleanVariants[2].size, price: cleanVariants[2].price },
     ])
 
-    // Extras speichern (kein Aufpreis)
+    // Extras speichern (ohne Aufpreis)
     await ProductExtra.createMany([
-      { productId: product.id, name: cleanExtras[0].name, priceDelta: 0 },
-      { productId: product.id, name: cleanExtras[1].name, priceDelta: 0 },
-      { productId: product.id, name: cleanExtras[2].name, priceDelta: 0 },
-      { productId: product.id, name: cleanExtras[3].name, priceDelta: 0 },
+      { productId: product.id, name: cleanExtras[0].name, priceDelta: 0, requiresText: false, textLabel: null },
+      { productId: product.id, name: cleanExtras[1].name, priceDelta: 0, requiresText: false, textLabel: null },
+      { productId: product.id, name: cleanExtras[2].name, priceDelta: 0, requiresText: false, textLabel: null },
+      { productId: product.id, name: cleanExtras[3].name, priceDelta: 0, requiresText: false, textLabel: null },
     ])
 
-    session.flash('success', 'Produkt wurde angelegt (inkl. 3 Varianten + 4 Extras).')
+    session.flash('success', 'Produkt wurde angelegt (3 Varianten + 4 Extras).')
     return response.redirect('/admin')
   }
 
@@ -133,7 +139,6 @@ export default class AdminController {
     const name = (data.name ?? '').trim()
     const description = (data.description ?? '').trim() || null
     const imageUrl = (data.image_url ?? '').trim() || null
-
     const categoryId = Number(data.category_id)
 
     // base_price OPTIONAL: leer -> 0
@@ -174,16 +179,16 @@ export default class AdminController {
       { productId: product.id, size: cleanVariants[2].size, price: cleanVariants[2].price },
     ])
 
-    // Extras: alte löschen, neue anlegen (kein Aufpreis)
+    // Extras: alte löschen, neue anlegen (ohne Aufpreis)
     await product.related('extras').query().delete()
     await ProductExtra.createMany([
-      { productId: product.id, name: cleanExtras[0].name, priceDelta: 0 },
-      { productId: product.id, name: cleanExtras[1].name, priceDelta: 0 },
-      { productId: product.id, name: cleanExtras[2].name, priceDelta: 0 },
-      { productId: product.id, name: cleanExtras[3].name, priceDelta: 0 },
+      { productId: product.id, name: cleanExtras[0].name, priceDelta: 0, requiresText: false, textLabel: null },
+      { productId: product.id, name: cleanExtras[1].name, priceDelta: 0, requiresText: false, textLabel: null },
+      { productId: product.id, name: cleanExtras[2].name, priceDelta: 0, requiresText: false, textLabel: null },
+      { productId: product.id, name: cleanExtras[3].name, priceDelta: 0, requiresText: false, textLabel: null },
     ])
 
-    session.flash('success', 'Produkt wurde gespeichert (inkl. 3 Varianten + 4 Extras).')
+    session.flash('success', 'Produkt wurde gespeichert (3 Varianten + 4 Extras).')
     return response.redirect('/admin')
   }
 
