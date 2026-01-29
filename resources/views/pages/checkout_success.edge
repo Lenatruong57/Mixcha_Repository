@@ -1,42 +1,87 @@
-@include('pages/headerfooter/header')
-@vite(['resources/css/checkout_success.css'])
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bestellung erfolgreich – Mixcha</title>
 
-<main class="success">
-  <div class="box">
-    <h1>Vielen Dank für Ihre Bestellung!</h1>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/checkout_success.css" />
+</head>
 
-    <h2>Zusammenfassung</h2>
+<body>
+  @include('pages/headerfooter/header')
 
-    <div class="table">
-      <div class="head">
-        <div>Produkt</div>
-        <div>Anzahl</div>
-        <div>Preis</div>
-      </div>
+  <main class="success">
+    <div class="success-card">
+      <h1>Vielen Dank für Ihre Bestellung!</h1>
 
-      @each(item in items)
-        <div class="row">
-          <div class="prod">{{ item.name }}</div>
-          <div>{{ item.quantity }}</div>
-          <div>{{ (item.price * item.quantity).toFixed(2).replace('.', ',') }} €</div>
+      <div class="summary">
+        <h2>Zusammenfassung</h2>
+
+        <div class="summary-table">
+          <div class="summary-head">
+            <div>Produkt</div>
+            <div class="center">Anzahl</div>
+            <div class="right">Preis</div>
+          </div>
+
+          @if((items || []).length === 0)
+            <div class="summary-row">
+              <div>Keine Positionen gefunden.</div>
+              <div class="center">—</div>
+              <div class="right">—</div>
+            </div>
+          @else
+            @each(item in items)
+              <div class="summary-row">
+                <div class="prod">
+                  @if(item.imageUrl)
+                    <img class="prod-img" src="{{ item.imageUrl }}" alt="{{ item.name }}" />
+                  @endif
+                  <span>{{ item.name }}</span>
+                </div>
+
+                <div class="center">{{ item.quantity }}</div>
+
+                <div class="right">
+                  {{ Number(item.price).toFixed(2).replace('.', ',') }} €
+                </div>
+              </div>
+            @endeach
+          @endif
         </div>
-      @endeach
-    </div>
 
-    <div class="ship">
-      <h3>Wir liefern an:</h3>
-      <p>
-        {{ customer.first_name }} {{ customer.last_name }}<br>
-        {{ address.street }}<br>
-        {{ address.zip }} {{ address.city }}
-      </p>
-    </div>
+        <div class="summary-bottom">
+          <div class="address">
+            <h3>Wir liefern an:</h3>
 
-    <div class="sum">
-      <div>Gesamtsumme</div>
-      <div class="big">{{ Number(total).toFixed(2).replace('.', ',') }} €</div>
-    </div>
-  </div>
-</main>
+            @if(customer)
+              <p>
+                {{ customer.first_name ?? '' }} {{ customer.last_name ?? '' }}<br />
+                {{ customer.street ?? '' }} {{ customer.house_number ?? '' }}<br />
+                {{ customer.postal_code ?? '' }} {{ customer.city ?? '' }}
+              </p>
+            @else
+              <p>—</p>
+            @endif
+          </div>
 
-@include('pages/headerfooter/footer')
+          <div class="total">
+            <div class="label">Gesamtsumme</div>
+            <div class="value">{{ Number(totalSum ?? 0).toFixed(2).replace('.', ',') }} €</div>
+            <div class="small">inkl. Versand {{ Number(shippingSum ?? 0).toFixed(2).replace('.', ',') }} €</div>
+          </div>
+        </div>
+
+        <div class="success-actions">
+          <a class="btn-primary" href="/produkte">Weiter shoppen</a>
+          <a class="btn-secondary" href="/">Zur Startseite</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  @include('pages/headerfooter/footer')
+</body>
+</html>

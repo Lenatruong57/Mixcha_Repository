@@ -14,6 +14,7 @@ type CartItem = {
   color?: string
   engraving?: string
   engravingPrice?: number
+  variantId?: number
 }
 
 export default class CheckoutsController {
@@ -103,14 +104,13 @@ export default class CheckoutsController {
         first_name: firstName,
         last_name: lastName,
         email,
-        password: 'dummy', // nur wenn NOT NULL
+        password: null,
         street,
         house_number: houseNumber,
         postal_code: postalCode,
         city,
       })
 
-      // ✅ FIX: cast auf number, damit session.put kein undefined/other types bekommt
       customerId = Number(newCustomerId)
 
       // Optional aber praktisch: direkt einloggen
@@ -131,21 +131,44 @@ export default class CheckoutsController {
         })
     }
 
-    // === 2) Order anlegen ===
-    const [orderId] = await db.table('orders').insert({
-      customer_id: customerId,
-      created_at: new Date().toISOString(),
-      status: 'offen',
-    })
+    // === Jerome: wir merken uns die neu erstellten Orders, damit success() sie anzeigen kann ===
+    const createdOrderIds: number[] = []
 
-    // === 3) Order Items ===
-    for (const item of cartItems) {
+    const coupon: string | null = session.get('coupon', null)
+
+    // === 2) Orders + Items anlegen (DB-Design: pro Order genau 1 order_items Zeile) ===
+    for (let i = 0; i < cartItems.length; i++) {
+      const item = cartItems[i]
+
+      const engrave = item.engravingPrice ? Number(item.engravingPrice) : 0
+      const lineSubtotal = (Number(item.unitPrice) + engrave) * Number(item.quantity)
+
+      const lineShipping = i === 0 ? this.shipping : 0
+      const lineDiscount = i === 0 ? this.calcDiscount(lineSubtotal, coupon ?? undefined) : 0
+      const lineTotal = Math.max(0, lineSubtotal - lineDiscount + lineShipping)
+
+      const [orderId] = await db.table('orders').insert({
+        customer_id: customerId,
+        status: 'offen',
+        order_date: new Date().toISOString(),
+        subtotal: lineSubtotal,
+        shipping: lineShipping,
+        total: lineTotal,
+      })
+
+      const safeOrderId = Number(orderId)
+      createdOrderIds.push(safeOrderId)
+
       await db.table('order_items').insert({
-        order_id: orderId,
+        order_id: safeOrderId,
         product_id: item.productId,
         quantity: item.quantity,
+        variant_id: Number(item.variantId ?? 1),
       })
     }
+
+    // === Jerome: Order-IDs für die Success-Seite speichern ===
+    session.put('lastOrderIds', createdOrderIds)
 
     // === 4) Session leeren ===
     session.forget('cart')
@@ -155,7 +178,53 @@ export default class CheckoutsController {
   }
 
   // GET /checkout/success
-  public async success({ view }: HttpContext) {
-    return view.render('pages/checkout_success')
+  public async success({ view, session }: HttpContext) {
+    // === Jerome: Order-IDs aus Session holen und Daten aus DB laden ===
+    const orderIds = (session.get('lastOrderIds') as number[] | undefined) ?? []
+    const customerId = session.get('customerId') as number | undefined
+
+    let customer: any = null
+    if (customerId) {
+      customer = await db.from('customers').where('id', customerId).first()
+    }
+
+    let items: Array<{ name: string; imageUrl: string; quantity: number; price: number }> = []
+    let totalSum = 0
+    let shippingSum = 0
+
+    if (orderIds.length > 0) {
+      const orders = await db.from('orders').whereIn('id', orderIds)
+      totalSum = orders.reduce((s, o) => s + Number(o.total ?? 0), 0)
+      shippingSum = orders.reduce((s, o) => s + Number(o.shipping ?? 0), 0)
+
+      const rows = await db
+        .from('order_items')
+        .whereIn('order_items.order_id', orderIds)
+        .join('products', 'products.id', 'order_items.product_id')
+        .select(
+          'products.name as name',
+          'products.image_url as image_url',
+          'order_items.quantity as quantity',
+          'products.base_price as base_price'
+        )
+
+      items = rows.map((r) => ({
+        name: r.name,
+        imageUrl: r.image_url,
+        quantity: Number(r.quantity),
+        price: Number(r.base_price) * Number(r.quantity),
+      }))
+    }
+
+    // Optional: nach Anzeige löschen, damit bei Reload nicht alte Bestellung kommt
+    // === Jerome ===
+    session.forget('lastOrderIds')
+
+    return view.render('pages/checkout_success', {
+      customer,
+      items,
+      totalSum,
+      shippingSum,
+    })
   }
 }
