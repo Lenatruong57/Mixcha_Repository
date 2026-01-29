@@ -1,6 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Product from '#models/product'
 import ProductVariant from '#models/product_variant'
+import ProductExtra from '#models/product_extra'
 
 export default class AdminController {
   // GET /admin -> Liste
@@ -28,6 +29,15 @@ export default class AdminController {
       .filter((v) => v.size && Number.isFinite(v.price))
   }
 
+  // Hilfsfunktion: Extras sauber aus Request holen
+  // NUR Name, kein Aufpreis
+  private cleanExtras(input: any): Array<{ name: string }> {
+    const extras = (input ?? []) as Array<{ name?: string }>
+    return extras
+      .map((e) => ({ name: ((e?.name ?? '') as string).trim() }))
+      .filter((e) => e.name.length > 0)
+  }
+
   // POST /admin/produkte -> Speichern (neu)
   public async store({ request, response, session }: HttpContext) {
     const data = request.only(['name', 'description', 'base_price', 'image_url', 'category_id'])
@@ -48,11 +58,16 @@ export default class AdminController {
       return response.redirect().back()
     }
 
-    // Varianten kommen als variants[0][name]/[price] (oder später variants[0][size])
     const cleanVariants = this.cleanVariants(request.input('variants'))
-
     if (cleanVariants.length !== 3) {
       session.flash('error', 'Bitte genau 3 Varianten angeben (Größe + Preis).')
+      return response.redirect().back()
+    }
+
+    const cleanExtras = this.cleanExtras(request.input('extras'))
+    // falls du "genau 4" willst:
+    if (cleanExtras.length !== 4) {
+      session.flash('error', 'Bitte genau 4 Extras angeben (nur Name).')
       return response.redirect().back()
     }
 
@@ -65,14 +80,22 @@ export default class AdminController {
       categoryId,
     })
 
-    // Varianten speichern (DB hat "size", nicht "name")
+    // Varianten speichern
     await ProductVariant.createMany([
       { productId: product.id, size: cleanVariants[0].size, price: cleanVariants[0].price },
       { productId: product.id, size: cleanVariants[1].size, price: cleanVariants[1].price },
       { productId: product.id, size: cleanVariants[2].size, price: cleanVariants[2].price },
     ])
 
-    session.flash('success', 'Produkt wurde angelegt (inkl. 3 Varianten).')
+    // Extras speichern (kein Aufpreis)
+    await ProductExtra.createMany([
+      { productId: product.id, name: cleanExtras[0].name, priceDelta: 0 },
+      { productId: product.id, name: cleanExtras[1].name, priceDelta: 0 },
+      { productId: product.id, name: cleanExtras[2].name, priceDelta: 0 },
+      { productId: product.id, name: cleanExtras[3].name, priceDelta: 0 },
+    ])
+
+    session.flash('success', 'Produkt wurde angelegt (inkl. 3 Varianten + 4 Extras).')
     return response.redirect('/admin')
   }
 
@@ -81,6 +104,7 @@ export default class AdminController {
     const product = await Product.query()
       .where('id', params.id)
       .preload('variants', (q) => q.orderBy('id', 'asc'))
+      .preload('extras', (q) => q.orderBy('id', 'asc'))
       .first()
 
     if (!product) {
@@ -96,6 +120,7 @@ export default class AdminController {
     const product = await Product.query()
       .where('id', params.id)
       .preload('variants', (q) => q.orderBy('id', 'asc'))
+      .preload('extras', (q) => q.orderBy('id', 'asc'))
       .first()
 
     if (!product) {
@@ -122,9 +147,14 @@ export default class AdminController {
     }
 
     const cleanVariants = this.cleanVariants(request.input('variants'))
-
     if (cleanVariants.length !== 3) {
       session.flash('error', 'Bitte genau 3 Varianten angeben (Größe + Preis).')
+      return response.redirect().back()
+    }
+
+    const cleanExtras = this.cleanExtras(request.input('extras'))
+    if (cleanExtras.length !== 4) {
+      session.flash('error', 'Bitte genau 4 Extras angeben (nur Name).')
       return response.redirect().back()
     }
 
@@ -138,14 +168,22 @@ export default class AdminController {
 
     // Varianten: alte löschen, neue anlegen
     await product.related('variants').query().delete()
-
     await ProductVariant.createMany([
       { productId: product.id, size: cleanVariants[0].size, price: cleanVariants[0].price },
       { productId: product.id, size: cleanVariants[1].size, price: cleanVariants[1].price },
       { productId: product.id, size: cleanVariants[2].size, price: cleanVariants[2].price },
     ])
 
-    session.flash('success', 'Produkt wurde gespeichert (inkl. 3 Varianten).')
+    // Extras: alte löschen, neue anlegen (kein Aufpreis)
+    await product.related('extras').query().delete()
+    await ProductExtra.createMany([
+      { productId: product.id, name: cleanExtras[0].name, priceDelta: 0 },
+      { productId: product.id, name: cleanExtras[1].name, priceDelta: 0 },
+      { productId: product.id, name: cleanExtras[2].name, priceDelta: 0 },
+      { productId: product.id, name: cleanExtras[3].name, priceDelta: 0 },
+    ])
+
+    session.flash('success', 'Produkt wurde gespeichert (inkl. 3 Varianten + 4 Extras).')
     return response.redirect('/admin')
   }
 
@@ -159,6 +197,7 @@ export default class AdminController {
     }
 
     await product.related('variants').query().delete()
+    await product.related('extras').query().delete()
     await product.delete()
 
     session.flash('success', 'Produkt wurde gelöscht.')
