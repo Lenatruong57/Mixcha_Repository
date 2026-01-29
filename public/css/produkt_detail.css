@@ -151,6 +151,55 @@
   transform: translateY(1px);
 }
 
+.color-dots{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+.color-dot{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+
+.color-dot input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.color-dot .dot{
+  width:18px;
+  height:18px;
+  border-radius:999px;
+  border:2px solid rgba(0,0,0,0.2);
+  background:#ddd;
+  box-shadow:0 1px 2px rgba(0,0,0,0.15);
+}
+
+.color-dot input:checked + .dot{
+  outline:3px solid rgba(231, 126, 199, 0.35);
+  border-color: rgba(231, 126, 199, 0.8);
+}
+
+.dot-label{
+  font-size:14px;
+}
+.checkbox-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.form-input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.15);
+}
+
 /* ============================
    RESPONSIVE
    ============================ */

@@ -1,6 +1,8 @@
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import ProductVariant from './product_variant.js'
+import ProductExtra from './product_extra.js'
+
 
 export default class Product extends BaseModel {
   // Wenn eure Tabelle KEINE created_at / updated_at hat:
@@ -26,4 +28,7 @@ export default class Product extends BaseModel {
 
   @hasMany(() => ProductVariant)
   declare variants: HasMany<typeof ProductVariant>
+
+  @hasMany(() => ProductExtra)
+  declare extras: HasMany<typeof ProductExtra>
 }
