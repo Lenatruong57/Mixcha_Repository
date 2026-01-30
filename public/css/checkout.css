@@ -32,9 +32,6 @@
 .checkout-left{ padding-right: 24px; }
 .checkout-right{ padding-left: 24px; }
 
-.express-or span{ flex:1; height:1px; background: rgba(31,81,54,.2); }
-.express-or p{ margin:0; }
-
 .checkout-block h2{
   margin:0 0 12px 0;
   color:#1f5136;
@@ -97,7 +94,6 @@
 
 /* Right side cards */
 .right-card{
-  background: transparent;
   border-radius: 12px;
 }
 

@@ -1,5 +1,4 @@
 .success {
-  min-height: calc(100vh - 140px);
   display: flex;
   justify-content: center;
   padding: 60px 16px 90px;
@@ -64,10 +63,6 @@
   align-items: center;
   color: #2b2b2b;
   font-size: 15px;
-}
-
-.summary-row:first-of-type {
-  border-top: 1px solid #e7b4c7;
 }
 
 .center {
@@ -171,7 +166,6 @@
   font-weight: 800;
   text-decoration: none;
   border: 2px solid transparent;
-  transition: transform 0.08s ease, opacity 0.2s ease;
 }
 
 .btn-primary {
