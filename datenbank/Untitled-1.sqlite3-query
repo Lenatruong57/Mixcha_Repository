@@ -1,0 +1,11 @@
+-- database: ./Mixcha_Datenbank.db.sqlite
+
+SELECT * FROM product_variants;
+DELETE FROM product_variants
+WHERE id NOT IN (
+  SELECT MIN(id)
+  FROM product_variants
+  GROUP BY product_id, size
+);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_product_variants_product_size
+ON product_variants(product_id, size);
