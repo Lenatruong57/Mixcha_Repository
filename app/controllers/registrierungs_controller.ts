@@ -14,12 +14,12 @@ export default class RegistrierungsController {
   public async register({ request, session, response }: HttpContext) {
     const firstName = (request.input('first_name') || '').trim()
     const lastName  = (request.input('last_name') || '').trim()
-    const email     = (request.input('email') || '').trim()
+    const email = (request.input('email') || '').trim().toLowerCase() 
     const password  = (request.input('password') || '').trim()
     const password2 = (request.input('password2') || '').trim()
 
     // Identifizierung der Vollständigkeit
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !email || !password || !password2) {
       session.flash('error', 'Bitte alle Felder ausfüllen.')
       return response.redirect().back()
     }

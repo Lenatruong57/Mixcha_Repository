@@ -5,7 +5,6 @@ import ProductExtra from './product_extra.js'
 
 
 export default class Product extends BaseModel {
-  // Wenn eure Tabelle KEINE created_at / updated_at hat:
   public static timestamps = false
 
   @column({ isPrimary: true })

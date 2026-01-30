@@ -62,8 +62,11 @@
               <div class="profile__row">
                 <span class="profile__label">Straße</span>
                 <span class="profile__value">
-                {{ customer.street ? customer.street : '—' }}
-                {{ customer.houseNumber ? customer.houseNumber : '' }}
+                  @if(customer.street)
+                    {{ customer.street }}{{ customer.houseNumber ? ' ' + customer.houseNumber : '' }}
+                  @else
+                    —
+                  @endif
                 </span>
               </div>
 

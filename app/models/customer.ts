@@ -13,14 +13,14 @@ export default class Customer extends BaseModel {
   @column()
   declare email: string
 
-  @column()
+  @column({ serializeAs: null })
   declare password: string
 
   // bisher
   @column()
   declare address: string | null
 
-  // ✅ neu
+  // neu
   @column()
   declare street: string | null
 

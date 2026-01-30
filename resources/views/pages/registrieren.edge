@@ -23,22 +23,37 @@
           {{ csrfField() }}
 
           <!-- Vorname -->
-          <div class="field">
-            <label for="first_name">Vorname</label>
-            <input id="first_name" name="first_name" type="text" required />
-          </div>
+        <div class="field">
+          <label for="first_name">Vorname</label>
+          <input
+            id="first_name"
+            name="first_name"
+            type="text"
+            required
+          />
+        </div>
 
-          <!-- Nachname -->
-          <div class="field">
-            <label for="last_name">Nachname</label>
-            <input id="last_name" name="last_name" type="text" required />
-          </div>
+        <!-- Nachname -->
+        <div class="field">
+          <label for="last_name">Nachname</label>
+          <input
+            id="last_name"
+            name="last_name"
+            type="text"
+            required
+          />
+        </div>
 
-          <!-- E-Mail -->
-          <div class="field">
-            <label for="email">E-Mail</label>
-            <input id="email" name="email" type="email" required />
-          </div>
+         <!-- E-Mail -->
+        <div class="field">
+          <label for="email">E-Mail</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+          />
+        </div>
 
           <!-- Passwort -->
           <div class="field">
@@ -55,13 +70,16 @@
               <button
                 type="button"
                 class="password-toggle"
+                aria-pressed="false"
                 aria-label="Passwort anzeigen"
                 data-target="password"
               >
                 <svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.94"/>
                   <path d="M1 1l22 22"/>
+                  <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.87 21.87 0 0 1-5.06 6.94"/>
                 </svg>
 
                 <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -88,13 +106,16 @@
               <button
                 type="button"
                 class="password-toggle"
+                aria-pressed="false"
                 aria-label="Passwort anzeigen"
                 data-target="password2"
               >
                 <svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.94"/>
                   <path d="M1 1l22 22"/>
+                  <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.87 21.87 0 0 1-5.06 6.94"/>
                 </svg>
 
                 <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -131,6 +152,7 @@
 
     @include('pages/headerfooter/footer')
 
+    <!-- Auge -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const toggles = document.querySelectorAll('.password-toggle')
@@ -143,6 +165,7 @@
           toggle.addEventListener('click', () => {
             const show = input.type === 'password'
             input.type = show ? 'text' : 'password'
+            toggle.setAttribute('aria-pressed', String(show))
             toggle.classList.toggle('is-visible', show)
           })
         })
