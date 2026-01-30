@@ -1,11 +1,9 @@
-/* ===== Mixcha Checkout Success (Figma-like) ===== */
-
 .success {
   min-height: calc(100vh - 140px);
   display: flex;
   justify-content: center;
   padding: 60px 16px 90px;
-  background: #f6f0e6; /* warmes creme */
+  background: #f6f0e6; 
 }
 
 .success-card {
@@ -19,10 +17,10 @@
   font-size: 48px;
   line-height: 1.1;
   font-weight: 800;
-  color: #2f5b43; /* Mixcha grün */
+  color: #1f5136; 
 }
 
-/* Box wie in Figma */
+/* Box */
 .summary {
   background: rgba(255, 255, 255, 0.08);
   border: 2px solid #e7b4c7;
@@ -36,12 +34,12 @@
   margin: 0 0 14px;
   font-size: 18px;
   font-weight: 800;
-  color: #2f5b43;
+  color: #1f5136;
 }
 
 /* Table wrapper */
 .summary-table {
-  border-top: 2px solid #e7b4c7; /* rosé line */
+  border-top: 2px solid #e7b4c7; 
   padding-top: 16px;
   margin-top: 10px;
 }
@@ -53,7 +51,7 @@
   gap: 16px;
   padding: 10px 0 12px;
   font-weight: 800;
-  color: #2f5b43;
+  color: #1f5136;
 }
 
 /* Rows */
@@ -99,7 +97,7 @@
 
 .prod span {
   font-weight: 600;
-  color: #2f5b43;
+  color: #1f5136;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -120,7 +118,7 @@
   margin: 0 0 8px;
   font-size: 16px;
   font-weight: 800;
-  color: #2f5b43;
+  color: #1f5136;
 }
 
 .address p {
@@ -137,14 +135,14 @@
 
 .total .label {
   font-weight: 800;
-  color: #2f5b43;
+  color: #1f5136;
   margin-bottom: 4px;
 }
 
 .total .value {
   font-size: 34px;
   font-weight: 900;
-  color: #2f5b43;
+  color: #1f5136;
   line-height: 1.05;
 }
 
@@ -162,7 +160,7 @@
   margin-top: 18px;
 }
 
-/* Buttons (werden von main.css evtl. überschrieben – wir sorgen für klare Optik) */
+/* Buttons */
 .btn-primary,
 .btn-secondary {
   display: inline-flex;
@@ -177,7 +175,7 @@
 }
 
 .btn-primary {
-  background: #2f5b43;
+  background: #1f5136;
   color: #f6f0e6;
 }
 
@@ -193,9 +191,8 @@
   opacity: 0.95;
 }
 
-/* Jerome: Bild unter dem Success-Kasten */
+/* Bild */
 .success-image {
-  margin-top: 3rem;
   display: flex;
   justify-content: center;
 }

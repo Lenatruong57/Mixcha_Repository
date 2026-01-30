@@ -43,13 +43,14 @@
                     value="{{ customer?.lastName ?? '' }}" required />
                 </div>
 
-                <h2 class="mt">Adresse</h2>
+                <h2 class="mt">Lieferadresse</h2>
 
-                <input class="c-input" type="text" name="street" placeholder="Straße"
-                  value="{{ customer?.street ?? '' }}" required />
-
-                <input class="c-input" type="text" name="house_number" placeholder="Hausnr."
-                  value="{{ customer?.houseNumber ?? '' }}" required />
+                <div class="two">
+                  <input class="c-input" type="text" name="street" placeholder="Straße"
+                    value="{{ customer?.street ?? '' }}" required />
+                  <input class="c-input" type="text" name="house_number" placeholder="Hausnr."
+                    value="{{ customer?.houseNumber ?? '' }}" required />
+                </div>    
 
                 <div class="two">
                   <input class="c-input" type="text" name="postal_code" placeholder="PLZ"
@@ -95,7 +96,7 @@
                 <form method="POST" action="/checkout/coupon" class="coupon">
                   {{ csrfField() }}
                   <input class="c-input" type="text" name="coupon"
-                    placeholder="Rabattcode oder Gutschein" value="{{ coupon ?? '' }}" />
+                    placeholder="Hast du einen Rabattcode?" value="{{ coupon ?? '' }}" />
                   <button class="coupon-btn" type="submit">Anwenden</button>
                 </form>
 

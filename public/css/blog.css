@@ -1,6 +1,4 @@
-/* =========================
-   Blog Seite
-========================= */
+/* Blog Seite */
 
 .blog-page{
   max-width: 1100px;
@@ -8,9 +6,7 @@
   padding: 40px 20px 80px;
 }
 
-/* =========================
-   Blog Überschrift
-========================= */
+/* Blog Überschrift */
 
 .blog-top{
   display: flex;
@@ -23,12 +19,10 @@
   margin: 0;
   font-size: 36px;
   line-height: 1;
-  color: #e7b4c7; /* Mixcha Pink */
+  color: #1f5136; 
 }
 
-/* =========================
-   Blog Grid (Startseite)
-========================= */
+/* Blog Grid (Startseite) */
 
 .blog-grid{
   display: grid;
@@ -54,11 +48,12 @@
 .blog-item__imgwrap:active .blog-item__img{ transform: scale(0.98); }
 
 /* Texte */
+
 .blog-item__title{
   display: block;
   margin-top: 22px;
   text-decoration: none;
-  color: #2e5f49;
+  color: #1f5136;
   font-size: 24px;
   font-weight: 700;
   line-height: 1.15;
@@ -78,16 +73,14 @@
   font-weight: 500;
 }
 
-/* =========================
-   Share Box
-========================= */
+/* Share Box */
 
 .share-box--wide{
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: stretch;
   margin-top: 60px;
-  border: 2px solid #2e5f49;
+  border: 2px solid #1f5136;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -101,10 +94,10 @@
 
 .share-box--wide .share-cta h2{
   margin: 0 0 18px;
-  color: #2e5f49;
+  color: #1f5136;
 }
 
-/* rechter Bereich: Bild füllt Box komplett */
+/* Bild nach Upload */
 .share-img{
   position: relative;
   height: 100%;
@@ -126,7 +119,7 @@
   display: inline-block;
   padding: 12px 22px;
   border-radius: 999px;
-  border: 2px solid #e7b4c7;
+  border: 2px solid ;
   background: transparent;
   color: #e7b4c7;
   font-weight: 700;
@@ -154,9 +147,7 @@
   color: #b11b1b;
 }
 
-/* =========================
-   Blog Detail-Seite
-========================= */
+/* Blog Detail-Seite */
 
 .blog-detail{
   max-width: 1100px;
@@ -164,13 +155,13 @@
 }
 
 .blog-detail-title{
-  color: #d9a2b6;
-  font-size: 42px;
+  color: #1f5136;
+  font-size: 36px;
   margin: 30px 0 40px;
 }
 
 .blog-section-title{
-  color: #2e5f49;
+  color: #1f5136;
   font-size: 22px;
   font-weight: 600;
   margin: 35px 0 12px;
@@ -187,16 +178,14 @@
 .back-link{
   display: inline-block;
   margin-bottom: 20px;
-  color: #2e5f4a;
+  color: #e7b4c7;
 }
 
 .back-link:hover{
   text-decoration: underline;
 }
 
-/* =========================
-   Rezepte-Übersicht (falls du sie nutzt)
-========================= */
+/* Rezepte-Übersicht */
 
 .recipes-grid{
   display: grid;
@@ -224,9 +213,7 @@
   text-decoration: underline;
 }
 
-/* =========================
-   Rezept Detail – Layout
-========================= */
+/* Rezept Detail – Layout */
 
 .recipe-detail{
   max-width: 1100px;
@@ -241,6 +228,7 @@
 }
 
 /* Grid: links Text, rechts Bild */
+
 .recipe-layout{
   display: grid;
   grid-template-columns: 1fr 420px;
@@ -280,7 +268,7 @@
 /* Bild rechts */
 .recipe-imageWrap{
   width: 100%;
-  aspect-ratio: 1 / 1;        /* 👈 quadratisch */
+  aspect-ratio: 1 / 1;   
   border-radius: 14px;
   overflow: hidden;
   background: rgba(46,95,73,0.06);
@@ -300,9 +288,7 @@
   top: 110px;
 }
 
-/* =========================
-   Mobile
-========================= */
+/* Mobile */
 
 @media (max-width: 980px){
   .recipe-layout{
@@ -318,3 +304,26 @@
   }
 }
 
+/* Responsive Blog + Rezepte */
+
+@media (max-width: 1024px){
+  .blog-grid,
+  .recipes-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px){
+  .blog-grid,
+  .recipes-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .share-box--wide{
+    grid-template-columns: 1fr;
+  }
+
+  .blog-item__img{
+    height: 240px;
+  }
+}
