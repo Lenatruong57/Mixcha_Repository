@@ -22,11 +22,17 @@
         <form class="auth__form" method="POST" action="/haendler-login" autocomplete="off">
           {{ csrfField() }}
 
-          <!-- Benutzername -->
-          <div class="field">
-            <label for="username">Benutzername</label>
-            <input id="username" name="username" type="text" required />
-          </div>
+        <!-- Benutzername -->
+        <div class="field">
+          <label for="username">Benutzername</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            required
+            autocomplete="username"
+          />
+        </div>
 
           <!-- Passwort: geschlossen / offen -->
           <div class="field">
@@ -42,7 +48,7 @@
                 required
               />
 
-              <button type="button" class="password-toggle" aria-label="Passwort anzeigen">
+              <button type="button" class="password-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
                 <!-- geschlossenes Auge (Standard) -->
                 <svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -96,33 +102,9 @@
             const show = input.type === 'password'
             input.type = show ? 'text' : 'password'
             toggle.classList.toggle('is-visible', show)
+            toggle.setAttribute('aria-pressed', String(show))
           })
         }
-
-        // =========================
-        // 2) Countdown bei Sperre
-        // Erwartet Text mit "... 120 Sekunden"
-        // =========================
-        const errorEl = document.getElementById('login-error')
-        if (!errorEl) return
-
-        const match = errorEl.textContent.match(/(\d+)\s*Sekunden/i)
-        if (!match) return
-
-        let seconds = parseInt(match[1], 10)
-        if (Number.isNaN(seconds) || seconds <= 0) return
-
-        const interval = setInterval(() => {
-          seconds--
-
-          if (seconds <= 0) {
-            clearInterval(interval)
-            errorEl.textContent = 'Du kannst es jetzt erneut versuchen.'
-            return
-          }
-
-          errorEl.textContent = `Zu viele Login-Versuche. Bitte warte noch ${seconds} Sekunden.`
-        }, 1000)
       })
     </script>
   </body>

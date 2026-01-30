@@ -6,16 +6,17 @@
   <title>Matcha Traditional Set – Mixcha</title>
 
   <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/produkt_detail.css" />
+  <link rel="stylesheet" href="/css/produkt_detail.css" /> 
 </head>
 
 <body class="page">
   @include('pages/headerfooter/header')
 
-  <main class="product-detail">
-    <div class="product-detail__inner">
+  <!-- Hauptinhalt der Produktdetailseite für das Matcha Traditional Set -->
+  <main class="product-detail"> 
+    <div class="product-detail__inner"> 
 
-      <!-- Linke Spalte: Bild -->
+
       <div class="product-detail__media">
         <img
           id="setImage"
@@ -25,8 +26,8 @@
         />
       </div>
 
-      <!-- Rechte Spalte: Inhalt -->
-      <section class="product-detail__content">
+      <!-- Produktinformationen und Bestellformular -->
+      <section class="product-detail__content"> 
         <h1 class="product-detail__title">Matcha Traditional Set</h1>
         <p class="product-detail__text">
           Alles, was du für deinen perfekten Matcha-Moment brauchst – Set mit Chawan, Chasen und Zubehör.
@@ -35,14 +36,14 @@
         <form class="product-detail__form" method="post" action="/warenkorb/add">
           {{ csrfField() }}
 
-          <!-- Pflichtdaten für Warenkorb -->
+          <!-- Versteckte Eingabefelder für Produktinformationen -->
           <input type="hidden" name="product_id" value="3" />
           <input type="hidden" name="name" value="Matcha Traditional Set" />
           <input type="hidden" id="imageUrl" name="image_url" value="/images/MatchaSetBeige.png" />
           <input type="hidden" id="colorValue" name="color" value="Beige" />
           <input type="hidden" id="unitPrice" name="unit_price" value="39.90" />
 
-          <!-- Farben: Klickbare Punkte -->
+          <!-- Farbauswahl -->
           <div class="form-group">
             <label class="form-label">Farben</label>
           
@@ -81,7 +82,7 @@
             </div>
           </div>
 
-          <!-- Gravur -->
+          <!-- Gravur Auswahl -->
           <div class="form-group">
             <label class="form-label" for="engraving">Gravur</label>
             <select class="form-select" id="engraving" name="engraving">
@@ -90,7 +91,7 @@
             </select>
           </div>
 
-          <!-- Gravur Text (nur wenn Ja) -->
+          <!-- Gravur Textfeld (wird per JS angezeigt/versteckt) -->
           <div class="form-group" id="engravingTextWrap" style="display:none;">
             <label class="form-label" for="engraving_text">Was soll eingraviert werden?</label>
             <input
@@ -99,11 +100,11 @@
               name="engraving_text"
               type="text"
               maxlength="30"
-              placeholder="z.B. Lena""
+              placeholder="z.B. Lena"
             />
           </div>
 
-          <!-- Preis -->
+          <!-- Preisanzeige -->
           <p class="product-detail__price">
             <span id="priceValue">39,90</span> €
           </p>
@@ -146,7 +147,7 @@
         unitPrice.value = finalPrice.toFixed(2);
       }
 
-      // Farben klickbar -> Bild + Hidden Values ändern
+      // Farbwechsel
       colorDots.addEventListener("click", (e) => {
         const btn = e.target.closest(".color-dot");
         if (!btn) return;
@@ -154,7 +155,7 @@
         const newColor = btn.dataset.color;
         const newImg = btn.dataset.image;
 
-        // active state
+        // Aktive Klasse
         [...colorDots.querySelectorAll(".color-dot")].forEach(b => b.classList.remove("is-active"));
         btn.classList.add("is-active");
 
@@ -162,8 +163,6 @@
         setImage.src = newImg;
         imageUrl.value = newImg;
 
-        // Du kannst hier entscheiden, ob du "Green" oder "Dunkelgrün" speichern willst:
-        // Ich speichere genau das data-color.
         colorValue.value = newColor;
       });
 

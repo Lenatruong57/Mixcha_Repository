@@ -8,9 +8,7 @@
       <a href="/produkte">Unsere Produkte</a>
       <a href="/blog">Blog</a>
 
-      {{-- =========================
-           ADMIN eingeloggt
-         ========================= --}}
+      {{-- ADMIN eingeloggt --}}
       @if(session.get('adminId'))
         <a href="/admin" class="nav-icon" aria-label="Adminbereich">
           <img src="/images/iconlogin.png" alt="Admin">
@@ -23,9 +21,7 @@
           </button>
         </form>
 
-      {{-- =========================
-           KUNDE eingeloggt
-         ========================= --}}
+      {{-- KUNDE eingeloggt --}}
       @elseif(session.get('customerId'))
         <a href="/profil" class="nav-icon" aria-label="Profil">
           <img src="/images/iconlogin.png" alt="Profil">
@@ -38,9 +34,7 @@
           </button>
         </form>
 
-      {{-- =========================
-           Niemand eingeloggt
-         ========================= --}}
+      {{-- Niemand eingeloggt --}}
       @else
         <a href="/login" class="nav-icon" aria-label="Login">
           <img src="/images/iconlogin.png" alt="Login">
