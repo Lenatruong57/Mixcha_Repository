@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
+// Typdefinition für ein Rezept.
 type Recipe = {
   slug: string
   title: string
@@ -9,9 +10,8 @@ type Recipe = {
   steps: string[]
 }
 
+// Controller für den Rezept-Bereich
 export default class RezepteController {
-  // Jerome: Rezepte sind bewusst "statisch" im Controller (vorlesungskonform/simpel),
-  // keine DB nötig, keine Models, keine Komplexität.
   private recipes: Recipe[] = [
     {
       slug: 'iced-matcha-latte',
@@ -190,12 +190,15 @@ export default class RezepteController {
     },
   ]
 
+
+  // GET /rezepte -> Zeigt die Übersicht aller Rezepte.  
   public async index({ view }: HttpContext) {
     return view.render('pages/rezepte', {
       recipes: this.recipes,
     })
   }
 
+  // GET /rezepte/:slug -> Zeigt die Detailseite eines einzelnen Rezepts  
   public async show({ params, view, response }: HttpContext) {
     const recipe = this.recipes.find((r) => r.slug === String(params.slug))
 
@@ -208,7 +211,7 @@ export default class RezepteController {
     })
   }
 
-  // Optional: Vorschau (falls du später wieder „rechts im Blog“ willst)
+  // Vorschau-Funktion
   public getPreview() {
     return this.recipes.slice(0, 3).map((r) => ({
       slug: r.slug,

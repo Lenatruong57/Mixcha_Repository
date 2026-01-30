@@ -16,7 +16,7 @@ html, body {
 
 body {
   margin: 0;
-  background: var(--bg); /* beige */
+  background: var(--bg); 
   min-height: 100vh;
   display: flex;
   flex-direction: column;
