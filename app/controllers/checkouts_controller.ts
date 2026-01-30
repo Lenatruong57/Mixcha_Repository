@@ -2,6 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 import Customer from '#models/customer'
 
+  // Typdefinition für Warenkorb-Items, so wie sie in der Session gespeichert werden.
 type CartItem = {
   key: string
   productId: number
@@ -17,9 +18,12 @@ type CartItem = {
   variantId?: number
 }
 
+  // Fixe Versandkosten 
 export default class CheckoutsController {
   private shipping = 3.99
 
+  // Berechnet die Zwischensumme aus allen Warenkorbpositionen.
+  // Dazu werden pro Item: (unitPrice + engravingPrice) * quantity addiert.  
   private calcSubtotal(cartItems: CartItem[]) {
     return cartItems.reduce((sum, item) => {
       const engrave = item.engravingPrice ? Number(item.engravingPrice) : 0
@@ -27,28 +31,37 @@ export default class CheckoutsController {
     }, 0)
   }
 
+  // Rabattlogik anhand eines Coupons.
+  // Aktuell: nur "mixcha10" -> 10% Rabatt bei Upload eines Fotos im Blog.
   private calcDiscount(subtotal: number, coupon?: string) {
     if (!coupon) return 0
     if (coupon.toLowerCase() === 'mixcha10') return subtotal * 0.1
     return 0
   }
 
-  // GET /checkout
+  // GET /checkout -> Checkout-Seite anzeigen.
   public async index({ view, session }: HttpContext) {
+  // Warenkorb und Coupon kommen aus der Session.
+  // Session = serverseitiger Speicher pro Nutzer (z.B. Cookie+Session Store).
     const cartItems: CartItem[] = session.get('cart', [])
     const coupon: string | null = session.get('coupon', null)
 
+  // Preisberechnungen für die Checkout-Übersicht.
     const subtotal = this.calcSubtotal(cartItems)
     const discount = this.calcDiscount(subtotal, coupon ?? undefined)
     const shipping = cartItems.length > 0 ? this.shipping : 0
     const total = Math.max(0, subtotal - discount + shipping)
 
+  // Wenn Nutzer eingeloggt ist: customerId liegt in der Session.
+  // Dann laden wir den Customer aus der DB.
+  // Dadurch sind Felder im Formular vorausgefüllt.   
     let customer: Customer | null = null
     const customerId = session.get('customerId') as number | undefined
     if (customerId) {
       customer = await Customer.find(customerId)
     }
 
+  // Rendern des checkout.edge Templates mit allen Daten.    
     return view.render('pages/checkout', {
       cartItems,
       coupon,
@@ -61,31 +74,36 @@ export default class CheckoutsController {
     })
   }
 
-  // POST /checkout/coupon
+  // POST /checkout/coupon -> Coupon setzen/prüfen
   public async applyCoupon({ request, session, response }: HttpContext) {
     const code = String(request.input('coupon', '')).trim()
 
+  // Wenn leer -> Coupon entfernen
     if (!code) {
       session.forget('coupon')
       return response.redirect('/checkout')
     }
 
+  // Wenn ungültig -> Flash Message setzen, Coupon entfernen
     if (code.toLowerCase() !== 'mixcha10') {
       session.flash('invalidCoupon', 'Ungültiger Code.')
       session.forget('coupon')
       return response.redirect('/checkout')
     }
 
+  // Gültiger Code -> in Session speichern  
     session.put('coupon', code)
     return response.redirect('/checkout')
   }
 
-  // POST /checkout/process
+  // POST /checkout/process -> Bestellung ausführen (DB schreiben)
   public async process({ request, session, response }: HttpContext) {
+  // Warenkorb aus Session lesen. Wenn leer -> zurück zum Warenkorb.
     const cartItems: CartItem[] = session.get('cart', [])
     if (cartItems.length === 0) return response.redirect('/warenkorb')
 
-    // === Form fields (passen zu deinem checkout.edge) ===
+  // Formulardaten aus checkout.edge.
+  // Diese Werte werden später in der customers-Tabelle gespeichert/aktualisiert.
     const email = String(request.input('email') ?? '').trim().toLowerCase()
     const firstName = String(request.input('first_name') ?? '').trim()
     const lastName = String(request.input('last_name') ?? '').trim()
@@ -94,12 +112,13 @@ export default class CheckoutsController {
     const postalCode = String(request.input('postal_code') ?? '').trim()
     const city = String(request.input('city') ?? '').trim()
 
-    // Optional: eingeloggter Kunde?
+  // Prüfen: gibt es bereits einen eingeloggten Kunden?
+  // Wenn ja: customerId liegt in Session.
     let customerId = session.get('customerId') as number | undefined
 
-    // === 1) Kunde anlegen oder aktualisieren (alles in customers) ===
+  // 1) Customer in DB anlegen oder updaten
     if (!customerId) {
-      // Gast: Customer erstellen
+  // Gastbestellung: Wir erstellen einen Customer-Eintrag in der DB.
       const [newCustomerId] = await db.table('customers').insert({
         first_name: firstName,
         last_name: lastName,
@@ -113,10 +132,10 @@ export default class CheckoutsController {
 
       customerId = Number(newCustomerId)
 
-      // Optional aber praktisch: direkt einloggen
+  //  Gast "einloggen", damit success() Customer-Daten sicher findet.
       session.put('customerId', customerId)
     } else {
-      // Eingeloggt: Customer updaten (damit ALLE Felder mitkommen)
+      // Eingeloggt: wir aktualisieren Adresse etc., damit DB und Checkout-Angaben konsistent sind.
       await db
         .from('customers')
         .where('id', customerId)
@@ -131,22 +150,27 @@ export default class CheckoutsController {
         })
     }
 
-    // === Jerome: wir merken uns die neu erstellten Orders, damit success() sie anzeigen kann ===
+  // 2) Orders + Order Items in DB anlegen
+  // Man speichert Order-IDs, damit success() später weiß, welche Orders "die letzten" waren.
     const createdOrderIds: number[] = []
 
+  // Coupon aus Session lesen (wird in index() gesetzt).
     const coupon: string | null = session.get('coupon', null)
 
-    // === 2) Orders + Items anlegen (DB-Design: pro Order genau 1 order_items Zeile) ===
+  // Orders + Items anlegen 
     for (let i = 0; i < cartItems.length; i++) {
       const item = cartItems[i]
 
+        // Preislogik auf Positions-Ebene.
       const engrave = item.engravingPrice ? Number(item.engravingPrice) : 0
       const lineSubtotal = (Number(item.unitPrice) + engrave) * Number(item.quantity)
 
+        // Versand & Rabatt nur einmal (beim ersten Item), damit es nicht mehrfach berechnet wird.
       const lineShipping = i === 0 ? this.shipping : 0
       const lineDiscount = i === 0 ? this.calcDiscount(lineSubtotal, coupon ?? undefined) : 0
       const lineTotal = Math.max(0, lineSubtotal - lineDiscount + lineShipping)
 
+        // orders INSERT -> neue Order in DB
       const [orderId] = await db.table('orders').insert({
         customer_id: customerId,
         status: 'offen',
@@ -159,6 +183,7 @@ export default class CheckoutsController {
       const safeOrderId = Number(orderId)
       createdOrderIds.push(safeOrderId)
 
+        // order_items INSERT -> Position zu dieser Order
       await db.table('order_items').insert({
         order_id: safeOrderId,
         product_id: item.productId,
@@ -167,10 +192,8 @@ export default class CheckoutsController {
       })
     }
 
-    // === Jerome: Order-IDs für die Success-Seite speichern ===
-    session.put('lastOrderIds', createdOrderIds)
-
-    // === Jerome: Snapshot für Success-Seite (Preise aus Session/Warenkorb inkl. Extras & Coupon) ===
+    // 3) Infos für Success-Seite in Session speichern
+    // Success-Seite (Preise aus Session/Warenkorb inkl. Extras & Coupon)
     const subtotalAll = this.calcSubtotal(cartItems)
     const discountAll = this.calcDiscount(subtotalAll, coupon ?? undefined)
     const shippingAll = cartItems.length > 0 ? this.shipping : 0
@@ -189,6 +212,7 @@ export default class CheckoutsController {
       }
     )
 
+    // Komplette Daten, die checkout_success.edge benötigt.
     session.put('lastCheckoutSummary', {
       customer: {
         first_name: firstName,
@@ -207,18 +231,16 @@ export default class CheckoutsController {
       totalSum: totalAll,
       shippingSum: shippingAll,
     })
-    // === Jerome ===
 
-    // === 4) Session leeren ===
+    // 4) Session leeren (Warenkorb & Coupon).
     session.forget('cart')
     session.forget('coupon')
 
     return response.redirect('/checkout/success')
   }
 
-  // GET /checkout/success
+  // GET /checkout/success -> Bestellbestätigung anzeigen
   public async success({ view, session }: HttpContext) {
-    // === Jerome: Wenn Snapshot vorhanden ist, Success-Seite daraus rendern (statt DB-Preise) ===
     const summary = session.get('lastCheckoutSummary') as
       | {
           customer: any
@@ -233,7 +255,7 @@ export default class CheckoutsController {
       | undefined
 
     if (summary) {
-      // optional: nach Anzeige löschen, damit Reload nicht wieder alte Bestellung zeigt
+      // nach Anzeige löschen, damit Reload nicht wieder alte Bestellung zeigt.
       session.forget('lastCheckoutSummary')
 
       return view.render('pages/checkout_success', {
@@ -241,19 +263,14 @@ export default class CheckoutsController {
         items: summary.items,
         totalSum: summary.totalSum,
         shippingSum: summary.shippingSum,
-        // falls du es im Edge anzeigen willst (optional):
-        subtotal: summary.subtotal,
-        discount: summary.discount,
-        shipping: summary.shipping,
-        total: summary.total,
       })
     }
-    // === Jerome ===
 
-    // === Jerome: Order-IDs aus Session holen und Daten aus DB laden ===
+    // Order-IDs aus Session holen und Daten aus DB laden.
     const orderIds = (session.get('lastOrderIds') as number[] | undefined) ?? []
     const customerId = session.get('customerId') as number | undefined
 
+    // Customer Daten aus DB laden
     let customer: any = null
     if (customerId) {
       customer = await db.from('customers').where('id', customerId).first()
@@ -264,10 +281,12 @@ export default class CheckoutsController {
     let shippingSum = 0
 
     if (orderIds.length > 0) {
+      // Orders laden -> Summen berechnen
       const orders = await db.from('orders').whereIn('id', orderIds)
       totalSum = orders.reduce((s, o) => s + Number(o.total ?? 0), 0)
       shippingSum = orders.reduce((s, o) => s + Number(o.shipping ?? 0), 0)
 
+      // order_items mit products joinen -> Produktinfos bekommen
       const rows = await db
         .from('order_items')
         .whereIn('order_items.order_id', orderIds)
@@ -279,6 +298,7 @@ export default class CheckoutsController {
           'products.base_price as base_price'
         )
 
+      // Positionen für Edge vorbereiten
       items = rows.map((r) => ({
         name: r.name,
         imageUrl: r.image_url,
@@ -287,8 +307,7 @@ export default class CheckoutsController {
       }))
     }
 
-    // Optional: nach Anzeige löschen, damit bei Reload nicht alte Bestellung kommt
-    // === Jerome ===
+    // nach Anzeige löschen, damit bei Reload nicht alte Bestellung kommt.
     session.forget('lastOrderIds')
 
     return view.render('pages/checkout_success', {

@@ -53,17 +53,22 @@ export default class BlogController {
         {
           heading: 'Der Weg zum perfekten Matcha',
           text:
-            'Matcha ist mehr als nur grüner Tee – er ist ein Ritual. Mit der richtigen Zubereitung entfaltet sich sein volles Aroma.',
+            'Matcha ist mehr als nur grüner Tee – er ist ein Moment der Ruhe, ein kleines Ritual im Alltag. Anders als herkömmlicher Tee wird Matcha nicht aufgegossen, sondern vollständig getrunken. Genau deshalb kommt es bei der Zubereitung auf jedes Detail an: Temperatur, Qualität und Technik.\n Mit der richtigen Vorbereitung entfaltet Matcha sein volles Aroma – mild, leicht süßlich und angenehm cremig.' ,
         },
         {
           heading: 'Warum die richtige Zubereitung so wichtig ist',
           text:
-            'Falsche Wassertemperatur oder unzureichendes Aufschlagen können den Geschmack bitter machen.',
+            'Viele verbinden Matcha mit einem bitteren Geschmack. In den meisten Fällen liegt das jedoch nicht am Matcha selbst, sondern an einer falschen Zubereitung. Zu heißes Wasser oder unzureichendes Aufschlagen können dazu führen, dass der Tee unangenehm schmeckt und seine feinen Nuancen verliert.\n Richtig zubereitet ist Matcha:\n • sanft und ausgewogen\n • angenehm cremig\n • reich an natürlichen Aromen',
         },
         {
-          heading: 'Schritt-für-Schritt',
+          heading: 'Das brauchst du für die Zubereitung',
           text:
-            'Wasser auf 70–80°C erhitzen, Matcha sieben, mit Chasen schaumig schlagen.',
+            'Für ein authentisches Matcha-Erlebnis empfehlen wir folgende Utensilien:\n •	Hochwertiger Matcha (Ceremonial oder Premium Grade)\n •	Bambusbesen (Chasen)\n •	Matcha-Schale (Chawan)\n •	Bambuslöffel (Chashaku) oder Teelöffel\n •	Heißes, aber nicht kochendes Wasser (70-80°C)',
+        },
+        {
+          heading: 'Schritt-für-Schritt perfekten Matcha',
+          text:
+            '1. Matcha sieben:\n Gib etwa 1–2 Bambuslöffel Matcha in ein feines Sieb und siebe das Pulver direkt in die Schale. So vermeidest du Klümpchen und erhältst eine besonders feine Textur.\n 2. Wasser richtig erhitzen:\n Erhitze frisches Wasser auf 70–80 °C. Zu heißes Wasser zerstört die empfindlichen Aromen und macht den Matcha bitter.\n 3. Matcha aufschlagen:\n Gieße ca. 70–100 ml Wasser über das Matcha-Pulver.Schlage den Tee mit dem Chasen in schnellen, lockeren W- oder M-Bewegungen, bis sich ein feiner, cremiger Schaum bildet.\n 4. Genießen:\n Nimm dir einen Moment Zeit. Matcha wird traditionell bewusst und in Ruhe getrunken – Schluck für Schluck.',
         },
       ],
     },
@@ -80,9 +85,6 @@ export default class BlogController {
   public async index({ view }: HttpContext) {
     return view.render('pages/blog', {
       posts: this.posts,
-
-      // ✅ Jerome: Rezepte sollen im Blog rechts als Vorschau sichtbar sein
-      // (die echte Rezepte-Seite kommt über /rezepte)
       recipes: rezepte.getPreview(),
     })
   }
@@ -101,21 +103,21 @@ export default class BlogController {
     })
   }
 
-  // COMMUNITY FOTO UPLOAD (bleibt!)
+  // COMMUNITY FOTO UPLOAD
   public async upload({ request, response, session }: HttpContext) {
     const image = request.file('image', {
       size: '10mb',
       extnames: ['jpg', 'jpeg', 'png', 'webp'],
     })
 
-    // ✅ sauber: kein Bild ausgewählt
+    // kein Bild ausgewählt:
     if (!image) {
       session.flash('uploadError', 'Bitte wähle ein Bild aus.')
       await session.commit()
       return response.redirect().back()
     }
 
-    // ✅ sauber: Bild gewählt, aber ungültig (Endung/Größe/etc.)
+    // Bild gewählt, aber ungültig:
     if (!image.isValid) {
       session.flash('uploadError', 'Ungültige Datei. Bitte JPG/PNG/WEBP verwenden (max. 10MB).')
       await session.commit()
