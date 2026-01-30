@@ -15,10 +15,6 @@ export default class AdminController {
     return view.render('pages/admin_new')
   }
 
-  /**
-   * Varianten sauber aus Request holen & validieren
-   * akzeptiert {name, price} ODER {size, price} und mappt immer auf size
-   */
   private cleanVariants(input: any): Array<{ size: string; price: number }> {
     const variants =
       (input ?? []) as Array<{ name?: string; size?: string; price?: string | number }>
@@ -30,12 +26,6 @@ export default class AdminController {
       }))
       .filter((v) => v.size && Number.isFinite(v.price))
   }
-
-  /**
-   * Extras sauber aus Request holen & validieren
-   * erwartet extras[i][name]
-   * -> speichert nur name, ohne Aufpreis
-   */
   private cleanExtras(input: any): Array<{ name: string }> {
     const extras = (input ?? []) as Array<{ name?: string }>
     return extras
