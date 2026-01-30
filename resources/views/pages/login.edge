@@ -24,7 +24,13 @@
 
           <div class="field">
             <label for="email">E-Mail</label>
-            <input id="email" name="email" type="email" required>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+            >
           </div>
 
           <div class="field">
@@ -33,7 +39,7 @@
             <div class="password-wrapper">
               <input id="password" name="password" type="password" required autocomplete="off">
 
-              <button type="button" class="password-toggle" aria-label="Passwort anzeigen">
+              <button type="button" class="password-toggle" aria-label="Passwort anzeigen" aria-pressed="false">
                 <!-- geschlossenes Auge -->
                 <svg class="icon-eye-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -88,6 +94,7 @@
           const show = input.type === 'password'
           input.type = show ? 'text' : 'password'
           toggle.classList.toggle('is-visible', show)
+          toggle.setAttribute('aria-pressed', String(show))
         })
       })
     </script>

@@ -66,8 +66,8 @@ router.post('/profil', [UserController, 'update'])
 
 // Auth – Händler / Admin
 router.get('/haendler-login', [LoginController, 'haendlerIndex']).use(noCache)
-router.post('/haendler-login', [LoginController, 'loginHaendler'])
-router.post('/haendler-logout', [LoginController, 'logoutHaendler'])
+router.post('/haendler-login', [LoginController, 'loginHaendler']).use(noCache)
+router.post('/haendler-logout', [LoginController, 'logoutHaendler']).use(noCache)
 
 router.post('/blog/upload', [BlogController, 'upload'])
 
