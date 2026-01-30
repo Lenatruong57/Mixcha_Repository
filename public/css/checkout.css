@@ -34,7 +34,7 @@
 
 .checkout-block h2{
   margin:0 0 12px 0;
-  color:#1f5136;
+  color:#1f5a3a;
   font-weight: 900;
   font-size: 22px;
 }
@@ -132,7 +132,7 @@
 
 .right-title{
   font-weight: 900;
-  color:#1f5136;
+  color:#1f5a3a;
   font-size: 20px;
   margin: 6px 0 12px;
 }
@@ -169,7 +169,7 @@
 
 .item-name{
   font-weight: 900;
-  color:#1f5136;
+  color:#1f5a3a;
   font-size: 18px;
   margin-bottom: 2px;
 }
@@ -193,7 +193,7 @@
 
 .item-price{
   font-weight: 900;
-  color:#1f5136;
+  color:#1f5a3a;
   font-size: 16px;
   white-space:nowrap;
 }
@@ -248,11 +248,11 @@
   margin-top: 6px;
   font-size: 22px;
   font-weight: 900;
-  color:#1f5136;
+  color:#1f5a3a;
 }
 
 .line.discount{
-  color:#1f5136;
+  color:#1f5a3a;
 }
 
 /* Checkout Submit Button */

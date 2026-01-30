@@ -1,10 +1,10 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 
-import RezepteController from '#controllers/rezepte_controller'
-const rezepte = new RezepteController()
+
 
 export default class BlogController {
+  // "Statische" Blogposts im Controller.  
   private posts = [
     {
       id: 1,
@@ -81,15 +81,17 @@ export default class BlogController {
     },
   ];
 
-  // BLOG STARTSEITE
+  // Blog Sartseite
   public async index({ view }: HttpContext) {
+   // Rendert die Blog-Übersicht (pages/blog.edge).
+   // posts: alle Blogposts (statisch).
+   // recipes: "Preview" der Rezepte (aus RezepteController). 
     return view.render('pages/blog', {
       posts: this.posts,
-      recipes: rezepte.getPreview(),
     })
   }
 
-  // BLOG DETAILSEITE
+  // Blog Detalseite
   public async show({ params, view, response }: HttpContext) {
     const id = Number(params.id)
     const post = this.posts.find((p) => p.id === id)
@@ -103,7 +105,7 @@ export default class BlogController {
     })
   }
 
-  // COMMUNITY FOTO UPLOAD
+  // Community Foto Upload
   public async upload({ request, response, session }: HttpContext) {
     const image = request.file('image', {
       size: '10mb',
@@ -126,10 +128,12 @@ export default class BlogController {
 
     const fileName = `${Date.now()}_${image.clientName.replace(/\s+/g, '_')}`
 
+   // Datei nach /public/avatars verschieben.
     await image.move(app.publicPath('avatars'), {
       name: fileName,
     })
 
+   // Flash = nur für den nächsten Request sichtbar (nach Redirect).
     session.flash(
       'uploadSuccess',
       'Wir freuen uns sehr über das Foto. Spare bei deiner nächsten Bestellung 10% mit dem Code "mixcha10"!'
