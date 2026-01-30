@@ -51,11 +51,11 @@
               @each(e in product.extras)
                 <option
                   value="{{ e.id }}"
-                  data-price="{{ e.price_delta ?? 0 }}"
+                  data-price="{{ e.priceDelta ?? 0 }}"
                 >
                   {{ e.name }}
-                  @if(Number(e.price_delta) > 0)
-                    (+{{ Number(e.price_delta).toFixed(2).replace('.', ',') }} €)
+                  @if(Number(e.priceDelta) > 0)
+                    (+{{ Number(e.priceDelta).toFixed(2).replace('.', ',') }} €)
                   @endif
                 </option>
               @endeach

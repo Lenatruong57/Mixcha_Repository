@@ -31,7 +31,7 @@
         @else
           @each(item in cartItems)
             <div class="cart_row">
-              {{-- Produkt --}}
+              <!-- Produkt -->
               <div class="cart_product">
                 <img class="cart_img" src="{{ item.imageUrl }}" alt="{{ item.name }}" />
                 <div class="cart_meta">
@@ -62,14 +62,14 @@
                 </div>
               </div>
 
-              {{-- Preis --}}
+              <!-- Preis -->
               <div class="cart_price">
                 <div class="cart_cellValue">
                   {{ Number(item.unitPrice).toFixed(2).replace('.', ',') }} €
                 </div>
               </div>
 
-              {{-- Menge --}}
+              <!-- Menge -->
               <div class="cart_qty">
                 <div class="qty_box" role="group" aria-label="Menge">
                   <form method="POST" action="/warenkorb/qty" class="qty_form">
@@ -90,7 +90,7 @@
                 </div>
               </div>
 
-              {{-- Total + Trash --}}
+              <!-- Total + Trash -->
               <div class="cart_total">
                 <div class="cart_cellValue">
                   {{

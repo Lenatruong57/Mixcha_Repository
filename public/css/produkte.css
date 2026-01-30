@@ -37,14 +37,6 @@
   height: 100%;
 }
 
-.product-card_name {
-  margin-top: 12px;
-}
-
-.product-card_price {
-  margin-top: auto;
-}
-
 
 .product-card__link {
   background: #ffffff;
@@ -66,19 +58,13 @@
 
 /* Standard Bild */
 .product-card__img {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: 220px;          
   object-fit: contain;
   display: block;
-
   transition: transform 0.45s ease;
 }
 
-/* Ceremonial optisch etwas größer machen */
-.product-card__img--ceremonial {
-  transform: scale(1.12);
-  transition: transform 0.45s ease;
-}
 
 .product-card__link:hover .product-card__img {
   transform: scale(1.2);

@@ -69,7 +69,7 @@ export default class WarenkorbsController {
         name,
         imageUrl,
         unitPrice,
-        quantity: 1,
+        quantity,
         extras,
         size,
         color,

@@ -58,7 +58,7 @@
             <select class="form-select" id="variantSelect" name="variant_id">
               @each(v in product.variants)
                 <option value="{{ v.id }}" data-price="{{ v.price }}">
-                  {{ v.name ?? v.size ?? v.id }}
+                  {{ v.size }}
                 </option>
               @endeach
             </select>
