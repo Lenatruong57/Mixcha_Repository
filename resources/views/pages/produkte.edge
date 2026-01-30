@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Unsere Produkte – Mixcha</title>
+  <title>Unsere Produkte – Mixcha</title> 
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/produkte.css">
+  <link rel="stylesheet" href="/css/produkte.css"> 
 </head>
 
 <body class="page">
-  @include('pages/headerfooter/header')
+  @include('pages/headerfooter/header') 
 
   <main class="products">
     <h1 class="products__title">Unsere Produkte</h1>
-    <p class="products__subtitle">Entdecke deinen perfekten Matcha und mixe ihn nach deinem Geschmack.</p>
+    <p class="products__subtitle">Entdecke deinen perfekten Matcha und mixe ihn nach deinem Geschmack.</p> 
 
-    <section class="products__grid">
+    <section class="products__grid"> 
       
-      @if(!products || products.length === 0)
+      @if(!products || products.length === 0) 
         <p>Keine Produkte vorhanden.</p>
       @else
-      @each(product in products)
-      <article class="product-card">
+      @each(product in products) 
+      <article class="product-card"> 
         <a class="product-card__link" href="/produkte/{{ product.id }}">
           <div class="product-card__media">
             <img
@@ -32,12 +32,12 @@
             />
           </div>
     
-          <h2 class="product-card__name">{{ product.name }}</h2>
+          <h2 class="product-card__name">{{ product.name }}</h2> 
     
           <p class="product-card__price">
             ab {{ Number(product.basePrice).toFixed(2).replace('.', ',') }} €
-          </p>
-    
+          </p> 
+
           <span class="product-card__btn">
             @if(product.id === 1 || product.id === 2)
               Mix now

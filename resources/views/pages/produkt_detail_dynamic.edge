@@ -14,10 +14,6 @@
 
 <main class="product-detail">
   <div class="product-detail__inner">
-
-    <!-- =======================
-         LINKES PRODUKTBILD
-    ======================== -->
     <div class="product-detail__media">
       <img
         class="product-detail__img"
@@ -26,9 +22,6 @@
       >
     </div>
 
-    <!-- =======================
-         RECHTE SEITE
-    ======================== -->
     <section class="product-detail__content">
 
       <h1 class="product-detail__title">
@@ -49,9 +42,7 @@
         <input type="hidden" id="unit_price" name="unit_price" value="0">
         <input type="hidden" id="variant_id" name="variant_id" value="">
 
-        <!-- =======================
-             EXTRAS
-        ======================== -->
+        <!--Extras-->
         @if(product.extras && product.extras.length)
           <div class="form-group">
             <label class="form-label">Extras</label>
@@ -72,9 +63,7 @@
           </div>
         @endif
 
-        <!-- =======================
-             VARIANTEN
-        ======================== -->
+        <!--Varianten-->
         @if(product.variants && product.variants.length)
           <div class="form-group">
             <label class="form-label">Verpackungsgröße</label>
@@ -92,9 +81,7 @@
           </div>
         @endif
 
-        <!-- =======================
-             PREIS
-        ======================== -->
+        <!--Preis-->
         <p class="product-detail__price">
           <span id="price_label">0,00</span> €
         </p>
@@ -110,9 +97,7 @@
 
 @include('pages/headerfooter/footer')
 
-<!-- =======================
-     JAVASCRIPT
-======================== -->
+<!--Javascript-->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
